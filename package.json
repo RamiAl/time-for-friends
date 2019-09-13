@@ -5,6 +5,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "http-proxy-middleware": "^0.20.0",
+    "moment-timezone": "^0.5.26",
     "mongoose": "^5.7.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

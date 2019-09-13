@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Friend } from 'the.rest/dist/to-import'
-import Navbar from './Navbar'
+import Navbar from './Navbar';
+import moment from 'moment-timezone';
 
 class App extends Component{
 
@@ -16,6 +17,9 @@ class App extends Component{
     let allFriends = await Friend.find().catch(console.error());
     //allElephants.delete();
     console.log('All friends', allFriends);*/
+    //let mom = moment().tz("America/New_York").format();
+    //console.log(mom);
+    
   }
   render(){
     return (
