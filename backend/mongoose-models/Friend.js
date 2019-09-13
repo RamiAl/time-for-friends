@@ -4,9 +4,8 @@ const modelName = 'Friend';
 
 const schema = {
     name: {type: 'String', required: true},
-    age: Number,
-    emailAddress: String,
-    phoneNumber: String,
+    emailAddress: [],
+    phoneNumber: [],
     city: String,
     country: String,
     timeZone: String
