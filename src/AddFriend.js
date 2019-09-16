@@ -102,7 +102,7 @@ export default class AddFriend extends Component {
                 <Form.Group as={Col} controlId="formGridState" value={this.state.timeZone} 
                 onChange={this.handleUserInput}>
                 <Form.Label>Time zone</Form.Label>
-                <Form.Control name="timeZone" placeholder="Capital"/>
+                <Form.Control name="timeZone" placeholder="Continent/Capital"/>
                 </Form.Group>
 
             </Form.Row>
