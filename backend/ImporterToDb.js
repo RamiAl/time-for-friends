@@ -1,18 +1,18 @@
 importJsonDataToDb()
-let personData = require('./MOCK_DATAName.json')
+let friendData = require('./MOCK_DATA.json')
  async function importJsonDataToDb() {
-  //Person datan
-  let Person = require('./Personer');
-    let allPersonCount = await Person.count();
-    if(allPersonCount> 0){
-        Person.remove({});
+  //Friend datan
+  let Friend = require('./mongoose-models/Friend');
+    let allFriendCount = await Friend.count();
+    if(allFriendCount> 0){
+      Friend.remove({});
         console.log('Tömer db'); 
     }
-    for(let data of personData){
-        let person = new Person(data);
-        await person.save();
-        console.log(person);
+    for(let data of friendData){
+        let friend = new Friend(data);
+        await friend.save();
+        console.log(friend);
     }
-    allPersonCount = await Person.count();
+    allFriendCount = await Friend.count();
     process.exit();
   }

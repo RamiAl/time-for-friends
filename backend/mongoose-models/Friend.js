@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const modelName = 'Friend';
 
 const schema = {
-    name: {type: 'String', required: true},
+    firstName: {type: 'String', required: true},
+    lastName: {type: 'String', required: true},
     emailAddress: [],
     phoneNumber: [],
     city: String,
