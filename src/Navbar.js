@@ -3,6 +3,7 @@ import AddFriend from './AddFriend'
 import Home from './Home'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+
 class Navbar extends Component {
 
 render() {
