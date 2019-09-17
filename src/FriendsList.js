@@ -10,29 +10,21 @@ export default class FriendsList extends Component {
         allFriends: []
     }
 
-    componentDidMount(){
-        console.log(this.props);
-        
-         this.findAll();
+    componentDidMount(){        
+        this.findAll();
     }
 
     async findAll(){
-        let allFriends = await Friend.find({}, { limit: 10});  
-        //allFriends.delete()
-        //allFriends.map(item =>
-            //console.log(moment.tz(moment.utc(), item.timeZone).utcOffset() / 60)
-            //this.state.time = new Date(Date.now() + (moment.tz(moment.utc(), item.timeZone).utcOffset() / 60))
-            
-            //item.timeZone = moment.tz(item.timeZone).format()
-        //)
-        this.setState({ "allFriends": allFriends });
+        let allFriends = await Friend.find();  
+        this.setState({ "allFriends": allFriends });         
     }
 
     render() {
+        const emailRegex = new RegExp("^" + this.props.firstName);
         return (
             <div >
                 { 
-                    this.state.allFriends.map(item =>
+                    this.state.allFriends.filter(item => emailRegex.test(item.firstName)).map(item =>
                     (
                         <Fragment key = {item._id}>
                             <div className = "friendsList">
