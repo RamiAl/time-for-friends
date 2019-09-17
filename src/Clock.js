@@ -27,8 +27,7 @@ export default class Clock extends Component{
 
     async updateClock(){
         while(this._isMounted){
-                this.setState({time: moment.tz(this.offset).format()})
-
+            this.setState({time: moment.tz(this.offset).format()})
             await this.sleep(500);
         }
     }

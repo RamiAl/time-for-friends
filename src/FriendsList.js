@@ -11,6 +11,8 @@ export default class FriendsList extends Component {
     }
 
     componentDidMount(){
+        console.log(this.props);
+        
          this.findAll();
     }
 
