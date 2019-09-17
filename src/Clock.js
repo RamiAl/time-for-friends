@@ -6,7 +6,7 @@ export default class Clock extends Component{
     offset = this.props.timeZone
 
     state = {
-        time : []
+        time : this.offset
     };
 
     sleep(ms){
@@ -15,10 +15,10 @@ export default class Clock extends Component{
 
     componentDidMount(){
         this._isMounted = true;
-        console.log(this.offset);
+        //console.log(this.offset);
         
         //console.log(this.state.time);
-        //this.updateClock();
+        this.updateClock();
     }
 
     componentWillUnmount(){
@@ -27,9 +27,7 @@ export default class Clock extends Component{
 
     async updateClock(){
         while(this._isMounted){
-            this.offset.map(item =>
-                this.setState({time: moment.tz(item.timeZone).format()})
-            )
+            this.setState({time: moment.tz(this.offset).format()})
             await this.sleep(500);
         }
     }
@@ -38,7 +36,7 @@ export default class Clock extends Component{
         return(
             <>
                 <h6>Time zone: </h6>
-                <p> {this.offset.time}</p>
+                <p> {this.state.time}</p>
             </>
         );
     }

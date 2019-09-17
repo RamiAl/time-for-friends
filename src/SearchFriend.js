@@ -20,7 +20,7 @@ export default class SearchFriend extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: '',
+            firstName: ''
         };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
@@ -34,7 +34,10 @@ export default class SearchFriend extends Component {
 
     async onSubmit(e){
         e.preventDefault();
-        let allFriends = await Friend.find({firstName: this.state.firstName}).catch(console.error());
+        let allFriends = await Friend.find(this.state);
+        console.log(this.state);
+        
+        
         console.log('All friends', allFriends);
     }
 
@@ -53,7 +56,7 @@ export default class SearchFriend extends Component {
             <Button variant="primary" type="submit">
                 Submit
             </Button>
-            <FriendsList/>
+            <FriendsList {...this.state}/>
             </Form>
         );
     }
