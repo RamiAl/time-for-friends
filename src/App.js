@@ -15,11 +15,6 @@ class App extends Component{
         <Navbar />
         <Main />
       </div>
-
-<div className="test">
-
-</div>
-</>
     );
     
   }

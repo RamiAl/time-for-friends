@@ -4,16 +4,18 @@ let friendData = require(chosenMockData)
  async function importJsonDataToDb() {
   //Friend datan
   let Friend = require('./mongoose-models/Friend');
-    let allFriendCount = await Friend.count();
+    let allFriendCount = await Friend.countDocuments();
     if(allFriendCount> 0){
-      Friend.remove({});
-        console.log('Tömer db');
+      await Friend.remove({});
+      let counter = await Friend.countDocuments();
+        console.log('Tömer db', counter);
         console.log(chosenMockData)
     }
     for(let data of friendData){
         let friend = new Friend(data);
         await friend.save();
     }
-    allFriendCount = await Friend.count();
-    process.exit();
+    allFriendCount = await Friend.countDocuments();
+    console.log('efter', allFriendCount);
   }
+  
