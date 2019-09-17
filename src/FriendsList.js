@@ -15,7 +15,7 @@ export default class FriendsList extends Component {
     }
 
     async findAll(){
-        let allFriends = await Friend.find();  
+        let allFriends = await Friend.find({}, { limit: 10});  
         //allFriends.delete()
         //allFriends.map(item =>
             //console.log(moment.tz(moment.utc(), item.timeZone).utcOffset() / 60)

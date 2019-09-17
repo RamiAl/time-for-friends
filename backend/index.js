@@ -19,7 +19,7 @@ const app = express();
 // 2) the path to a folder with mongoose-models 
 //    Please Note: The path must be absolute
 const pathToModelFolder = path.join(__dirname, 'mongoose-models');
-app.use(RESTserver('/api', pathToModelFolder));
+app.use(RESTserver(express,'/api', pathToModelFolder));
  
 // Add other middleware you might need (express.static etc)
  
