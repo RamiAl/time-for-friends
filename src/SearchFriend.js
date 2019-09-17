@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from  'react';
+import React, {Component} from  'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
@@ -40,7 +40,7 @@ export default class SearchFriend extends Component {
 
     render() {
         return (
-            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)}>
+            <Form className = "searchPage" onSubmit={(e) => this.onSubmit(e)}>
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
                 onChange={this.handleUserInput} >

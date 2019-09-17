@@ -1,36 +1,49 @@
 import React, {Component, Fragment} from  'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
 import {Friend} from 'the.rest/dist/to-import';
+import Form from 'react-bootstrap/Form';
+import Clock from './Clock'
 
 export default class FriendsList extends Component {
     state = {
         allFriends: []
-    };
+    }
 
     componentDidMount(){
          this.findAll();
     }
 
     async findAll(){
-        let allFriends = await Friend.find();
-        console.log(allFriends);
-        
-        await this.setState({ "allFriends": allFriends });
+        let allFriends = await Friend.find();  
+        //allFriends.delete()
+        //allFriends.map(item =>
+            //console.log(moment.tz(moment.utc(), item.timeZone).utcOffset() / 60)
+            //this.state.time = new Date(Date.now() + (moment.tz(moment.utc(), item.timeZone).utcOffset() / 60))
+            
+            //item.timeZone = moment.tz(item.timeZone).format()
+        //)
+        this.setState({ "allFriends": allFriends });
     }
 
     render() {
-        //console.log(this.state.allFriends);
         return (
-            <div>
+            <div >
                 { 
-                    this.state.allFriends.map(item => item.removed ? null : 
+                    this.state.allFriends.map(item =>
                     (
                         <Fragment key = {item._id}>
-                            <p>{item.city}</p>
+                            <div className = "friendsList">
+                                <h3>{item.firstName} {item.lastName}</h3>
+                                <Form.Row>
+                                    <p><b>E-mail: </b>{item.emailAddress}  |  <b>Phone number: </b>{item.phoneNumber}  
+                                    |  <b>City: </b>{item.city}  |  <b>Country: </b>{item.country}</p>
+                                    <div>
+                                    <Clock {...item}>
+                                        
+                                    </Clock></div>
+                                </Form.Row>
+                            </div>
                         </Fragment>
                     ))
                 } 

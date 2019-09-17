@@ -46,3 +46,14 @@ html {
   .form{
       margin: 3vh, 30vh;
   }
+
+  .friendsList{
+    margin: 5vh 0;
+    border-style: outset;
+    padding-left: 3vw;
+    padding-top: 2vh;
+  }
+
+  .searchPage{
+    margin: 0 22vw;
+  }
