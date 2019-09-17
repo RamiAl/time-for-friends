@@ -8,7 +8,7 @@ let friendData = require(chosenMockData)
     if(allFriendCount> 0){
       Friend.remove({});
         console.log('Tömer db');
-        console.log(chosenValue)
+        console.log(chosenMockData)
     }
     for(let data of friendData){
         let friend = new Friend(data);
