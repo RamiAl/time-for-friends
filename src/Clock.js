@@ -4,7 +4,9 @@ import moment from 'moment-timezone';
 export default class Clock extends Component{
 
     offset = this.props.timeZone
-
+    date = this.props.date
+    
+    
     state = {
         time : this.offset
     };
@@ -27,16 +29,24 @@ export default class Clock extends Component{
 
     async updateClock(){
         while(this._isMounted){
-            this.setState({time: moment.tz(this.offset).format()})
+            console.log(this.offset);
+            
+            if(!this.offset){
+                this.setState({time: new Date().toLocaleTimeString()})
+            }else{
+                this.setState({time: moment.tz(this.offset).format()})
+            }
             await this.sleep(500);
         }
     }
 
+
     render(){
+       
         return(
             <>
-                <h6>Time zone: </h6>
-                <p> {this.state.time}</p>
+            {!this.offset ? <p>Local time: {this.state.time}</p> :
+            [<b>Time zone: </b>, <p> {this.state.time}</p>]}
             </>
         );
     }

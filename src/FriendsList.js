@@ -29,6 +29,8 @@ export default class FriendsList extends Component {
     }
 
     render() {
+        console.log(this.state);
+        
         return (
             <div >
                 { 
@@ -42,7 +44,6 @@ export default class FriendsList extends Component {
                                     |  <b>City: </b>{item.city}  |  <b>Country: </b>{item.country}</p>
                                     <div>
                                     <Clock {...item}>
-                                        
                                     </Clock></div>
                                 </Form.Row>
                             </div>
