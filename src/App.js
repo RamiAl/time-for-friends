@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
+//import Navbar from './Navbar';
 import Main from './Main';
+import Navigation from './Navigation';
+//<Navbar />
 
 class App extends Component{
  
@@ -12,7 +14,8 @@ class App extends Component{
 
     return (
       <div>
-        <Navbar />
+        <Navigation />
+        
         <Main />
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { NavLink } from 'react-router-dom';
 import Clock from "./Clock";
 
@@ -18,6 +19,8 @@ render() {
       <li className="liClock"><Clock/></li>
     </ul>
   </nav>
+  
+
     );
   }
 }

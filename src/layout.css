@@ -61,3 +61,7 @@ html {
   .liClock{
     color: white;
   }
+  .nav-placment{
+    padding: 1vh 1vh;
+    padding-top: 5vh;
+  }
