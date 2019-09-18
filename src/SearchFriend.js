@@ -10,7 +10,10 @@ export default class SearchFriend extends Component {
     }
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            name: '',
+            sortBy: 'firstName'
+        };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
 
@@ -19,6 +22,7 @@ export default class SearchFriend extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
+        
     }
 
     render() {
@@ -28,7 +32,16 @@ export default class SearchFriend extends Component {
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
                 onChange={this.handleUserInput} >
                 <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
-                <Form.Control name="firstName" placeholder="Name" />
+                <Form.Control name="name" placeholder="Name" />
+                </Form.Group>
+
+                <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
+                onChange={this.handleUserInput} >
+                <Form.Label>Sort by</Form.Label>
+                <Form.Control as="select" name="sortBy" placeholder="Country">
+                <option value = "firstName">First name</option>
+                <option value = "lastName">Last name</option>
+                </Form.Control >
                 </Form.Group>
 
             </Form.Row>

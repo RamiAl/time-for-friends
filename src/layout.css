@@ -57,3 +57,8 @@ html {
   .searchPage{
     margin: 0 22vw;
   }
+
+  .sort{
+    margin-top: 6.5vh;
+    size: 20vw;
+  }
