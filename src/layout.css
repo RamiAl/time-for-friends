@@ -65,3 +65,8 @@ html {
     padding: 1vh 1vh;
     padding-top: 5vh;
   }
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: black;
+  }
