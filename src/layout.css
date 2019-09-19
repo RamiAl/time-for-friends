@@ -63,10 +63,15 @@ html {
   }
   .nav-placment{
     padding: 1vh 1vh;
-    padding-top: 5vh;
+    padding-top: 3vh;
   }
   a.disabled {
     pointer-events: none;
     cursor: default;
     color: black;
+  }
+
+  .sort{
+    margin-top: 6.5vh;
+    size: 20vw;
   }

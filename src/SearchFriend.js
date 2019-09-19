@@ -1,26 +1,18 @@
 import React, {Component} from  'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import {Friend} from 'the.rest/dist/to-import';
 import FriendsList from './FriendsList'
 
 export default class SearchFriend extends Component {
     async componentDidMount(){
-        //let allFriends = await Friend.find().catch(console.error());
-        //allFriends.delete();
-        //console.log('All friends', allFriends);
-        //let mom = moment().tz("America/New_York").format();
-        //console.log(mom);
-        //this.findAll();
-
     }
     constructor(props) {
         super(props);
         this.state = {
-            firstName: ''
+            name: '',
+            sortBy: 'firstName'
         };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
@@ -30,32 +22,30 @@ export default class SearchFriend extends Component {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
-      }
-
-    async onSubmit(e){
-        e.preventDefault();
-        let allFriends = await Friend.find(this.state);
-        console.log(this.state);
         
-        
-        console.log('All friends', allFriends);
     }
 
     render() {
         return (
-            <Form className = "searchPage" onSubmit={(e) => this.onSubmit(e)}>
+            <Form className = "searchPage">
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
                 onChange={this.handleUserInput} >
                 <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
-                <Form.Control name="firstName" placeholder="Name" />
+                <Form.Control name="name" placeholder="Name" />
+                </Form.Group>
+
+                <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
+                onChange={this.handleUserInput} >
+                <Form.Label>Sort by</Form.Label>
+                <Form.Control as="select" name="sortBy" placeholder="Country">
+                <option value = "firstName">First name</option>
+                <option value = "lastName">Last name</option>
+                <option value = "timeZone">Time zone</option>
+                </Form.Control >
                 </Form.Group>
 
             </Form.Row>
-
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
             <FriendsList {...this.state}/>
             </Form>
         );
