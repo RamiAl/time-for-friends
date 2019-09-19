@@ -20,34 +20,43 @@ export default class FriendsList extends Component {
         if (this.props.sortBy !== prevProps.sortBy) {
             this.getFriendsFromDB()
         }
+        if (this.props.name !== prevProps.name) {
+            this.getFriendsFromDB()
+        }
     }
 
     async getFriendsFromDB(){
-        if(this.props.sortBy === 'timeZone'){ 
-            let allFriends = await Friend.find({}, {limit: 1200});
+        const nameRegex = new RegExp("^" + this.props.name);
+        let sortBy = this.props.sortBy;
+
+        if(sortBy === 'timeZone'){ 
+            let allFriends = await Friend.find({}, {limit: 500});
               
             allFriends.sort((a, b) => {
-            return moment.tz(a[this.props.sortBy])._offset < moment.tz(b[this.props.sortBy])._offset ? -1 : 1});
-            this.setState({ "allFriends": allFriends }); 
-            
-        }else {
-            let allFriends = await Friend.find({}, {sort: this.props.sortBy, limit: 1200});
-            this.setState({ "allFriends": allFriends });   
-        } 
-        
+                let offSet1 = moment.tz(a[sortBy])._offset;
+                let offSet2 = moment.tz(b[sortBy])._offset;
 
+                if (offSet1 === offSet2){
+                    return a.firstName < b.firstName? -1 : 1
+                }else {
+                    return offSet1 < offSet2 ? -1 : 1
+                }
+            })
+            this.setState({ "allFriends": allFriends });             
+        }else {
+            let allFriends = await Friend.find({}, {sort: sortBy, limit: 500});
+            let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
+            this.setState({ "allFriends": filteredFriendsList });
+        } 
     }
 
 //.sort((a, b) => {return a[sortBy] < b[sortBy] ? -1 : 1})
 //.filter(item => nameRegex.test(item[sortBy]))
     render() {
-        const nameRegex = new RegExp("^" + this.props.name);
-        let sortBy = this.props.sortBy;  
-              
         return (
             <div >
-                { 
-                    this.state.allFriends.filter(item => nameRegex.test(item[sortBy])).map(item =>(
+                {
+                    this.state.allFriends.map(item =>(
                             <Fragment key = {item._id}>
                                 <div className = "friendsList">
                                     <h3>{item.firstName} {item.lastName}</h3>
