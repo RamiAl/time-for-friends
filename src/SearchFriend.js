@@ -41,6 +41,7 @@ export default class SearchFriend extends Component {
                 <Form.Control as="select" name="sortBy" placeholder="Country">
                 <option value = "firstName">First name</option>
                 <option value = "lastName">Last name</option>
+                <option value = "timeZone">Time zone</option>
                 </Form.Control >
                 </Form.Group>
 

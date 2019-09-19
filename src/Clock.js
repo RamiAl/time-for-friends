@@ -6,7 +6,8 @@ export default class Clock extends Component{
     offset = this.props.timeZone
 
     state = {
-        time : this.offset
+        time : this.offset,
+        date:  this.offset
     };
 
     sleep(ms){
@@ -15,9 +16,6 @@ export default class Clock extends Component{
 
     componentDidMount(){
         this._isMounted = true;
-        //console.log(this.offset);
-        
-        //console.log(this.state.time);
         this.updateClock();
     }
 
@@ -27,7 +25,7 @@ export default class Clock extends Component{
 
     async updateClock(){
         while(this._isMounted){
-            this.setState({time: moment.tz(this.offset).format()})
+            this.setState({time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD')})
             await this.sleep(500);
         }
     }
@@ -35,8 +33,8 @@ export default class Clock extends Component{
     render(){
         return(
             <>
-                <h6>Time zone: </h6>
-                <p> {this.state.time}</p>
+                <h1>{this.state.time}</h1>
+                <p><b>{this.state.date}</b></p>
             </>
         );
     }

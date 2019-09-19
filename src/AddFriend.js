@@ -22,7 +22,7 @@ export default class AddFriend extends Component {
             emailAddress: '',
             city: '',
             country: '',
-            timeZone: ''
+            timeZone: 'Africa/Abidjan'
           };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
@@ -42,12 +42,14 @@ export default class AddFriend extends Component {
         
         let allFriends = await Friend.find().catch(console.error());
         console.log('All friends', allFriends);
+
+        this.refs.form.reset();
     }
 
     render() {
         const allTimeZone =  moment.tz.names();
         return (
-            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)}>
+            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
                 onChange={this.handleUserInput} >
