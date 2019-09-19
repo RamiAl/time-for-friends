@@ -57,6 +57,19 @@ html {
   .searchPage{
     margin: 0 22vw;
   }
+  
+  .liClock{
+    color: white;
+  }
+  .nav-placment{
+    padding: 1vh 1vh;
+    padding-top: 5vh;
+  }
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: black;
+  }
 
   .sort{
     margin-top: 6.5vh;
