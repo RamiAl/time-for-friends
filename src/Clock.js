@@ -29,7 +29,7 @@ export default class Clock extends Component{
 
     async updateClock(){
         while(this._isMounted){
-            console.log(this.offset);
+            //console.log(this.offset);
             
             if(!this.offset){
                 this.setState({time: new Date().toLocaleTimeString()})
@@ -45,8 +45,7 @@ export default class Clock extends Component{
        
         return(
             <>
-            {!this.offset ? <p>Local time: {this.state.time}</p> :
-            [<b>Time zone: </b>, <p> {this.state.time}</p>]}
+            {!this.offset ? <p key="a">Local time: {this.state.time}</p> : [<b key ="b">Time zone: </b>, <p key="c"> {this.state.time}</p>]}
             </>
         );
     }
