@@ -44,6 +44,7 @@ export default class AddFriend extends Component {
         console.log('All friends', allFriends);
 
         this.refs.form.reset();
+        alert('*** You added a new friend ***')
     }
 
     render() {
@@ -106,7 +107,7 @@ export default class AddFriend extends Component {
             </Form.Row>
 
             <Button variant="primary" type="submit">
-                Submit
+                Add
             </Button>
             </Form>
         );
