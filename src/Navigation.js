@@ -7,6 +7,8 @@ import Clock from "./Clock";
 import { NavLink } from 'react-router-dom';
 class Navigation extends Component {
 
+  //<NavLink className="nav-placment" to='/'>Home</NavLink>
+
 render() {
   return (
 <Navbar bg="light" expand="lg">
@@ -14,7 +16,6 @@ render() {
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
-      <NavLink className="nav-placment" to='/'>Home</NavLink>
       <NavLink className="nav-placment" to='/addfriend'>Add Friend</NavLink>
       <NavLink className="nav-placment" to='/searchfriend'>Search For Friend</NavLink>
       <NavLink className="nav-placment disabled" to=''><i className="fas fa-sun"></i></NavLink>

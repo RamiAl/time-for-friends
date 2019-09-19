@@ -26,14 +26,11 @@ export default class Clock extends Component{
     }
 
     async updateClock(){
-        while(this._isMounted){
-            this.setState({time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD')})
-            //console.log(this.offset);
-            
+        while(this._isMounted){            
             if(!this.offset){
                 this.setState({time: new Date().toLocaleTimeString()})
             }else{
-                this.setState({time: moment.tz(this.offset).format()})
+                this.setState({time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD')})
             }
             await this.sleep(500);
         }
@@ -44,9 +41,13 @@ export default class Clock extends Component{
        
         return(
             <>
-            {!this.offset ? <p key="a">Local time: {this.state.time}</p> : [<b key ="b">Time zone: </b>, <p key="c"> {this.state.time}</p>]}
-                <h1>{this.state.time}</h1>
-                <p><b>{this.state.date}</b></p>
+            {!this.offset ? <p key="a">Local time: {this.state.time}</p> : [
+            <h3 key="c"> {this.state.time}</h3>,
+            <p key = "d"><b>{this.state.date}</b></p>
+            
+            ]}
+               
+                
             </>
         );
     }
