@@ -29,6 +29,7 @@ export default class Clock extends Component{
         while(this._isMounted){            
             if(!this.offset){
                 this.setState({time: new Date().toLocaleTimeString()})
+                
             }else{
                 this.setState({time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD')})
             }
@@ -37,14 +38,31 @@ export default class Clock extends Component{
     }
 
 
+    checkTime(){
+       console.log(this.state.time);
+       
+       if (this.state.time > '06:00:00') {
+           if(this.state.time < '20:00:00'){
+             console.log('sun');  
+             return <i className="fas fa-sun"></i>;  
+           }else{
+            console.log('moon');
+            return <i className="fas fa-moon"></i>;
+        }
+       }else{
+           console.log('moon');
+           return <i className="fas fa-moon"></i>;
+       }
+       
+    }
+
     render(){
        
         return(
             <>
-            {!this.offset ? <p key="a">Local time: {this.state.time}</p> : [
+            {!this.offset ? <p key="b"> {this.checkTime()} Local time: {this.state.time}</p>  : [
             <h3 key="c"> {this.state.time}</h3>,
-            <p key = "d"><b>{this.state.date}</b></p>
-            
+            <p key = "d"><b>{this.state.date} {this.checkTime()}</b></p>
             ]}
                
                 

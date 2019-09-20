@@ -25,6 +25,7 @@ export default class AddFriend extends Component {
             timeZone: 'Africa/Abidjan'
           };
         this.handleUserInput = this.handleUserInput.bind(this);
+        //this.myFunction = this.myFunction.bind(this);
     } 
 
     handleUserInput (e) {
@@ -46,9 +47,28 @@ export default class AddFriend extends Component {
         this.refs.form.reset();
     }
 
+    /*
+    <button onClick={(e) => this.myFunction(e)}>Click me</button>
+     myFunction(e) {
+        console.log('Ggg');
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(positon){
+                console.log(positon);
+                e.get("http://maps.googleapis.com/map/api/geocode/json?latlng=" + positon.coords.latitude + "," +
+                positon.coords.longitude + "&sensor=false", function (data) {
+                    console.log(data);
+                })
+            });
+            
+        }else{
+              console.log("no geolocation position");  
+            }
+      }
+*/
     render() {
         const allTimeZone =  moment.tz.names();
         return (
+            <>
             <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
@@ -109,6 +129,8 @@ export default class AddFriend extends Component {
                 Submit
             </Button>
             </Form>
+            
+            </>
         );
     }
 }
