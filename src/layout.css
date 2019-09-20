@@ -48,10 +48,18 @@ html {
   }
 
   .friendsList{
+    
     margin: 5vh 0;
     border-style: outset;
     padding-left: 3vw;
     padding-top: 2vh;
+  }
+  .friendsList h3, .friendsList p{
+    color: black
+  }
+
+  .linkStyle:hover{
+    text-decoration: none
   }
 
   .searchPage{
