@@ -23,11 +23,14 @@ export default class FriendsList extends Component {
         if (this.props.name !== prevProps.name) {
             this.getFriendsFromDB()
         }
+        if (this.props.value !== prevProps.value) {
+            this.getFriendsFromDB()
+        }
     }
 
     async getFriendsFromDB(){
         const nameRegex = new RegExp("^" + this.props.name);
-        let sortBy = this.props.sortBy;
+        let sortBy = this.props.sortBy;        
 
         if(sortBy === 'timeZone'){ 
             let allFriends = await Friend.find({}, {limit: 500});
@@ -42,6 +45,7 @@ export default class FriendsList extends Component {
                     return offSet1 < offSet2 ? -1 : 1
                 }
             })
+            
             this.setState({ "allFriends": allFriends });             
         }else {
             let allFriends = await Friend.find({}, {sort: sortBy, limit: 500});
@@ -53,10 +57,16 @@ export default class FriendsList extends Component {
 //.sort((a, b) => {return a[sortBy] < b[sortBy] ? -1 : 1})
 //.filter(item => nameRegex.test(item[sortBy]))
     render() {
+        let startTime = this.props.value.start;
+        let endTime = this.props.value.end;
+        //this.state.allFriends.map(item => console.log('startTime: ',startTime, ', theTime: ',moment.tz(item.timeZone).format('HH:mm'), ', endTime: ', endTime))
+        
         return (
             <div >
                 {
-                    this.state.allFriends.map(item =>(
+                    this.state.allFriends.filter(item => startTime < moment.tz(item.timeZone).format('HH:mm') 
+                    && moment.tz(item.timeZone).format('HH:mm') < endTime)
+                    .map(item =>(
                             <Fragment key = {item._id}>
                                 <div className = "friendsList">
                                     <h3>{item.firstName} {item.lastName}</h3>
