@@ -40,7 +40,7 @@ export default class AddFriend extends Component {
         let friend = new Friend (this.state);
         await friend.save();
         
-        let allFriends = await Friend.find().catch(console.error());
+        let allFriends = await Friend.find();
         console.log('All friends', allFriends);
 
         this.refs.form.reset();

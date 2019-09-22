@@ -35,7 +35,7 @@ export default class FriendsList extends Component {
         let sortBy = this.props.sortBy;        
 
         if(sortBy === 'timeZone'){ 
-            let allFriends = await Friend.find({}, {limit: 10});
+            let allFriends = await Friend.find({}).limit(500);
               
             allFriends.sort((a, b) => {
                 let offSet1 = moment.tz(a[sortBy])._offset;
@@ -50,7 +50,7 @@ export default class FriendsList extends Component {
             
             this.setState({ "allFriends": allFriends });             
         }else {
-            let allFriends = await Friend.find({}, {sort: sortBy, limit: 10});
+            let allFriends = await Friend.find({}).sort(sortBy).limit(10);
             let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
             this.setState({ "allFriends": filteredFriendsList });
         } 
@@ -70,13 +70,16 @@ export default class FriendsList extends Component {
                     && moment.tz(item.timeZone).format('HH:mm') < endTime)
                     .map(item =>(
                             <Fragment key = {item._id}>
-                                
                                 <div className = "friendsList" to="/friendPage">
                                 <Link to={`/friendPage/${item._id}`} className="linkStyle">
                                     <h3>{item.firstName} {item.lastName}</h3>
                                     <Form.Row>
-                                        <p><b>E-mail: </b>{item.emailAddress}  |  <b>Phone number: </b>{item.phoneNumber}  
-                                        |  <b>City: </b>{item.city}  |  <b>Country: </b>{item.country}</p>
+                                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddress}</p>
+                                        <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{item.phoneNumber}</p>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <i className="fas fa-city icon"></i> <p className = "infoStyle">{item.city}</p>
+                                        <i className="fas fa-map icon"></i> <p className = "infoStyle">{item.country}</p>
                                     </Form.Row>
                                     <Clock {...item}/>
                                     </Link>
