@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "http-proxy-middleware": "^0.20.0",
+    "mdbreact": "^4.20.0",
     "moment-timezone": "^0.5.26",
     "mongoose": "^5.7.1",
     "react": "^16.9.0",
