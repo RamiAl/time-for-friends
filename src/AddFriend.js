@@ -6,8 +6,9 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
-
-
+//import { all } from 'q';
+//import { arrowFunctionExpression } from '@babel/types';
+const allTimeZone =  moment.tz.names();
 export default class AddFriend extends Component {
 
     async componentDidMount(){
@@ -31,8 +32,42 @@ export default class AddFriend extends Component {
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value}); 
+        this.setState({[name]: value});
+        this.check(); 
     }           
+
+check(){
+    console.log(this.state.city);
+    function filterItems(allTimeZone, city) {
+        return allTimeZone.filter(function(el) {
+            return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
+        })
+      }
+    filterItems(allTimeZone, this.state.city).map(x => console.log(x));
+
+
+
+}
+
+
+showlist(){
+    let a = 0; 
+if (a === 0) {
+     return allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1).map(item =>(
+        <option key = {item}>{item}</option>
+    ));
+}else{
+   return allTimeZone.map(item =>(
+        <option key = {item}>{item}</option>
+    ));
+}
+
+
+}
+
+    
+
+
 
     async onSubmit(e){
         e.preventDefault();
@@ -65,8 +100,13 @@ export default class AddFriend extends Component {
             }
       }
 */
+
+/* {allTimeZone.map(item =>(
+                        <option key = {item}>{item}</option>
+                    ))} */
+
     render() {
-        const allTimeZone =  moment.tz.names();
+        console.log(this.state.city);
         return (
             <>
             <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
@@ -117,11 +157,11 @@ export default class AddFriend extends Component {
                 onChange={this.handleUserInput} >
                 <Form.Label>Time zone</Form.Label>
                 <Form.Control as="select" name="timeZone" placeholder="Country">
-                    {allTimeZone.map(item =>(
-                        <option key = {item}>{item}</option>
-                    ))}
+                    {this.showlist()}
+                   
                 </Form.Control >
                 </Form.Group>
+
 
             </Form.Row>
 

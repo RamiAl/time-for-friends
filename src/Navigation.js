@@ -19,7 +19,6 @@ render() {
       <NavLink className="nav-placment" to='/addfriend'>Add Friend</NavLink>
       <NavLink className="nav-placment" to='/searchfriend'>Search For Friend</NavLink>
       <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
-      
     </Nav>
   </Navbar.Collapse>
 </Navbar>
