@@ -5,6 +5,8 @@ import {Friend} from 'the.rest/dist/to-import';
 import Form from 'react-bootstrap/Form';
 import Clock from './Clock'
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
+
 
 export default class FriendsList extends Component {
 
@@ -13,24 +15,27 @@ export default class FriendsList extends Component {
     }
 
     componentDidMount(){        
-        this.getFriendsFromDB()
+        this.getFriends()
     }
 
     componentDidUpdate(prevProps){
         if (this.props.sortBy !== prevProps.sortBy) {
-            this.getFriendsFromDB()
+            this.getFriends()
         }
         if (this.props.name !== prevProps.name) {
-            this.getFriendsFromDB()
+            this.getFriends()
+        }
+        if (this.props.value !== prevProps.value) {
+            this.getFriends()
         }
     }
 
-    async getFriendsFromDB(){
+    async getFriends(){
         const nameRegex = new RegExp("^" + this.props.name);
-        let sortBy = this.props.sortBy;
+        let sortBy = this.props.sortBy;        
 
         if(sortBy === 'timeZone'){ 
-            let allFriends = await Friend.find({}, {limit: 500});
+            let allFriends = await Friend.find({}).limit(500);
               
             allFriends.sort((a, b) => {
                 let offSet1 = moment.tz(a[sortBy])._offset;
@@ -42,9 +47,10 @@ export default class FriendsList extends Component {
                     return offSet1 < offSet2 ? -1 : 1
                 }
             })
+            
             this.setState({ "allFriends": allFriends });             
         }else {
-            let allFriends = await Friend.find({}, {sort: sortBy, limit: 500});
+            let allFriends = await Friend.find({}).sort(sortBy).limit(10);
             let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
             this.setState({ "allFriends": filteredFriendsList });
         } 
@@ -53,18 +59,31 @@ export default class FriendsList extends Component {
 //.sort((a, b) => {return a[sortBy] < b[sortBy] ? -1 : 1})
 //.filter(item => nameRegex.test(item[sortBy]))
     render() {
+        let startTime = this.props.value.start;
+        let endTime = this.props.value.end;
+        //this.state.allFriends.map(item => console.log('startTime: ',startTime, ', theTime: ',moment.tz(item.timeZone).format('HH:mm'), ', endTime: ', endTime))
+        
         return (
             <div >
                 {
-                    this.state.allFriends.map(item =>(
+                    this.state.allFriends.filter(item => startTime < moment.tz(item.timeZone).format('HH:mm') 
+                    && moment.tz(item.timeZone).format('HH:mm') < endTime)
+                    .map(item =>(
                             <Fragment key = {item._id}>
-                                <div className = "friendsList">
+                                <div className = "friendsList" to="/friendPage">
+                                <Link to={`/friendPage/${item._id}`} className="linkStyle">
                                     <h3>{item.firstName} {item.lastName}</h3>
                                     <Form.Row>
-                                        <p><b>E-mail: </b>{item.emailAddress}  |  <b>Phone number: </b>{item.phoneNumber}  
-                                        |  <b>City: </b>{item.city}  |  <b>Country: </b>{item.country}</p>
+                                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddress}</p>
+                                        <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{item.phoneNumber}</p>
+                                    </Form.Row>
+                                    <Form.Row>
+                                        <i className="fas fa-city icon"></i> <p className = "infoStyle">{item.city}</p>
+                                        <i className="fas fa-map icon"></i> <p className = "infoStyle">{item.country}</p>
                                     </Form.Row>
                                     <Clock {...item}/>
+                                    </Link>
+
                                 </div>
                             </Fragment>
                         )

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import FriendsList from './FriendsList'
+import TimeRangeSlider from 'react-time-range-slider';
 
 export default class SearchFriend extends Component {
     async componentDidMount(){
@@ -12,41 +13,64 @@ export default class SearchFriend extends Component {
         super(props);
         this.state = {
             name: '',
-            sortBy: 'firstName'
+            sortBy: 'firstName',
+            value: {
+                start: "00:00",
+                end: "23:59"
+            }
         };
+        this.timeChangeHandler = this.timeChangeHandler.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
-
-
+    
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]: value});
-        
+    }
+    
+    timeChangeHandler(time){
+        this.setState({
+            value: time
+        });
     }
 
     render() {
         return (
             <Form className = "searchPage">
-            <Form.Row>
-                <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
-                onChange={this.handleUserInput} >
-                <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
-                <Form.Control name="name" placeholder="Name" />
-                </Form.Group>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
+                    onChange={this.handleUserInput} >
+                    <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
+                    <Form.Control name="name" placeholder="Name" />
+                    </Form.Group>
 
-                <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
-                onChange={this.handleUserInput} >
-                <Form.Label>Sort by</Form.Label>
-                <Form.Control as="select" name="sortBy" placeholder="Country">
-                <option value = "firstName">First name</option>
-                <option value = "lastName">Last name</option>
-                <option value = "timeZone">Time zone</option>
-                </Form.Control >
-                </Form.Group>
+                    <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
+                    onChange={this.handleUserInput} >
+                    <Form.Label>Sort by</Form.Label>
+                    <Form.Control as="select" name="sortBy" placeholder="Country">
+                    <option value = "firstName">First name</option>
+                    <option value = "lastName">Last name</option>
+                    <option value = "timeZone">Time zone</option>
+                    </Form.Control >
+                    </Form.Group>
+                </Form.Row>
 
-            </Form.Row>
-            <FriendsList {...this.state}/>
+                <TimeRangeSlider 
+                format={24}
+                maxValue={"23:59"}
+                minValue={"00:00"}
+                name={"time_range"}
+                onChange={this.timeChangeHandler}
+                step={15}
+                value={this.state.value}/>
+                    
+                <div className = "timeRange">
+                    <h5>start: {this.state.value.start}</h5>
+                    <h5>end: {this.state.value.end}</h5>
+                </div>
+
+                <FriendsList {...this.state}/>
             </Form>
         );
     }

@@ -18,8 +18,9 @@
     "react-fontawesome": "^1.6.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
+    "react-time-range-slider": "^1.1.2",
     "reactstrap": "^8.0.1",
-    "the.rest": "^1.0.23"
+    "the.rest": "^1.0.29"
   },
   "scripts": {
     "start": "react-scripts start",
