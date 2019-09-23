@@ -5,21 +5,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import {Friend} from 'the.rest/dist/to-import';
+import moment from 'moment-timezone';
+
 
 export default class AddFriend extends Component {
 
     async componentDidMount(){
-        /*let friend = new Friend ({name: 'Rami', age: 23, emailAddress: ['Rami.almhana@yahoo.com', 'yjftyukjyukyk'],
-                                phoneNumber: ['0700455645','9569976867'], city: 'Malmö',
-                                country: 'Sverige', timeZone: 'UTM -01:00'});
-        await friend.save();
-        console.log('friend', friend);
-
-        let allFriends = await Friend.find().catch(console.error());
-        allFriends.delete();
-        console.log('All friends', allFriends);*/
-        //let mom = moment().tz("America/New_York").format();
-        //console.log(mom);
     
     }
     constructor(props) {
@@ -31,7 +22,7 @@ export default class AddFriend extends Component {
             emailAddress: '',
             city: '',
             country: '',
-            timeZone: ''
+            timeZone: 'Africa/Abidjan'
           };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
@@ -39,25 +30,26 @@ export default class AddFriend extends Component {
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value});
-      }
+        this.setState({[name]: value}); 
+    }           
 
     async onSubmit(e){
         e.preventDefault();
+        console.log(this.state);
+        
         let friend = new Friend (this.state);
         await friend.save();
         
-        let allFriends = await Friend.find().catch(console.error());
+        let allFriends = await Friend.find();
         console.log('All friends', allFriends);
-        //allFriends.delete();
-        //console.log('All deleted', allFriends);
 
-        
+        this.refs.form.reset();
     }
 
     render() {
+        const allTimeZone =  moment.tz.names();
         return (
-            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)}>
+            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
                 onChange={this.handleUserInput} >
@@ -99,10 +91,16 @@ export default class AddFriend extends Component {
                 <Form.Control name="country" placeholder="Country"/>
                 </Form.Group>
 
+                
+
                 <Form.Group as={Col} controlId="formGridState" value={this.state.timeZone} 
-                onChange={this.handleUserInput}>
+                onChange={this.handleUserInput} >
                 <Form.Label>Time zone</Form.Label>
-                <Form.Control name="timeZone" placeholder="Capital"/>
+                <Form.Control as="select" name="timeZone" placeholder="Country">
+                    {allTimeZone.map(item =>(
+                        <option key = {item}>{item}</option>
+                    ))}
+                </Form.Control >
                 </Form.Group>
 
             </Form.Row>

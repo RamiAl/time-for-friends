@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
 import Main from './Main';
-import moment from 'moment-timezone';
+import Navigation from './Navigation';
 
 class App extends Component{
+ 
 
   async componentDidMount(){
     
@@ -11,11 +11,13 @@ class App extends Component{
   render(){
     return (
       <div>
-        <Navbar />
+        <Navigation />
         <Main />
       </div>
     );
+    
   }
 }
+
 
 export default App;

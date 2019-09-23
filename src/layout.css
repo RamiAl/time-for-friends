@@ -44,5 +44,66 @@ html {
 
 
   .form{
-      margin: 3vh, 30vh;
+    margin: 3vh, 30vh;
+  }
+
+  .infoStyle{
+    margin: 0 4vw 0 0.5vw;
+  }
+
+  .icon{
+    margin-top: 0.5vh;
+    margin-bottom: 1.5vh;
+    color: rgb(0, 107, 107);
+  }
+
+  .friendsList{
+    
+    justify-content: space-around;
+    width: 35vw;
+    margin: 5vh 0 5vh 7vw;
+    border-style: outset;
+    padding-left: 3vw;
+    padding-top: 2vh;
+  }
+  .friendItem{
+    border-style: outset;
+    width: 40vw;
+    margin: 5vh 0 5vh 27vw;
+    padding-left: 3vw;
+    padding-top: 2vh;
+  }
+  .friendsList h3, .friendsList p{
+    color: black
+  }
+
+  .linkStyle:hover{
+    text-decoration: none
+  }
+
+  .searchPage{
+    width: 50vw;
+    margin: 0 22vw;
+  }
+  
+  .liClock{
+    color: white;
+  }
+  .nav-placment{
+    padding: 1vh 1vh;
+    padding-top: 3vh;
+  }
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: black;
+  }
+
+  .sort{
+    margin-top: 6.5vh;
+    size: 20vw;
+  }
+
+  .timeRange{
+    margin-top: 3vh;
   }
