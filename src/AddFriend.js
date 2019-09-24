@@ -51,12 +51,33 @@ check(){
 
 
 showlist(){
-    let a = 0; 
-if (a === 0) {
-     return allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1).map(item =>(
+    //let a = 0; 
+    /*ska börga mend land kan man bortse
+    sedan stad om den fins 
+    sist inget*/
+    console.log(this.state.country);
+    console.log(this.timeZone);
+
+    if (allTimeZone === undefined || allTimeZone.length === 0) {
+        // array empty or does not exist
+    }
+
+
+    
+
+
+if (this.state.city  !== '') {
+    console.log('1');
+ 
+    if(allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1).map(item =>(<option key = {item}>{item}</option>)).length > 0){
+        return allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1).map(item =>(
+            <option key = {item}>{item}</option>))
+    }
+
+    return allTimeZone.map(item =>(
         <option key = {item}>{item}</option>
     ));
-}else{
+}else {
    return allTimeZone.map(item =>(
         <option key = {item}>{item}</option>
     ));
@@ -64,10 +85,6 @@ if (a === 0) {
 
 
 }
-
-    
-
-
 
     async onSubmit(e){
         e.preventDefault();
@@ -158,7 +175,6 @@ if (a === 0) {
                 <Form.Label>Time zone</Form.Label>
                 <Form.Control as="select" name="timeZone" placeholder="Country">
                     {this.showlist()}
-                   
                 </Form.Control >
                 </Form.Group>
 
