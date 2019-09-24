@@ -23,18 +23,23 @@ export default class AddFriend extends Component {
             emailAddress: '',
             city: '',
             country: '',
-            timeZone: 'Africa/Abidjan'
+            timeZone: ''
           };
         this.handleUserInput = this.handleUserInput.bind(this);
-        //this.myFunction = this.myFunction.bind(this);
+       
     } 
 
-    handleUserInput (e) {
+    async handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value});
-        this.check(); 
+       await this.setState({[name]: value});
+        //this.check();
+        console.log(this.state.timeZone);
+        
+        
     }           
+
+
 
 check(){
     console.log(this.state.city);
@@ -51,27 +56,24 @@ check(){
 
 
 showlist(){
-    //let a = 0; 
     /*ska börga mend land kan man bortse
     sedan stad om den fins 
     sist inget*/
     console.log(this.state.country);
     console.log(this.timeZone);
 
-    if (allTimeZone === undefined || allTimeZone.length === 0) {
-        // array empty or does not exist
-    }
-
-
-    
-
-
 if (this.state.city  !== '') {
     console.log('1');
  
     if(allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1).map(item =>(<option key = {item}>{item}</option>)).length > 0){
-        return allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1).map(item =>(
-            <option key = {item}>{item}</option>))
+        setTimeout(()=>{
+            const v = this.refs.timeZone.value;
+            if (this.state.timeZone !== v) {
+                this.setState({timeZone: v})
+            }
+        }, 0);
+        return allTimeZone.filter( item => item.toLocaleLowerCase().indexOf(this.state.city.toLowerCase()) !== -1)
+        .map(item =>( <option key = {item}>{item}</option>));;
     }
 
     return allTimeZone.map(item =>(
@@ -101,22 +103,20 @@ if (this.state.city  !== '') {
 
     /*
     <button onClick={(e) => this.myFunction(e)}>Click me</button>
+     //this.myFunction = this.myFunction.bind(this);
      myFunction(e) {
         console.log('Ggg');
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(positon){
                 console.log(positon);
-                e.get("http://maps.googleapis.com/map/api/geocode/json?latlng=" + positon.coords.latitude + "," +
-                positon.coords.longitude + "&sensor=false", function (data) {
-                    console.log(data);
-                })
+                
             });
             
         }else{
               console.log("no geolocation position");  
             }
       }
-*/
+ */
 
 /* {allTimeZone.map(item =>(
                         <option key = {item}>{item}</option>
@@ -131,7 +131,7 @@ if (this.state.city  !== '') {
                 <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
                 onChange={this.handleUserInput} >
                 <Form.Label >First name</Form.Label>
-                <Form.Control name="firstName" placeholder="Enter name" />
+                <Form.Control  name="firstName" placeholder="Enter name" />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridPassword" value={this.state.lastName} 
@@ -173,8 +173,9 @@ if (this.state.city  !== '') {
                 <Form.Group as={Col} controlId="formGridState" value={this.state.timeZone} 
                 onChange={this.handleUserInput} >
                 <Form.Label>Time zone</Form.Label>
-                <Form.Control as="select" name="timeZone" placeholder="Country">
+                <Form.Control as="select" name="timeZone" ref ="timeZone">
                     {this.showlist()}
+                    
                 </Form.Control >
                 </Form.Group>
 
@@ -184,6 +185,7 @@ if (this.state.city  !== '') {
             <Button variant="primary" type="submit">
                 Submit
             </Button>
+            
             </Form>
             
             </>
