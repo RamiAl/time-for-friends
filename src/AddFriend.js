@@ -109,7 +109,7 @@ export default class AddFriend extends Component {
                 type="text"
                 id="defaultFormRegisterEmailEx2"
                 className="form-control"
-                placeholder="Last name"
+                placeholder="Phone number"
                 required
               />
               <div className="valid-feedback">Looks good!</div>
