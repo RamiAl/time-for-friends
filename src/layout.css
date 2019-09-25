@@ -107,3 +107,7 @@ html {
   .timeRange{
     margin-top: 3vh;
   }
+
+  .backButton{
+    margin:1vh 2vw;
+  }

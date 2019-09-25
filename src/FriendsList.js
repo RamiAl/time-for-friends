@@ -50,24 +50,31 @@ export default class FriendsList extends Component {
             
             this.setState({ "allFriends": allFriends });             
         }else {
-            let allFriends = await Friend.find({}).sort(sortBy).limit(10);
+            let allFriends = await Friend.find({}).sort(sortBy).limit(500);
             let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
             this.setState({ "allFriends": filteredFriendsList });
         } 
     }
 
-//.sort((a, b) => {return a[sortBy] < b[sortBy] ? -1 : 1})
-//.filter(item => nameRegex.test(item[sortBy]))
+    convertHourToMilliseconds(hour){
+        var time = hour;
+        var timeParts = time.split(":");
+        let milliSeconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000)
+        milliSeconds -= 3600000;
+        return milliSeconds;
+    }
+
     render() {
-        let startTime = this.props.value.start;
-        let endTime = this.props.value.end;
-        //this.state.allFriends.map(item => console.log('startTime: ',startTime, ', theTime: ',moment.tz(item.timeZone).format('HH:mm'), ', endTime: ', endTime))
-        
+        let startTimeMilli = this.convertHourToMilliseconds(this.props.value.start);
+        let endTimeMilli = this.convertHourToMilliseconds(this.props.value.end);
+
+        let startTime = moment(startTimeMilli).format('HH:mm');
+        let endTime = moment(endTimeMilli).format('HH:mm');
         return (
             <div >
                 {
-                    this.state.allFriends.filter(item => startTime < moment.tz(item.timeZone).format('HH:mm') 
-                    && moment.tz(item.timeZone).format('HH:mm') < endTime)
+                    this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm') 
+                    && moment.tz(item.timeZone).format('HH:mm') <= endTime)
                     .map(item =>(
                             <Fragment key = {item._id}>
                                 <div className = "friendsList" to="/friendPage">
