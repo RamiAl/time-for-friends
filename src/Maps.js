@@ -11,15 +11,15 @@ class Maps extends Component{
     this.state = {
       stores: [{}],
       city: '',
-      country: ''
+      country: '',
+      positionOnMap: true
     }
   }
 
   async getCoordinates(){
-    await this.getCity();
+    await this.getPositon();
     Geocode.setApiKey('AIzaSyD3ErY-Q67YU4XDKrtsPj8iA3xYfMo-0CI')
     let position = this.state.city + " "+ this.state.country
-    console.log(position);
     
     Geocode.fromAddress(position).then(
       response => {
@@ -27,12 +27,12 @@ class Maps extends Component{
         this.setState({stores: [{'latitude': lat, 'longitude': lng}]});
       },
       error => {
-        console.error(error);
+        this.setState({positionOnMap: false})
       }
     );
   }
 
-  async getCity(){
+  async getPositon(){
     let friend = await Friend.findOne({_id: this.props.match.params.id})
     this.setState ({'city': friend.city, 'country': friend.country})
   }
@@ -48,7 +48,7 @@ class Maps extends Component{
          lat: store.latitude,
          lng: store.longitude
        }}
-       onClick={() => console.log("You clicked me!")} name={'Current location'}/>
+       onClick={() => console.log("You clicked me!")}/>
       })
     }
   
@@ -63,7 +63,7 @@ class Maps extends Component{
           <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
             <button type="button" className="btn btn-secondary backButton">Back</button>
           </Link>
-
+          {this.state.positionOnMap ? 
           <Map
             id='map'
             google={this.props.google}
@@ -75,7 +75,12 @@ class Maps extends Component{
             }}
           >
             {this.displayMarkers() }
-          </Map>
+          </Map> 
+          :
+          <h1 style = {{margin: 0}}>Position was not found</h1>
+          }
+
+          
         </>
       );
     }
