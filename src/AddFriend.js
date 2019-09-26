@@ -3,9 +3,9 @@ import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Col';
 import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
-import { MDBRow, MDBCol, MDBBtn } from "mdbreact";
 
 const allTimeZone =  moment.tz.names();
 export default class AddFriend extends Component {
