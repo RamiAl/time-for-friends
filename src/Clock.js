@@ -17,7 +17,7 @@ export default class Clock extends Component{
     }
 
     componentDidMount(){
-        this._isMounted = true;
+        this._isMounted = true;        
         this.updateClock();
     }
 
@@ -25,13 +25,16 @@ export default class Clock extends Component{
         this._isMounted = false;
     }
 
-    async updateClock(){
-        while(this._isMounted){            
-            if(!this.offset){
-                this.setState({time: new Date().toLocaleTimeString()})
-                
-            }else{
-                this.setState({time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD')})
+    async updateClock(){        
+        while(this._isMounted){  
+            if(this.props.clock){
+                this.setState({time: moment.tz(this.props.timeZone).format('HH:mm:ss'), date: moment.tz(this.props.timeZone).format('YYYY-MM-DD')})
+            }else{      
+                if(!this.offset){                
+                    this.setState({time: new Date().toLocaleTimeString()})
+                }else{                
+                    this.setState({time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD')})
+                }
             }
             await this.sleep(500);
         }
@@ -54,10 +57,15 @@ export default class Clock extends Component{
        
         return(
             <>
-            {!this.offset ? <p key="b"> {this.checkTime()} Local time: {this.state.time}</p>  : [
+
+            {this.props.clock ? 
+            [<h3 key="c"> {this.state.time}</h3>,
+            <p key = "d"><b>{this.state.date}</b></p>] 
+            :
+             !this.offset ? <p key="a">Local time: {this.state.time}</p> : [
             <h3 key="c"> {this.state.time}</h3>,
-            <p key = "d"><b>{this.state.date} {this.checkTime()}</b></p>
-            ]}
+            <p key = "d"><b>{this.state.date}</b></p>
+            ]}   
             </>
         );
     }

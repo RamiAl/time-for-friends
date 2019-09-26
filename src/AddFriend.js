@@ -1,11 +1,12 @@
 import React, {Component} from  'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
+import { MDBRow, MDBCol, MDBBtn } from "mdbreact";
+
 const allTimeZone =  moment.tz.names();
 export default class AddFriend extends Component {
 
@@ -62,17 +63,20 @@ if(c.length > 0){
    
 }
     async onSubmit(e){
+        //let s = this.state;
         e.preventDefault();
-        console.log(this.state);
-        
-        let friend = new Friend (this.state);
-        await friend.save();
-        
-        let allFriends = await Friend.find().catch(console.error());
-        console.log('All friends', allFriends);
-
-        this.refs.form.reset();
+        e.target.className += " was-validated"; 
+        //if (s.firstName.length >= 3 &&  s.lastName.length >= 3 && s.phoneNumber.length === 9 && s.city.length >= 3 && s.country.length >= 3 && this.validateEmail(s.emailAddress)){
+            let friend = new Friend (this.state);
+            await friend.save();
+            this.props.history.push(`/friendPage/${friend._id}`)
+        //}
     }
+
+    /*validateEmail(email) {   
+        const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+        return emailRegex.test(email);
+    }*/
 
     render() {
         console.log(this.state.city);
@@ -141,3 +145,6 @@ if(c.length > 0){
         );
     }
 }
+
+
+
