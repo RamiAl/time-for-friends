@@ -29,21 +29,20 @@ export default class AddFriend extends Component {
     }           
 
     async onSubmit(e){
-        let s = this.state;
+        //let s = this.state;
         e.preventDefault();
         e.target.className += " was-validated"; 
-        if (s.firstName.length >= 3 &&  s.lastName.length >= 3 && s.phoneNumber.length === 9 && s.city.length >= 3 && s.country.length >= 3 && this.validateEmail(s.emailAddress)){
+        //if (s.firstName.length >= 3 &&  s.lastName.length >= 3 && s.phoneNumber.length === 9 && s.city.length >= 3 && s.country.length >= 3 && this.validateEmail(s.emailAddress)){
             let friend = new Friend (this.state);
             await friend.save();
             this.props.history.push(`/friendPage/${friend._id}`)
-        }
+        //}
     }
 
-    validateEmail(email) {   
+    /*validateEmail(email) {   
         const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-
         return emailRegex.test(email);
-    }
+    }*/
 
     render() {
         const allTimeZone =  moment.tz.names();

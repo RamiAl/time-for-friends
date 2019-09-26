@@ -58,7 +58,6 @@ html {
   }
 
   .friendsList{
-    
     justify-content: space-around;
     width: 35vw;
     margin: 5vh 0 5vh 7vw;
@@ -75,6 +74,15 @@ html {
   }
   .friendsList h3, .friendsList p{
     color: black
+  }
+
+  .navLinkStyle{
+    color: rgb(0, 83, 83);
+  }
+
+  .navLinkStyle:hover{
+    text-decoration: none;
+    color: rgb(0, 107, 107);
   }
 
   .linkStyle:hover{
