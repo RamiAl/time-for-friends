@@ -7,7 +7,11 @@ import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
 import { MDBRow, MDBCol, MDBBtn } from "mdbreact";
 
+const allTimeZone =  moment.tz.names();
 export default class AddFriend extends Component {
+
+    async componentDidMount(){
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -17,17 +21,47 @@ export default class AddFriend extends Component {
             emailAddress: '',
             city: '',
             country: '',
-            timeZone: 'Africa/Abidjan'
+            timeZone: ''
           };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
 
-    handleUserInput (e) {
+    async handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value}); 
+       await this.setState({[name]: value});
     }           
 
+check(){
+    console.log(this.state.city);
+    function filterItems(allTimeZone, city) {
+        return allTimeZone.filter(function(el) {
+            return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
+        })
+      }
+    filterItems(allTimeZone, this.state.city).map(x => console.log(x));
+}
+
+
+showTimeZoneList(){
+let c = allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
+if(c.length > 0){
+    if(c.map(item =>(<option key = {item}>{item}</option>).length > 0)){
+        setTimeout(()=>{
+            const v = this.refs.timeZone.value;
+            if (this.state.timeZone !== v) {
+                this.setState({timeZone: v})
+            }
+        }, 0);        
+        return c.map(item =>(<option key = {item}>{item}</option>));
+    }
+}else{
+    return allTimeZone.map(item =>(
+        <option key = {item}>{item}</option>
+    ));
+}
+   
+}
     async onSubmit(e){
         //let s = this.state;
         e.preventDefault();
@@ -45,158 +79,69 @@ export default class AddFriend extends Component {
     }*/
 
     render() {
-        const allTimeZone =  moment.tz.names();
+        console.log(this.state.city);
         return (
-            <div>
-        <form
-          className="needs-validation"
-          style = {{margin: 50}}
-          onSubmit={(e) => this.onSubmit(e)}
-          noValidate
-          ref="form"
-        >
-          <MDBRow>
-            <MDBCol md="6" className="mb-3">
-              <label
-                htmlFor="defaultFormRegisterNameEx"
-                className="grey-text"
-              >
-                First name
-              </label>
-              <input
-                value={this.state.name}
-                name="firstName"
-                onChange={this.handleUserInput}
-                type="text"
-                id="defaultFormRegisterNameEx"
-                className="form-control"
-                placeholder="First name"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </MDBCol>
-            <MDBCol md="6" className="mb-3">
-              <label
-                htmlFor="defaultFormRegisterEmailEx2"
-                className="grey-text"
-              >
-                Last name
-              </label>
-              <input
-                value={this.state.lastName}
-                name="lastName"
-                onChange={this.handleUserInput}
-                type="text"
-                id="defaultFormRegisterEmailEx2"
-                className="form-control"
-                placeholder="Last name"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </MDBCol>
-            <MDBCol md="6" className="mb-3">
-              <label
-                htmlFor="defaultFormRegisterEmailEx2"
-                className="grey-text"
-              >
-                Phone number
-              </label>
-              <input
-                value={this.state.phoneNumber}
-                name="phoneNumber"
-                onChange={this.handleUserInput}
-                type="text"
-                id="defaultFormRegisterEmailEx2"
-                className="form-control"
-                placeholder="Phone number"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </MDBCol>
+            <>
+            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
+            <Form.Row>
+                <Form.Group as={Col} controlId="formGridFirstName" value={this.state.name} 
+                onChange={this.handleUserInput} >
+                <Form.Label >First name</Form.Label>
+                <Form.Control  name="firstName" placeholder="Enter name" />
+                </Form.Group>
 
-            <MDBCol md="6" className="mb-3">
-              <label
-                htmlFor="defaultFormRegisterEmailEx2"
-                className="grey-text"
-              >
-                Email
-              </label>
-              <input
-                value={this.state.ememailAddressail}
-                name="emailAddress"
-                onChange={this.handleUserInput}
-                type="text"
-                id="defaultFormRegisterEmailEx2"
-                className="form-control"
-                placeholder="Your Email address"
-                required
-              />
-              <div className="valid-feedback">Looks good!</div>
-            </MDBCol>
+                <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Last name</Form.Label>
+                <Form.Control name="lastName" placeholder="Last name" />
+                </Form.Group>
+            </Form.Row>
 
-          </MDBRow>
-          <MDBRow>
-            <MDBCol md="4" className="mb-3">
-              <label
-                htmlFor="defaultFormRegisterPasswordEx4"
-                className="grey-text"
-              >
-                City
-              </label>
-              <input
-                value={this.state.city}
-                onChange={this.handleUserInput}
-                type="text"
-                id="defaultFormRegisterPasswordEx4"
-                className="form-control"
-                name="city"
-                placeholder="City"
-                required
-              />
-              <div className="invalid-feedback">
-                Please provide a valid city.
-              </div>
-              <div className="valid-feedback">Looks good!</div>
-            </MDBCol>
-            <MDBCol md="4" className="mb-3">
-              <label
-                htmlFor="defaultFormRegisterPasswordEx4"
-                className="grey-text"
-              >
-                Country
-              </label>
-              <input
-                value={this.state.country}
-                onChange={this.handleUserInput}
-                type="text"
-                id="defaultFormRegisterPasswordEx4"
-                className="form-control"
-                name="country"
-                placeholder="country"
-                required
-              />
-              <div className="invalid-feedback">
-                Please provide a valid state.
-              </div>
-              <div className="valid-feedback">Looks good!</div>
-            </MDBCol>
+            <Form.Row>
+            <Form.Group as={Col} controlId="formGridPhoneNumber" value={this.state.phoneNumber} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Phone number</Form.Label>
+                <Form.Control name="phoneNumber" placeholder="Phone number" />
+            </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridState" value={this.state.timeZone} 
+            <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddress} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Email address</Form.Label>
+                <Form.Control name="emailAddress" placeholder="Email address" />
+            </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+                <Form.Group as={Col} controlId="formGridCity" value={this.state.city} 
+                onChange={this.handleUserInput}>
+                <Form.Label>City</Form.Label>
+                <Form.Control name="city" placeholder="City" ref ="city"/>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridCountry" value={this.state.country} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Country</Form.Label>
+                <Form.Control name="country" placeholder="Country" ref ="country"/>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone} 
                 onChange={this.handleUserInput} >
                 <Form.Label>Time zone</Form.Label>
-                <Form.Control as="select" name="timeZone" placeholder="Country">
-                    {allTimeZone.map(item =>(
-                        <option key = {item}>{item}</option>
-                    ))}
+                <Form.Control as="select" name="timeZone" ref ="timeZone">
+                    {this.showTimeZoneList()}
                 </Form.Control >
                 </Form.Group>
-           
-          </MDBRow>
-          <MDBBtn color="primary" type="submit">
-            Submit Form
-          </MDBBtn>
-        </form>
-      </div>
+
+
+            </Form.Row>
+
+            <Button variant="primary" type="submit">
+                Submit
+            </Button>
+            
+            </Form>
+            
+            </>
         );
     }
 }
