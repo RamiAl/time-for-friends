@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import Geocode from "react-geocode";
 import {Friend} from 'the.rest/dist/to-import';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 class Maps extends Component{
   constructor(props) {
     super(props);
+
+    // Hack because InfoWindow won't accept onClick or Links inside
+    document.body.addEventListener('click', (e) => {
+      if((e.target.getAttribute('class') + '').includes('more-info-btn')){
+        let id = e.target.getAttribute('data-id');
+        this.props.history.push(`/friendPage/${id}`);
+      }
+    });
 
     this.state = {
       stores: [],
@@ -16,9 +26,8 @@ class Maps extends Component{
       positionOnMap: true,
       showingInfoWindow: false,
       activeMarker: {},
-      selectedFriend: ''
+      selectedFriend: {}
     }
-
   }
 
   async getCoordinates(){
@@ -57,7 +66,7 @@ class Maps extends Component{
       Geocode.fromAddress(position).then(
         response => {
           const { lat, lng } = response.results[0].geometry.location;
-          this.setState({ stores: [...this.state.stores, {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': this.state._id}]})       
+          this.setState({ stores: [...this.state.stores, {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})       
         },
         error => {
          // this.setState({positionOnMap: false})
@@ -84,8 +93,7 @@ class Maps extends Component{
         this.setState({
           activeMarker: marker,
           showingInfoWindow: true,
-          //selectedFriend: [...this.state.selectedFriend, {'name': store.firstName , 'id': store.personId} ],
-          selectedFriend: store.firstName
+          selectedFriend: {name: store.firstName , id: store.personId},
         });
       }}/>
     })    
@@ -112,9 +120,9 @@ class Maps extends Component{
               marker = { this.state.activeMarker }
               visible = { this.state.showingInfoWindow }
               >
-                <h5>{this.state.selectedFriend}</h5>
+                <h5>{this.state.selectedFriend.name}</h5>
+                <button type="button" data-id={this.state.selectedFriend.id} className="btn btn-secondary backButton more-info-btn">More</button>
               </InfoWindow>
-
             </Map> 
           </>
         );  
@@ -142,7 +150,7 @@ class Maps extends Component{
                 marker = { this.state.activeMarker }
                 visible = { this.state.showingInfoWindow }
                 >
-                  <h5>{this.state.selectedFriend}</h5>
+                  <h5>{this.state.selectedFriend.name}</h5>
                 </InfoWindow>
               </Map> 
               :
@@ -154,7 +162,7 @@ class Maps extends Component{
     }
 }
 
-export default GoogleApiWrapper({
+export default withRouter(GoogleApiWrapper({
   apiKey: 'AIzaSyD3ErY-Q67YU4XDKrtsPj8iA3xYfMo-0CI'
-})(Maps);
+})(Maps));
 
