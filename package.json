@@ -19,7 +19,7 @@
     "react-dom": "^16.9.0",
     "react-fontawesome": "^1.6.1",
     "react-geocode": "^0.2.0",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.1.0",
     "react-scripts": "3.1.1",
     "react-time-range-slider": "^1.1.2",
     "reactstrap": "^8.0.1",
