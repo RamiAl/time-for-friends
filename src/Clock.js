@@ -41,6 +41,18 @@ export default class Clock extends Component{
     }
 
 
+    checkTime(){
+       if (this.state.time > '06:00:00') {
+           if(this.state.time < '20:00:00'){
+             return <i className="fas fa-sun"></i>;  
+           }else{
+            return <i className="fas fa-moon"></i>;
+        }
+       }else{
+           return <i className="fas fa-moon"></i>;
+       }
+    }
+
     render(){
        
         return(
