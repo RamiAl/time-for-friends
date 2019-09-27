@@ -18,7 +18,6 @@ render() {
           <NavLink className="nav-placment navLinkStyle" to='/'>Home</NavLink>
           <NavLink className="nav-placment navLinkStyle" to='/addfriend'>Add Friend</NavLink>
           <NavLink className="nav-placment navLinkStyle" to='/searchfriend'>Search For Friend</NavLink>
-          <NavLink className="nav-placment disabled" to=''><i className="fas fa-sun"></i></NavLink>
           <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
           
         </Nav>
