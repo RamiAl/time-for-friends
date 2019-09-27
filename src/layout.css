@@ -119,3 +119,10 @@ html {
   .backButton{
     margin:1vh 2vw;
   }
+
+  .scrollTop{
+    background-color: white;
+  }
+  .scrollTop:hover{
+    background-color: black;
+  }

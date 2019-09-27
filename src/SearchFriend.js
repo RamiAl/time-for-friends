@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import FriendsList from './FriendsList'
 import TimeRangeSlider from 'react-time-range-slider';
+import ScrollTop from "react-scrolltop-button";
+import MyIcon from "react-scrolltop-button";
 
 export default class SearchFriend extends Component {
     async componentDidMount(){
@@ -37,41 +39,51 @@ export default class SearchFriend extends Component {
 
     render() {
         return (
-            <Form className = "searchPage">
-                <Form.Row>
-                    <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
-                    onChange={this.handleUserInput} >
-                    <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
-                    <Form.Control name="name" placeholder="Name" />
-                    </Form.Group>
+            <>
+                <ScrollTop
+                text="To the top"
+                distance={100}
+                breakpoint={768}
+                className="scroll-your-role scrollTop"
+                speed={1000}
+                icon={<MyIcon />}
+                />
+                <Form className = "searchPage">
+                    <Form.Row>
+                        <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
+                        onChange={this.handleUserInput} >
+                        <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
+                        <Form.Control name="name" placeholder="Name" />
+                        </Form.Group>
 
-                    <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
-                    onChange={this.handleUserInput} >
-                    <Form.Label>Sort by</Form.Label>
-                    <Form.Control as="select" name="sortBy" placeholder="Country">
-                    <option value = "firstName">First name</option>
-                    <option value = "lastName">Last name</option>
-                    <option value = "timeZone">Time zone</option>
-                    </Form.Control >
-                    </Form.Group>
-                </Form.Row>
+                        <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
+                        onChange={this.handleUserInput} >
+                        <Form.Label>Sort by</Form.Label>
+                        <Form.Control as="select" name="sortBy" placeholder="Country">
+                        <option value = "firstName">First name</option>
+                        <option value = "lastName">Last name</option>
+                        <option value = "timeZone">Time zone</option>
+                        </Form.Control >
+                        </Form.Group>
+                    </Form.Row>
 
-                <TimeRangeSlider 
-                format={24}
-                maxValue={"23:59"}
-                minValue={"00:00"}
-                name={"time_range"}
-                onChange={this.timeChangeHandler}
-                step={15}
-                value={this.state.value}/>
-                    
-                <div className = "timeRange">
-                    <h5>start: {this.state.value.start}</h5>
-                    <h5>end: {this.state.value.end}</h5>
-                </div>
+                    <TimeRangeSlider 
+                    format={24}
+                    maxValue={"23:59"}
+                    minValue={"00:00"}
+                    name={"time_range"}
+                    onChange={this.timeChangeHandler}
+                    step={15}
+                    value={this.state.value}/>
+                        
+                    <div className = "timeRange">
+                        <h5>start: {this.state.value.start}</h5>
+                        <h5>end: {this.state.value.end}</h5>
+                    </div>
 
-                <FriendsList {...this.state}/>
-            </Form>
+                    <FriendsList {...this.state}/>
+                </Form>
+            </>
         );
     }
 }
