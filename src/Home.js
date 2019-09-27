@@ -3,16 +3,19 @@ import Maps from './Maps'
 //import Clock from './Clock'
 export default class Home extends Component {
     render() {
-        const textStyle = {
-            margin: '2vh 0vw 0 27vw' 
+        const infoStyle = {
+            fontSize: '3vw',
+            textAlign: 'center',
         }
         const welcomStyle = {
-            margin: '2vh 0 0 40vw'
+            marginTop: '2vh',
+            fontSize: '4vw',
+            textAlign: 'center',
         }
         return(
             <>
-                <h1 style = {welcomStyle}>Welcome!</h1>
-                <h3 style = {textStyle}>Here you can see where your friends are on the map</h3>
+                <p style = {welcomStyle}>Welcome!</p>
+                <p style = {infoStyle}>Here you can see where your friends are on the map</p>
                 <Maps />
             </>
         ); 
