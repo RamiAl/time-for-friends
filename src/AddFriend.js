@@ -3,7 +3,7 @@ import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
 
