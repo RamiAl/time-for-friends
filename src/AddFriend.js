@@ -1,9 +1,9 @@
 import React, {Component} from  'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Col';
 import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
 
@@ -11,6 +11,7 @@ const allTimeZone =  moment.tz.names();
 export default class AddFriend extends Component {
 
     async componentDidMount(){
+    
     }
     constructor(props) {
         super(props);
@@ -26,62 +27,48 @@ export default class AddFriend extends Component {
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
 
-    async handleUserInput (e) {
+    handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-       await this.setState({[name]: value});
+        this.setState({[name]: value}); 
     }           
 
-check(){
-    console.log(this.state.city);
-    function filterItems(allTimeZone, city) {
-        return allTimeZone.filter(function(el) {
-            return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
-        })
-      }
-    filterItems(allTimeZone, this.state.city).map(x => console.log(x));
-}
-
-
-showTimeZoneList(){
-let c = allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
-if(c.length > 0){
-    if(c.map(item =>(<option key = {item}>{item}</option>).length > 0)){
-        setTimeout(()=>{
-            const v = this.refs.timeZone.value;
-            if (this.state.timeZone !== v) {
-                this.setState({timeZone: v})
-            }
-        }, 0);        
-        return c.map(item =>(<option key = {item}>{item}</option>));
-    }
-}else{
-    return allTimeZone.map(item =>(
-        <option key = {item}>{item}</option>
-    ));
-}
-   
-}
     async onSubmit(e){
-        //let s = this.state;
         e.preventDefault();
-        e.target.className += " was-validated"; 
-        //if (s.firstName.length >= 3 &&  s.lastName.length >= 3 && s.phoneNumber.length === 9 && s.city.length >= 3 && s.country.length >= 3 && this.validateEmail(s.emailAddress)){
-            let friend = new Friend (this.state);
-            await friend.save();
-            this.props.history.push(`/friendPage/${friend._id}`)
-        //}
+        console.log(this.state);
+        
+        let friend = new Friend (this.state);
+        await friend.save();
+        
+        let allFriends = await Friend.find().catch(console.error());
+        console.log('All friends', allFriends);
+
+        this.refs.form.reset();
+        alert('*** You added a new friend ***')
     }
 
-    /*validateEmail(email) {   
-        const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-        return emailRegex.test(email);
-    }*/
+    showTimeZoneList(){
+        let c = allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
+        if(c.length > 0){
+            if(c.map(item =>(<option key = {item}>{item}</option>).length > 0)){
+                setTimeout(()=>{
+                    const v = this.refs.timeZone.value;
+                    if (this.state.timeZone !== v) {
+                        this.setState({timeZone: v})
+                    }
+                }, 0);        
+                return c.map(item =>(<option key = {item}>{item}</option>));
+            }
+        }else{
+            return allTimeZone.map(item =>(
+                <option key = {item}>{item}</option>
+            ));
+        }
+    }
+
 
     render() {
-        console.log(this.state.city);
         return (
-            <>
             <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridFirstName" value={this.state.name} 
@@ -94,10 +81,11 @@ if(c.length > 0){
                 onChange={this.handleUserInput}>
                 <Form.Label>Last name</Form.Label>
                 <Form.Control name="lastName" placeholder="Last name" />
-                </Form.Group>
+                </Form.Group>                
             </Form.Row>
 
             <Form.Row>
+
             <Form.Group as={Col} controlId="formGridPhoneNumber" value={this.state.phoneNumber} 
                 onChange={this.handleUserInput}>
                 <Form.Label>Phone number</Form.Label>
@@ -112,18 +100,19 @@ if(c.length > 0){
             </Form.Row>
 
             <Form.Row>
-                <Form.Group as={Col} controlId="formGridCity" value={this.state.city} 
+
+            <Form.Group as={Col} controlId="formGridCity" value={this.state.city} 
                 onChange={this.handleUserInput}>
                 <Form.Label>City</Form.Label>
                 <Form.Control name="city" placeholder="City" ref ="city"/>
                 </Form.Group>
-
+            
                 <Form.Group as={Col} controlId="formGridCountry" value={this.state.country} 
                 onChange={this.handleUserInput}>
                 <Form.Label>Country</Form.Label>
                 <Form.Control name="country" placeholder="Country" ref ="country"/>
                 </Form.Group>
-
+                
                 <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone} 
                 onChange={this.handleUserInput} >
                 <Form.Label>Time zone</Form.Label>
@@ -131,20 +120,12 @@ if(c.length > 0){
                     {this.showTimeZoneList()}
                 </Form.Control >
                 </Form.Group>
-
-
             </Form.Row>
 
             <Button variant="primary" type="submit">
-                Submit
+                Add
             </Button>
-            
             </Form>
-            
-            </>
         );
     }
 }
-
-
-
