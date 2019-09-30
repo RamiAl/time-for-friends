@@ -5,7 +5,7 @@ import {Friend} from 'the.rest/dist/to-import';
 import Clock from './Clock'
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
-
+import store from './utilities/Store';
 export default class FriendPage extends Component {
     state = {
         friend: {}
@@ -13,6 +13,7 @@ export default class FriendPage extends Component {
     
     componentDidMount(){
         this.getTheFriend();
+        store.subscribeToChanges(this.storeSubscriber);
     }
 
     async getTheFriend(){
@@ -25,9 +26,12 @@ export default class FriendPage extends Component {
         let friend = this.state.friend;
         return (
             <>
-                <Link to={`/searchfriend`} className="linkStyle">
+            {store.lang ? <Link to={`/searchfriend`} className="linkStyle">
                     <button type="button" className="btn btn-secondary backButton">Back</button>
-                </Link>
+                </Link>:<Link to={`/searchfriend`} className="linkStyle">
+                    <button type="button" className="btn btn-secondary backButton">Tillbacka</button>
+                </Link>}
+                
                 <div className = "friendItem">
                     <h3>{friend.firstName} {friend.lastName}</h3>
                     <Form.Row>
@@ -44,10 +48,11 @@ export default class FriendPage extends Component {
                     </Form.Row>
                     <Clock {...friend}/>
 
-
-                    <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
+                    {store.lang ? <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
                         <button type="button" className="btn btn-secondary backButton">View in map</button>
-                    </Link>
+                    </Link>: <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
+                        <button type="button" className="btn btn-secondary backButton">Visa på kartan</button>
+                    </Link>}
                 </div>
             </>
             );
