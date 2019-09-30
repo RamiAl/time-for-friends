@@ -4,11 +4,11 @@ import Geocode from "react-geocode";
 import {Friend} from 'the.rest/dist/to-import';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-
+import store from './utilities/Store';
 class Maps extends Component{
   constructor(props) {
     super(props);
-
+    store.subscribeToChanges(this.storeSubscriber);
     // Hack because InfoWindow won't accept onClick or Links inside
     document.body.addEventListener('click', (e) => {
       if((e.target.getAttribute('class') + '').includes('more-info-btn')){
@@ -121,8 +121,10 @@ class Maps extends Component{
               visible = { this.state.showingInfoWindow }
               >
                 <h5>{this.state.selectedFriend.name}</h5>
+              {store.lang ? <button type="button" data-id={this.state.selectedFriend.id} 
+                className="btn btn-secondary backButton more-info-btn">More info</button>:
                 <button type="button" data-id={this.state.selectedFriend.id} 
-                className="btn btn-secondary backButton more-info-btn">More info</button>
+                className="btn btn-secondary backButton more-info-btn">Mer information</button>}
               </InfoWindow>
             </Map> 
           </>
@@ -131,9 +133,12 @@ class Maps extends Component{
       else {
         return (
           <>
-            <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
+          {store.lang ? <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
               <button type="button" className="btn btn-secondary backButton">Back</button>
-            </Link>
+            </Link>:
+          <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
+          <button type="button" className="btn btn-secondary backButton">Tillbacka</button>
+        </Link>}
             {this.state.positionOnMap ? 
               <Map
                 id='map'
