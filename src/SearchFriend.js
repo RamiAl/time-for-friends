@@ -48,25 +48,27 @@ export default class SearchFriend extends Component {
                 speed={1000}
                 icon={<MyIcon />}
                 />
-                <Form className = "searchPage">
-                    <Form.Row>
-                        <Form.Group as={Col} controlId="formGridName" value={this.state.name} 
+                <Form className="searchPage">
+                <div className="container-fluid ">
+                    <div className="row ">
+
+                        <Form.Group className="col-md-8" controlId="formGridName" value={this.state.name} 
                         onChange={this.handleUserInput} >
-                        <Form.Label style = {{fontSize: 50}}>Search</Form.Label>
+                        <Form.Label style = {{fontSize: 50}} >Search</Form.Label>
                         <Form.Control name="name" placeholder="Name" />
                         </Form.Group>
 
-                        <Form.Group className = "m-5" as={Col} controlId="formGridState" value={this.state.timeZone} 
+                        <Form.Group className="col-md-4 sortBy" controlId="formGridState" value={this.state.timeZone} 
                         onChange={this.handleUserInput} >
-                        <Form.Label>Sort by</Form.Label>
+                        <Form.Label >Sort by</Form.Label>
                         <Form.Control as="select" name="sortBy" placeholder="Country">
                         <option value = "firstName">First name</option>
                         <option value = "lastName">Last name</option>
                         <option value = "timeZone">Time zone</option>
                         </Form.Control >
                         </Form.Group>
-                    </Form.Row>
-
+                        </div>
+                    </div>
                     <TimeRangeSlider 
                     format={24}
                     maxValue={"23:59"}
@@ -77,8 +79,8 @@ export default class SearchFriend extends Component {
                     value={this.state.value}/>
                         
                     <div className = "timeRange">
-                        <h5>start: {this.state.value.start}</h5>
-                        <h5>end: {this.state.value.end}</h5>
+                        <h6>start: {this.state.value.start}</h6>
+                        <h6>end: {this.state.value.end}</h6>
                     </div>
 
                     <FriendsList {...this.state}/>
