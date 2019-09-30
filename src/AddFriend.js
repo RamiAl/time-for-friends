@@ -68,7 +68,6 @@ if(c.length > 0){
    
 }
     async onSubmit(e){
-        console.log(this.state.timeZone);
         
         //let s = this.state;
         e.preventDefault();
@@ -90,12 +89,6 @@ async vald(){
     await this.valFirstName();
     await this.valLastName();
     await this.valTimeZone();
-    console.log(this.state.showFirstName);
-    console.log(this.state.showLastName);
-    console.log(this.state.showTimeZone);
-    setTimeout(()=>{
-        
-    }, 0);    
     if (this.state.showFirstName === false 
         && this.state.showLastName === false 
         && this.state.showTimeZone === false) {
@@ -118,34 +111,6 @@ valLastName(){
         this.setState({showLastName: true})
     }else{
         this.setState({showLastName: false})
-    }
-}
-valPhoneNumber(){
-    if (this.state.phoneNumber ==='') {
-        return false
-    }else{
-        return true
-    }
-}
-valEmailAddress(){
-    if (this.state.phoneNumber ==='') {
-        return false
-    }else{
-        return true
-    }
-}
-valCity(){
-    if (this.state.city ==='') {
-        return false
-    }else{
-        return true
-    }
-}
-valCountry(){
-    if (this.state.country ==='') {
-        return false
-    }else{
-        return true
     }
 }
 valTimeZone(){
