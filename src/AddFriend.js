@@ -6,13 +6,16 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
+import store from './utilities/Store';
 
 const allTimeZone =  moment.tz.names();
-allTimeZone.unshift("Choose timezone");
 
+{store.lang ? allTimeZone.unshift("Choose timezone") : allTimeZone.unshift("Välj en Tidszon")}
 export default class AddFriend extends Component {
-
+    
     async componentDidMount(){
+    store.subscribeToChanges(this.storeSubscriber);
+    
     }
     constructor(props) {
         super(props);
@@ -131,19 +134,19 @@ valTimeZone(){
         //console.log(this.state.city);
         return (
             <>
-            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
+            {store.lang ? <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
             <Form.Row>
                 <Form.Group as={Col} controlId="formGridFirstName" value={this.state.name} 
                 onChange={this.handleUserInput} >
-                <Form.Label >First name</Form.Label>
+                <Form.Label>First name</Form.Label>
                 <Form.Control  name="firstName" placeholder="Enter name" />
-                {(this.state.showFirstName ? <Form.Label className="error">File in name</Form.Label>:<Form.Label ></Form.Label>)}
+                {(this.state.showFirstName ? <Form.Label className="error">File in Firstname</Form.Label>:<Form.Label ></Form.Label>)}
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName} 
                 onChange={this.handleUserInput}>
                 <Form.Label>Last name</Form.Label>
                 <Form.Control name="lastName" placeholder="Last name" />
-                {(this.state.showLastName ? <Form.Label className="error">File in lastName</Form.Label>:<Form.Label ></Form.Label>)}
+                {(this.state.showLastName ? <Form.Label className="error">File in Lastname</Form.Label>:<Form.Label ></Form.Label>)}
                 </Form.Group>
             </Form.Row>
 
@@ -190,7 +193,72 @@ valTimeZone(){
                 Submit
             </Button>
             
+            </Form> 
+            
+            : 
+            
+            <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
+            <Form.Row>
+                <Form.Group as={Col} controlId="formGridFirstName" value={this.state.name} 
+                onChange={this.handleUserInput} >
+                <Form.Label>Förnamn</Form.Label>
+                <Form.Control  name="firstName" placeholder="Skriv in förnamn" />
+                {(this.state.showFirstName ? <Form.Label className="error">Fyll i namn</Form.Label>:<Form.Label ></Form.Label>)}
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Efternamn</Form.Label>
+                <Form.Control name="lastName" placeholder="Efternamn" />
+                {(this.state.showLastName ? <Form.Label className="error">Fyll i Efternamn</Form.Label>:<Form.Label ></Form.Label>)}
+                </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+            <Form.Group as={Col} controlId="formGridPhoneNumber" value={this.state.phoneNumber} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Telefon nummer</Form.Label>
+                <Form.Control name="phoneNumber" placeholder="Telefon nummer" />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddress} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Email address</Form.Label>
+                <Form.Control name="emailAddress" placeholder="Email address" />
+            </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+                <Form.Group as={Col} controlId="formGridCity" value={this.state.city} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Stad</Form.Label>
+                <Form.Control name="city" placeholder="Stad" ref ="city"/>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridCountry" value={this.state.country} 
+                onChange={this.handleUserInput}>
+                <Form.Label>Land</Form.Label>
+                <Form.Control name="country" placeholder="Land" ref ="cuntry"/>
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone} 
+                onChange={this.handleUserInput} >
+                <Form.Label>Tidszon</Form.Label>
+                <Form.Control as="select" name="timeZone" ref ="timeZone">
+                    {this.showTimeZoneList()}
+                </Form.Control >
+                {(this.state.showTimeZone ? <Form.Label className="error">Välj en Tidszon</Form.Label>:<Form.Label ></Form.Label>)}
+                </Form.Group>
+
+
+            </Form.Row>
+
+            <Button variant="primary" type="submit">
+                Sicka
+            </Button>
+            
             </Form>
+        }
+            
             
             </>
         );
