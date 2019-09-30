@@ -119,3 +119,7 @@ html {
   .backButton{
     margin:1vh 2vw;
   }
+
+  .error{
+color: red;
+  }

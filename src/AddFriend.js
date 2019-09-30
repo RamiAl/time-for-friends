@@ -8,6 +8,8 @@ import {Friend} from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
 
 const allTimeZone =  moment.tz.names();
+allTimeZone.unshift("Choose timezone");
+
 export default class AddFriend extends Component {
 
     async componentDidMount(){
@@ -21,7 +23,10 @@ export default class AddFriend extends Component {
             emailAddress: '',
             city: '',
             country: '',
-            timeZone: ''
+            timeZone: '',
+            showFirstName: false,
+            showLastName: false,
+            showTimeZone: false,
           };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
@@ -63,23 +68,102 @@ if(c.length > 0){
    
 }
     async onSubmit(e){
+        console.log(this.state.timeZone);
+        
         //let s = this.state;
         e.preventDefault();
-        e.target.className += " was-validated"; 
+        
         //if (s.firstName.length >= 3 &&  s.lastName.length >= 3 && s.phoneNumber.length === 9 && s.city.length >= 3 && s.country.length >= 3 && this.validateEmail(s.emailAddress)){
+            
+        //}
+      
+        if (await this.vald() === true) {
+            //e.target.className += " was-validated"; 
             let friend = new Friend (this.state);
             await friend.save();
             this.props.history.push(`/friendPage/${friend._id}`)
-        //}
+        }
+        
     }
+
+async vald(){
+    await this.valFirstName();
+    await this.valLastName();
+    await this.valTimeZone();
+    console.log(this.state.showFirstName);
+    console.log(this.state.showLastName);
+    console.log(this.state.showTimeZone);
+    setTimeout(()=>{
+        
+    }, 0);    
+    if (this.state.showFirstName === false 
+        && this.state.showLastName === false 
+        && this.state.showTimeZone === false) {
+            return true
+    }else{
+            return false   
+    }      
+}
+
+    
+valFirstName(){
+    if (this.state.firstName ==='') {
+        this.setState({showFirstName: true})
+    }else{
+        this.setState({showFirstName: false})
+    }
+}
+valLastName(){
+    if (this.state.lastName ==='') {
+        this.setState({showLastName: true})
+    }else{
+        this.setState({showLastName: false})
+    }
+}
+valPhoneNumber(){
+    if (this.state.phoneNumber ==='') {
+        return false
+    }else{
+        return true
+    }
+}
+valEmailAddress(){
+    if (this.state.phoneNumber ==='') {
+        return false
+    }else{
+        return true
+    }
+}
+valCity(){
+    if (this.state.city ==='') {
+        return false
+    }else{
+        return true
+    }
+}
+valCountry(){
+    if (this.state.country ==='') {
+        return false
+    }else{
+        return true
+    }
+}
+valTimeZone(){
+    if (this.state.timeZone ==='' || this.state.timeZone ==='Choose timezone') {
+        this.setState({showTimeZone: true})
+    }else{
+        this.setState({showTimeZone: false})
+    }
+}
 
     /*validateEmail(email) {   
         const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
         return emailRegex.test(email);
     }*/
 
+    ///<Form.Control  name="firstName" placeholder="Enter name" />
     render() {
-        console.log(this.state.city);
+        //console.log(this.state.city);
         return (
             <>
             <Form style = {{margin: 50}} onSubmit={(e) => this.onSubmit(e)} ref="form">
@@ -88,12 +172,13 @@ if(c.length > 0){
                 onChange={this.handleUserInput} >
                 <Form.Label >First name</Form.Label>
                 <Form.Control  name="firstName" placeholder="Enter name" />
+                {(this.state.showFirstName ? <Form.Label className="error">File in name</Form.Label>:<Form.Label ></Form.Label>)}
                 </Form.Group>
-
                 <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName} 
                 onChange={this.handleUserInput}>
                 <Form.Label>Last name</Form.Label>
                 <Form.Control name="lastName" placeholder="Last name" />
+                {(this.state.showLastName ? <Form.Label className="error">File in lastName</Form.Label>:<Form.Label ></Form.Label>)}
                 </Form.Group>
             </Form.Row>
 
@@ -130,6 +215,7 @@ if(c.length > 0){
                 <Form.Control as="select" name="timeZone" ref ="timeZone">
                     {this.showTimeZoneList()}
                 </Form.Control >
+                {(this.state.showTimeZone ? <Form.Label className="error">Choose a timezone</Form.Label>:<Form.Label ></Form.Label>)}
                 </Form.Group>
 
 
