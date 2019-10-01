@@ -2,7 +2,6 @@ import React, {Component} from  'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
 import FriendsList from './FriendsList'
 import TimeRangeSlider from 'react-time-range-slider';
 import ScrollTop from "react-scrolltop-button";

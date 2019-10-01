@@ -26,7 +26,7 @@ export default class FriendPage extends Component {
         return (
             <>
                 <Link to={`/searchfriend`} className="linkStyle">
-                    <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" className="btn btn-secondary backButton"><i className="fas fa-arrow-left"></i> Back</button>
                 </Link>
                 <div className="container-fluid friendItem">
                     <div className="row ">
