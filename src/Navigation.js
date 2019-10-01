@@ -5,7 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Clock from "./Clock";
 import { NavLink } from 'react-router-dom';
-
 class Navigation extends Component {
 
 render() {

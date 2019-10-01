@@ -16,9 +16,7 @@ export default class Home extends Component {
         }
         return(
             <>
-            {store.lang ? <> <p style = {welcomStyle}>Welcome!</p><p style = {infoStyle}>Here you can see where your friends are on the map</p> </> :
-             <> <p style = {welcomStyle}>Välkommen!</p><p style = {infoStyle}>Här kan du se var dina vänner är på kartan</p> </>}
-
+            <p style = {welcomStyle}>{store.lang ? 'Welcome!': 'Välkommen!'}</p><p style = {infoStyle}> {store.lang ? 'Here you can see where your friends are on the map' : 'Här kan du se var dinna vänner befiner sig på kartan'} </p>
                 <Maps />
             </>
         ); 

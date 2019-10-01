@@ -121,10 +121,8 @@ class Maps extends Component{
               visible = { this.state.showingInfoWindow }
               >
                 <h5>{this.state.selectedFriend.name}</h5>
-              {store.lang ? <button type="button" data-id={this.state.selectedFriend.id} 
-                className="btn btn-secondary backButton more-info-btn">More info</button>:
                 <button type="button" data-id={this.state.selectedFriend.id} 
-                className="btn btn-secondary backButton more-info-btn">Mer information</button>}
+                className="btn btn-secondary backButton more-info-btn">{store.lang ? 'More info': 'Mer information'}</button>
               </InfoWindow>
             </Map> 
           </>
@@ -133,12 +131,9 @@ class Maps extends Component{
       else {
         return (
           <>
-          {store.lang ? <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
-              <button type="button" className="btn btn-secondary backButton">Back</button>
-            </Link>:
           <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
-          <button type="button" className="btn btn-secondary backButton">Tillbacka</button>
-        </Link>}
+          <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i>{store.lang ? 'Back' : 'Tillbacka'}</button>
+            </Link>
             {this.state.positionOnMap ? 
               <Map
                 id='map'
@@ -160,7 +155,7 @@ class Maps extends Component{
                 </InfoWindow>
               </Map> 
               :
-              <h1 style = {{margin: 0}}>Position was not found</h1>
+              <h1 style = {{margin: 0}}>{store.lang ? 'Position was not found' : 'Platsen hittades inte'}</h1>
             }
           </>
         );

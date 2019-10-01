@@ -7,7 +7,7 @@ import FriendsList from './FriendsList'
 import TimeRangeSlider from 'react-time-range-slider';
 import ScrollTop from "react-scrolltop-button";
 import MyIcon from "react-scrolltop-button";
-
+import store from './utilities/Store';
 export default class SearchFriend extends Component {
     async componentDidMount(){
     }
@@ -23,6 +23,7 @@ export default class SearchFriend extends Component {
         };
         this.timeChangeHandler = this.timeChangeHandler.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
+        store.subscribeToChanges(this.storeSubscriber);
     } 
     
     handleUserInput (e) {
@@ -54,17 +55,17 @@ export default class SearchFriend extends Component {
 
                         <Form.Group className="col-md-8" controlId="formGridName" value={this.state.name} 
                         onChange={this.handleUserInput} >
-                        <Form.Label style = {{fontSize: 50}} >Search</Form.Label>
+                        <Form.Label style = {{fontSize: 50}} >{store.lang ?'Search':'Sök'}</Form.Label>
                         <Form.Control name="name" placeholder="Name" />
                         </Form.Group>
 
                         <Form.Group className="col-md-4 sortBy" controlId="formGridState" value={this.state.timeZone} 
                         onChange={this.handleUserInput} >
-                        <Form.Label >Sort by</Form.Label>
+                        <Form.Label >{store.lang ?'Sort by':'Sortera via'}</Form.Label>
                         <Form.Control as="select" name="sortBy" placeholder="Country">
-                        <option value = "firstName">First name</option>
-                        <option value = "lastName">Last name</option>
-                        <option value = "timeZone">Time zone</option>
+                        <option value = "firstName">{store.lang ?'First name':'Förnamn'}</option>
+                        <option value = "lastName">{store.lang ?'Last name':'Efternamn'}</option>
+                        <option value = "timeZone">{store.lang ?'Time zon':'Tidszone'}</option>
                         </Form.Control >
                         </Form.Group>
                         </div>
@@ -79,8 +80,8 @@ export default class SearchFriend extends Component {
                     value={this.state.value}/>
                         
                     <div className = "timeRange">
-                        <h6>start: {this.state.value.start}</h6>
-                        <h6>end: {this.state.value.end}</h6>
+                        <h6>{store.lang ?'start: ':'start: '} {this.state.value.start}</h6>
+                        <h6>{store.lang ?'end: ':'slut: '} {this.state.value.end}</h6>
                     </div>
 
                     <FriendsList {...this.state}/>

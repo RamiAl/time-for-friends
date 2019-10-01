@@ -26,28 +26,11 @@ export default class FriendPage extends Component {
         let friend = this.state.friend;
         return (
             <>
-            {store.lang ? <Link to={`/searchfriend`} className="linkStyle">
-                    <button type="button" className="btn btn-secondary backButton">Back</button>
-                </Link>:<Link to={`/searchfriend`} className="linkStyle">
-                    <button type="button" className="btn btn-secondary backButton">Tillbacka</button>
-                </Link>}
-                
-                <div className = "friendItem">
-                    <h3>{friend.firstName} {friend.lastName}</h3>
-                    <Form.Row>
-                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{friend.emailAddress}</p>
-                    </Form.Row>
-                    <Form.Row>
-                        <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{friend.phoneNumber}</p>
-                    </Form.Row>
-                    <Form.Row>
-                        <i className="fas fa-city icon"></i> <p className = "infoStyle">{friend.city}</p>
-                    </Form.Row>
-                    <Form.Row>
-                        <i className="fas fa-map icon"></i> <p className = "infoStyle">{friend.country}</p>
-                    </Form.Row>
-                    <Clock {...friend}/>
-
+                <Link to={`/searchfriend`} className="linkStyle">
+                <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i> {store.lang ? 'Back':'Tillbacka'}</button>
+                </Link>
+                <div className="container-fluid friendItem">
+                    <div className="row ">
                         <div className = "col-md-6">
                             <h3>{friend.firstName} {friend.lastName}</h3>
                             <Form.Row>
@@ -66,16 +49,12 @@ export default class FriendPage extends Component {
                         </div>
                         <div className = "viewOnMap  col-md-6">
                             <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
-                                <button type="button" className="btn btn-secondary viewOnMapButton">View on map</button>
+                                 <button type="button" className="btn btn-secondary viewOnMapButton">{store.lang ? 'View on map' :'Vissa på kartan'}</button> 
                             </Link>
                         </div>
                     </div>
-                    {store.lang ? <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
-                        <button type="button" className="btn btn-secondary backButton">View in map</button>
-                    </Link>: <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
-                        <button type="button" className="btn btn-secondary backButton">Visa på kartan</button>
-                    </Link>}
-                </div>
+            </div>
+            
             </>
             );
     }

@@ -5,8 +5,7 @@ export default class NoMatch extends Component{
         store.subscribeToChanges(this.storeSubscriber);
         return(
             <>
-            {store.lang ?<div>NO MATCH!</div> : <div>Inga träffar funna!</div> }  
-            
+            <div>{store.lang ? 'NO MATCH!' : 'Inga träffar funna!'}</div>  
             </>
         );
     }
