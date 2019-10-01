@@ -57,6 +57,19 @@ html {
     color: rgb(0, 107, 107);
   }
 
+  .plusButton{
+    width: 1vw;
+    height: 3vh;
+  }
+  div.plusteken{
+    display: flex;
+    justify-content: center;    
+    
+  }
+  .addFriendForm{
+    margin: 5vh 5vw
+  }
+
   .friendsList{
     background-color: rgb(254, 254, 254);
     justify-content: space-around;

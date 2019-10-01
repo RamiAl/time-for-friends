@@ -52,7 +52,7 @@ export default class FriendsList extends Component {
         }else {
             let allFriends = await Friend.find({}).sort(sortBy).limit(500);
             let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
-            this.setState({ "allFriends": filteredFriendsList });
+            this.setState({ allFriends: filteredFriendsList });
         } 
     }
 
@@ -70,6 +70,9 @@ export default class FriendsList extends Component {
 
         let startTime = moment(startTimeMilli).format('HH:mm');
         let endTime = moment(endTimeMilli).format('HH:mm');
+
+        this.state.allFriends.map(item =>console.log(item.emailAddresses[0])
+        )
         return (
             <div >
                 {this.state.allFriends.length === 0 ? <h3 style={{textAlign: 'center', marginTop: '20vh'}}>loading...</h3> : 
@@ -81,7 +84,7 @@ export default class FriendsList extends Component {
                                 <Link to={`/friendPage/${item._id}`} className="linkStyle">
                                     <h3>{item.firstName} {item.lastName}</h3>
                                     <Form.Row>
-                                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddress}</p>
+                                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddresses[0]}</p>
                                         <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{item.phoneNumber}</p>
                                     </Form.Row>
                                     <Form.Row>

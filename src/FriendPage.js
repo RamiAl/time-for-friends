@@ -33,9 +33,13 @@ export default class FriendPage extends Component {
 
                         <div className = "col-md-6">
                             <h3>{friend.firstName} {friend.lastName}</h3>
-                            <Form.Row>
-                                <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{friend.emailAddress}</p>
-                            </Form.Row>
+                           
+                                {friend.emailAddresses ? friend.emailAddresses.map(e => (
+                                 <Form.Row>    
+                                    <i className="fas fa-envelope icon"></i>
+                                    <p key={e}className = "infoStyle">{e}</p>                            
+                                </Form.Row>)
+                                ) : null}
                             <Form.Row>
                                 <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{friend.phoneNumber}</p>
                             </Form.Row>
