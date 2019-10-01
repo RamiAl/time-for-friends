@@ -16,10 +16,9 @@ export default class NoMatch extends Component{
     }
 
     componentWillUnmount(){
-        store.unsubsribeToCHanges(this.storeListener);
+        store.unsubscribeToChanges(this.storeListener);
     }
     render(){
-        
         return(
             <>
             <div>{this.state.lang ? 'NO MATCH!' : 'Inga träffar funna!'}</div>  

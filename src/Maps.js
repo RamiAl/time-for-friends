@@ -87,7 +87,7 @@ class Maps extends Component{
     }
   }
   componentWillUnmount(){
-    store.unsubsribeToCHanges(this.storeListener);
+    store.unsubscribeToChanges(this.storeListener);
 }
   displayMarkers = () => {
     return this.state.stores.map((store, index) => {

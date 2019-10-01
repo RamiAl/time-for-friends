@@ -9,8 +9,6 @@ import ScrollTop from "react-scrolltop-button";
 import MyIcon from "react-scrolltop-button";
 import store from './utilities/Store';
 export default class SearchFriend extends Component {
-    async componentDidMount(){
-    }
     constructor(props) {
         super(props);
         this.state = {
@@ -33,7 +31,7 @@ export default class SearchFriend extends Component {
     }
 
     componentWillUnmount(){
-        store.unsubsribeToCHanges(this.storeListener);
+        store.unsubscribeToChanges(this.storeListener);
     }
     handleUserInput (e) {
         const name = e.target.name;

@@ -3,6 +3,23 @@ import Maps from './Maps'
 //import Clock from './Clock'
 import store from './utilities/Store';
 export default class Home extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {lang: store.lang};
+    }
+
+    componentDidMount(){
+        this.storeListener = ()=>{
+            this.setState({lang: store.lang});   
+        };
+        store.subscribeToChanges(this.storeListener);
+    }
+
+    componentWillUnmount(){
+        store.unsubscribeToChanges(this.storeListener);
+    }
+
     render() {
         const infoStyle = {
             fontSize: '3vw',

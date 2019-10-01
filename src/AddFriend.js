@@ -38,7 +38,7 @@ export default class AddFriend extends Component {
     }
 
     componentWillUnmount(){
-        store.unsubsribeToCHanges(this.storeListener);
+        store.unsubscribeToChanges(this.storeListener);
     }
     async handleUserInput (e) {
         const name = e.target.name;

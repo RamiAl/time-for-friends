@@ -11,8 +11,7 @@ store.setState = (changeObject) => {
     // Notify all subscribers of changes
     console.log(subscribingFunctions);
     
-    for(let subscriber of subscribingFunctions){
-        
+    for(let subscriber of subscribingFunctions){ 
         subscriber(changeObject, store);
     }
 };

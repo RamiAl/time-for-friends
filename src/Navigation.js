@@ -18,27 +18,36 @@ componentDidMount(){
 };
 store.subscribeToChanges(this.storeListener);
 }
-
+componentWillUnmount(){
+  store.unsubscribeToChanges(this.storeListener);
+}
 switchlang() {
   console.log('hej');
-  store.setState({
-    lang: true
-  });      
+  if (store.lang === true){
+    store.setState({
+      lang: false
+    });
+  }else{
+    store.setState({
+      lang: true
+    });
+  }
+
+  console.log(this.state.lang);
+  
 }
 
 
 render() {
-  
-  
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand >Time for friends</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink className="nav-placment navLinkStyle" to='/'>Home</NavLink>
-          <NavLink className="nav-placment navLinkStyle" to='/addfriend'>Add Friend</NavLink>
-          <NavLink className="nav-placment navLinkStyle" to='/searchfriend'>Search For Friend</NavLink>
+          <NavLink className="nav-placment navLinkStyle" to='/'>{store.lang ? 'Home' :'Hem'}</NavLink>
+          <NavLink className="nav-placment navLinkStyle" to='/addfriend'>{store.lang ? 'Add Friend' :'Lägg till vän'}</NavLink>
+          <NavLink className="nav-placment navLinkStyle" to='/searchfriend'>{store.lang ? 'Search For Friend' :'Sök efter vän'}</NavLink>
           <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
           <button onClick={() => this.switchlang()}>{store.lang ? 'Switch to Sv' : 'Bytt till Eng'}</button>
         </Nav>
