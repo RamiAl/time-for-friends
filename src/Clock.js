@@ -57,12 +57,14 @@ export default class Clock extends Component{
        
         return(
             <>
-            {!this.offset ? <p key="b"> {this.checkTime()} Local time: {this.state.time}</p>  : [
-            <h3 key="c"> {this.state.time}</h3>,
-            <p key = "d"><b>{this.state.date} {this.checkTime()}</b></p>
-            ]}
-
-               
+                {this.props.clock ? 
+                [<h3 key="c"> {this.state.time} {this.checkTime()}</h3>,
+                <p key = "d"><b>{this.state.date}</b></p>] 
+                :
+                !this.offset ? <p key="b"> {this.checkTime()} Local time: {this.state.time}</p>  : [
+                <h3 key="c"> {this.state.time}</h3>,
+                <p key = "d"><b>{this.state.date} {this.checkTime()}</b></p>
+                ]}
             </>
         );
     }
