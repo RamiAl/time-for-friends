@@ -72,7 +72,7 @@ export default class FriendsList extends Component {
         let endTime = moment(endTimeMilli).format('HH:mm');
         return (
             <div >
-                {
+                {this.state.allFriends.length === 0 ? <h3 style={{textAlign: 'center', marginTop: '20vh'}}>loading...</h3> : 
                     this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm') 
                     && moment.tz(item.timeZone).format('HH:mm') <= endTime)
                     .map(item =>(

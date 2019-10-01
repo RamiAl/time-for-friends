@@ -122,6 +122,8 @@ html {
 
   .timeRange{
     margin-top: 3vh;
+    display: flex;
+    justify-content: space-between
   }
 
   .backButton{
