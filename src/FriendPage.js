@@ -26,31 +26,38 @@ export default class FriendPage extends Component {
         return (
             <>
                 <Link to={`/searchfriend`} className="linkStyle">
-                    <button type="button" className="btn btn-secondary backButton">Back</button>
+                    <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i> Back</button>
                 </Link>
-                <div className = "friendItem">
-                    <h3>{friend.firstName} {friend.lastName}</h3>
-                    <Form.Row>
-                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{friend.emailAddress}</p>
-                    </Form.Row>
-                    <Form.Row>
-                        <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{friend.phoneNumber}</p>
-                    </Form.Row>
-                    <Form.Row>
-                        <i className="fas fa-city icon"></i> <p className = "infoStyle">{friend.city}</p>
-                    </Form.Row>
-                    <Form.Row>
-                        <i className="fas fa-map icon"></i> <p className = "infoStyle">{friend.country}</p>
-                    </Form.Row>
-                    <Clock {...friend}/>
+                <div className="container-fluid friendItem">
+                    <div className="row ">
 
-
-                    <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
-                        <button type="button" className="btn btn-secondary backButton">View in map</button>
-                    </Link>
+                        <div className = "col-md-6">
+                            <h3>{friend.firstName} {friend.lastName}</h3>
+                            <Form.Row>
+                                <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{friend.emailAddress}</p>
+                            </Form.Row>
+                            <Form.Row>
+                                <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{friend.phoneNumber}</p>
+                            </Form.Row>
+                            <Form.Row>
+                                <i className="fas fa-city icon"></i> <p className = "infoStyle">{friend.city}</p>
+                            </Form.Row>
+                            <Form.Row>
+                                <i className="fas fa-map icon"></i> <p className = "infoStyle">{friend.country}</p>
+                            </Form.Row>
+                            <Clock {...friend}/>
+                        </div>
+                        <div className = "viewOnMap  col-md-6">
+                            <Link to={`/maps/${this.props.match.params.id}`} className="linkStyle">
+                                <button type="button" className="btn btn-secondary viewOnMapButton">View on map</button>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </>
             );
     }
 }
+
+
 

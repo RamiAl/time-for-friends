@@ -132,7 +132,7 @@ class Maps extends Component{
         return (
           <>
             <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
-              <button type="button" className="btn btn-secondary backButton">Back</button>
+              <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i> Back</button>
             </Link>
             {this.state.positionOnMap ? 
               <Map
