@@ -130,6 +130,10 @@ html {
     margin:1vh 2vw;
   }
 
+  .error{
+color: red;
+  }
+
   .viewOnMapButton{
     margin-top: 12vh;
     font-size: 20vw;
