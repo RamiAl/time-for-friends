@@ -9,10 +9,14 @@ store.setState = (changeObject) => {
     // Transfer changes to store object
     Object.assign(store, changeObject);
     // Notify all subscribers of changes
+    console.log(subscribingFunctions);
+    
     for(let subscriber of subscribingFunctions){
+        
         subscriber(changeObject, store);
     }
 };
+
 
 // A subscribing function should be ready to
 // receive to arguments - the changes and the
@@ -29,5 +33,8 @@ store.unsubscribeToChanges = (func) => {
     console.log("UNSUBSFRIBE", func)
     subscribingFunctions.splice(index, 1);
 }
+
+
+
 
 export default store;

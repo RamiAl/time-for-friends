@@ -4,7 +4,6 @@ import Maps from './Maps'
 import store from './utilities/Store';
 export default class Home extends Component {
     render() {
-        store.subscribeToChanges(this.storeSubscriber);
         const infoStyle = {
             fontSize: '3vw',
             textAlign: 'center',

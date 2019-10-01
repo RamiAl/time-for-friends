@@ -8,7 +8,6 @@ import store from './utilities/Store';
 class Maps extends Component{
   constructor(props) {
     super(props);
-    store.subscribeToChanges(this.storeSubscriber);
     // Hack because InfoWindow won't accept onClick or Links inside
     document.body.addEventListener('click', (e) => {
       if((e.target.getAttribute('class') + '').includes('more-info-btn')){
@@ -25,7 +24,8 @@ class Maps extends Component{
       positionOnMap: true,
       showingInfoWindow: false,
       activeMarker: {},
-      selectedFriend: {}
+      selectedFriend: {},
+      lang: store.lang
     }
   }
 
@@ -76,13 +76,19 @@ class Maps extends Component{
   }
 
   componentDidMount(){
+    this.storeListener = ()=>{
+      this.setState({lang: store.lang});   
+  };
+  store.subscribeToChanges(this.storeListener);
     if (window.location.pathname === '/'){
       this.getAllFriends()
     }else{
       this.getCoordinates()
     }
   }
-  
+  componentWillUnmount(){
+    store.unsubsribeToCHanges(this.storeListener);
+}
   displayMarkers = () => {
     return this.state.stores.map((store, index) => {
       return <Marker key={index} id={index} position={{

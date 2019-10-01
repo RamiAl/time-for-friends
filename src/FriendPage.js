@@ -7,13 +7,24 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import store from './utilities/Store';
 export default class FriendPage extends Component {
-    state = {
-        friend: {}
+
+    constructor(props){
+        super(props)
+        this.state = {lang: store.lang,
+            friend: {}
+        };
     }
     
     componentDidMount(){
         this.getTheFriend();
-        store.subscribeToChanges(this.storeSubscriber);
+        this.storeListener = ()=>{
+            this.setState({lang: store.lang});   
+        };
+        store.subscribeToChanges(this.storeListener);
+    }
+
+    componentWillUnmount(){
+        store.unsubsribeToCHanges(this.storeListener);
     }
 
     async getTheFriend(){

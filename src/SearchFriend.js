@@ -19,13 +19,22 @@ export default class SearchFriend extends Component {
             value: {
                 start: "00:00",
                 end: "23:59"
-            }
+            },
+            lang: store.lang
         };
         this.timeChangeHandler = this.timeChangeHandler.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
-        store.subscribeToChanges(this.storeSubscriber);
     } 
-    
+    componentDidMount(){
+        this.storeListener = ()=>{
+            this.setState({lang: store.lang});   
+        };
+        store.subscribeToChanges(this.storeListener);
+    }
+
+    componentWillUnmount(){
+        store.unsubsribeToCHanges(this.storeListener);
+    }
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;

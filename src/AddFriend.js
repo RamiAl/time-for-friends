@@ -12,11 +12,6 @@ const allTimeZone =  moment.tz.names();
 
 {store.lang ? allTimeZone.unshift("Choose timezone") : allTimeZone.unshift("Välj en Tidszon")}
 export default class AddFriend extends Component {
-    
-    async componentDidMount(){
-    store.subscribeToChanges(this.storeSubscriber);
-    
-    }
     constructor(props) {
         super(props);
         this.state = {
@@ -30,16 +25,27 @@ export default class AddFriend extends Component {
             showFirstName: false,
             showLastName: false,
             showTimeZone: false,
+            lang: store.lang
           };
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
+ async componentDidMount(){
+        this.storeListener = ()=>{
+            this.setState({lang: store.lang});   
+        };
+        store.subscribeToChanges(this.storeListener);
+    
+    }
 
+    componentWillUnmount(){
+        store.unsubsribeToCHanges(this.storeListener);
+    }
     async handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
        await this.setState({[name]: value});
     }           
-
+ 
 check(){
     console.log(this.state.city);
     function filterItems(allTimeZone, city) {
