@@ -60,6 +60,7 @@ html {
   .plusButton{
     width: 1vw;
     height: 3vh;
+    margin-right: 1vw;
   }
   div.plusteken{
     display: flex;
@@ -73,7 +74,7 @@ html {
   .friendsList{
     background-color: rgb(254, 254, 254);
     justify-content: space-around;
-    width: 33vw;
+    width: 36vw;
     margin: 5vh auto;
     border-style: outset;
     padding-left: 3vw;

@@ -2,6 +2,7 @@ importJsonDataToDb()
 let chosenMockData = Math.random() < 0.5 ? './MOCK_DATA_A.json' : './MOCK_DATA_B.json';
 let friendData = require(chosenMockData);
 moreEmailAddressesPerPerson();
+morePhoneNumbersPerPerson();
 async function importJsonDataToDb() {
 //Friend datan
 let Friend = require('./mongoose-models/Friend');
@@ -18,6 +19,19 @@ let Friend = require('./mongoose-models/Friend');
   }
   allFriendCount = await Friend.countDocuments();
   console.log('efter', allFriendCount);
+}
+
+function morePhoneNumbersPerPerson(){
+  let domains = friendData.map(x => x.phoneNumber.split()[0]);
+  for(let friend of friendData){
+    friend.phoneNumbers = [friend.phoneNumber];
+    delete friend.phoneNumber;
+    let randomExtra = Math.floor(Math.random()*4);
+    for(let i = 0; i < randomExtra; i++){
+      let randomDomain = domains[Math.floor(domains.length * Math.random())];
+      friend.phoneNumbers.push(randomDomain);
+    }
+  }
 }
 
 

@@ -6,7 +6,7 @@ const schema = {
     firstName: {type: 'String', required: true},
     lastName: {type: 'String', required: true},
     emailAddresses: [],
-    phoneNumber: [],
+    phoneNumbers: [],
     city: String,
     country: String,
     timeZone: String
