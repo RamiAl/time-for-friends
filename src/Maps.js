@@ -69,7 +69,6 @@ class Maps extends Component{
             {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})       
         },
         error => {
-         // this.setState({positionOnMap: false})
         }
       )
     ))

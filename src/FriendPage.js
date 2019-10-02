@@ -65,11 +65,7 @@ export default class FriendPage extends Component {
                         </div>
                     </div>
             </div>
-            
             </>
             );
     }
 }
-
-
-

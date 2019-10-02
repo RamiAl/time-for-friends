@@ -3,10 +3,8 @@ import Main from './Main';
 import Navigation from './Navigation';
 
 class App extends Component{
- 
-
+  
   async componentDidMount(){
-    
   }
   render(){
     return (
@@ -18,6 +16,4 @@ class App extends Component{
     
   }
 }
-
-
 export default App;

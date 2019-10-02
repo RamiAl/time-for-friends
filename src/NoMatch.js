@@ -7,7 +7,6 @@ export default class NoMatch extends Component{
         this.state = {lang: store.lang};
     }
 
-
     componentDidMount(){
         this.storeListener = ()=>{
             this.setState({lang: store.lang});   

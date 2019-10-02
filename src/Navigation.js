@@ -3,7 +3,6 @@ import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-//import Button from 'react-bootstrap/Button';
 import Clock from "./Clock";
 import { NavLink } from 'react-router-dom';
 import store from './utilities/Store';
@@ -32,12 +31,8 @@ switchlang() {
       lang: true
     });
   }
-
   console.log(this.state.lang);
-  
 }
-
-
 render() {
   return (
     <Navbar bg="light" expand="lg">
@@ -56,5 +51,4 @@ render() {
     );
   }
 }
-
 export default Navigation;

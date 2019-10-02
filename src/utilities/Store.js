@@ -1,7 +1,6 @@
 const subscribingFunctions = [];
 const store  = { lang:false };
 
-
 // Don't set properties
 // in store directly
 // use store.setState()
@@ -16,7 +15,6 @@ store.setState = (changeObject) => {
     }
 };
 
-
 // A subscribing function should be ready to
 // receive to arguments - the changes and the
 // new state of store
@@ -29,7 +27,6 @@ store.unsubscribeToChanges = (func) => {
     // Find and remove subscribing function
     let index = subscribingFunctions.indexOf(func);
     if(index < 0){ return; }
-    console.log("UNSUBSFRIBE", func)
     subscribingFunctions.splice(index, 1);
 }
 

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Maps from './Maps'
-//import Clock from './Clock'
 import store from './utilities/Store';
 export default class Home extends Component {
 
