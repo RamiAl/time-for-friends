@@ -40,9 +40,9 @@ render() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/'>Home</NavLink>
-          <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/addfriend'>Add Friend</NavLink>
-          <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/searchfriend'>Search For Friend</NavLink>
+          <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/'>{store.lang ? 'Home' :'Hem'}</NavLink>
+          <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/addfriend'>{store.lang ? 'Add Friend' :'Lägg till vän'}</NavLink>
+          <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/searchfriend'>{store.lang ? 'Search For Friend' :'Sök efter vän'}</NavLink>
           <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
           <button onClick={() => this.switchlang()}>{store.lang ? 'Switch to Sv' : 'Bytt till Eng'}</button>
         </Nav>
