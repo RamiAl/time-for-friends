@@ -57,10 +57,24 @@ html {
     color: rgb(0, 107, 107);
   }
 
+  .plusButton{
+    width: 1vw;
+    height: 3vh;
+    margin-right: 1vw;
+  }
+  div.plusteken{
+    display: flex;
+    justify-content: center;    
+    
+  }
+  .addFriendForm{
+    margin: 5vh 5vw
+  }
+
   .friendsList{
     background-color: rgb(254, 254, 254);
     justify-content: space-around;
-    width: 33vw;
+    width: 36vw;
     margin: 5vh auto;
     border-style: outset;
     padding-left: 3vw;
@@ -74,7 +88,7 @@ html {
   div.friendItem{
     background-color: rgb(254, 254, 254);
     border-style: outset;
-    width: 43vw;
+    width: 48vw;
     margin: 0vh auto;
     padding-left: 3vw;
     padding-top: 2vh;
@@ -131,7 +145,7 @@ html {
   }
 
   .error{
-color: red;
+    color: red;
   }
 
   .viewOnMapButton{
@@ -155,6 +169,11 @@ color: red;
     background-color: black;
   }
 
+  .friendListError{
+    text-Align: center; 
+    margin-Top: 20vh
+  }
+
   @media only screen and (max-width: 768px) {
     .viewOnMapButton{
       margin-top: 0vh;
@@ -167,14 +186,14 @@ color: red;
     }
     .friendsList {
       font-size: 3.1vw;
-      width: 80vw;
+      width: 85vw;
     }
     form.searchPage{
       width: 90vw;
       margin: 0 auto;
     }
-    .group.sortBy{
-      margin: 0
+    .sortBy{
+      margin-top: 0
     }
     div.friendItem{
       width: 90vw;

@@ -10,9 +10,7 @@ import { Link } from 'react-router-dom';
 
 export default class FriendsList extends Component {
 
-    state = {
-        allFriends: [],
-    }
+    state = {}
 
     componentDidMount(){        
         this.getFriends()
@@ -47,12 +45,16 @@ export default class FriendsList extends Component {
                     return offSet1 < offSet2 ? -1 : 1
                 }
             })
-            
             this.setState({ "allFriends": allFriends });             
         }else {
-            let allFriends = await Friend.find({}).sort(sortBy).limit(500);
-            let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
-            this.setState({ "allFriends": filteredFriendsList });
+            let allFriends = await Friend.find().sort(sortBy).limit(500);
+            let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))    
+            if(filteredFriendsList.length === 0){                
+                this.setState({ errorMessage: 'NO SUCH FRIEND!' });
+            }else{   
+                this.setState({ errorMessage: '' });
+                this.setState({ allFriends: filteredFriendsList });
+            }
         } 
     }
 
@@ -72,33 +74,30 @@ export default class FriendsList extends Component {
         let endTime = moment(endTimeMilli).format('HH:mm');
         return (
             <div >
-                {this.state.allFriends.length === 0 ? <h3 style={{textAlign: 'center', marginTop: '20vh'}}>loading...</h3> : 
+                {this.state.errorMessage ? <h3 className="friendListError">{this.state.errorMessage}</h3> :
+                    !this.state.allFriends ? <h3 className="friendListError">loading...</h3> : 
                     this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm') 
                     && moment.tz(item.timeZone).format('HH:mm') <= endTime)
                     .map(item =>(
                             <Fragment key = {item._id}>
                                 <div className = "friendsList" to="/friendPage">
-                                <Link to={`/friendPage/${item._id}`} className="linkStyle">
-                                    <h3>{item.firstName} {item.lastName}</h3>
-                                    <Form.Row>
-                                        <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddress}</p>
-                                        <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{item.phoneNumber}</p>
-                                    </Form.Row>
-                                    <Form.Row>
-                                        <i className="fas fa-city icon"></i> <p className = "infoStyle">{item.city}</p>
-                                        <i className="fas fa-map icon"></i> <p className = "infoStyle">{item.country}</p>
-                                    </Form.Row>
-                                    <Clock {...item}/>
+                                    <Link to={`/friendPage/${item._id}`} className="linkStyle">
+                                        <h3>{item.firstName} {item.lastName}</h3>
+                                        <Form.Row>
+                                            <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddresses[0]}</p>
+                                            <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{item.phoneNumbers[0]}</p>
+                                        </Form.Row>
+                                        <Form.Row>
+                                            <i className="fas fa-city icon"></i> <p className = "infoStyle">{item.city}</p>
+                                            <i className="fas fa-map icon"></i> <p className = "infoStyle">{item.country}</p>
+                                        </Form.Row>
+                                        <Clock {...item}/>
                                     </Link>
-
                                 </div>
                             </Fragment>
-                        )
-                    )
+                    )   )
                 } 
-          </div>
-               
-        );
-        
+            </div>     
+        );  
     }
 }
