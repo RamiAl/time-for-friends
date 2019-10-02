@@ -18,7 +18,7 @@ class Maps extends Component{
 
     this.state = {
       stores: [],
-      city: {},
+      city: '',
       country: '',
       allFriends: [],
       positionOnMap: true,
@@ -61,16 +61,15 @@ class Maps extends Component{
     Geocode.setApiKey('AIzaSyD3ErY-Q67YU4XDKrtsPj8iA3xYfMo-0CI')
     let position;
     this.state.allFriends.map(item =>(
-      position = item.city + " "+ item.country,
+      (position = item.city + " "+ item.country,
       Geocode.fromAddress(position).then(
         response => {
           const { lat, lng } = response.results[0].geometry.location;
           this.setState({ stores: [...this.state.stores, 
             {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})       
         },
-        error => {
-        }
-      )
+        error => {}
+      ))
     ))
   }
 
@@ -147,8 +146,8 @@ class Maps extends Component{
                 minZoom={3}
                 style={mapStyles}
                 center={{
-                  lat: this.state.stores[0] && this.state.stores[0].latitude || 0, 
-                  lng: this.state.stores[0] && this.state.stores[0].longitude || 0
+                  lat: (this.state.stores[0] && this.state.stores[0].latitude) || 0, 
+                  lng: (this.state.stores[0] && this.state.stores[0].longitude) || 0
                 }}
               >
                 {this.displayMarkers() }

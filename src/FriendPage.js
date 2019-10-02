@@ -14,7 +14,6 @@ export default class FriendPage extends Component {
             friend: {}
         };
     }
-    
     componentDidMount(){
         this.getTheFriend();
         this.storeListener = ()=>{
@@ -34,7 +33,7 @@ export default class FriendPage extends Component {
     }
     
     render() {
-        let friend = this.state.friend;
+        let friend = this.state.friend;        
         return (
             <>
                 <Link to={`/searchfriend`} className="linkStyle">
@@ -44,12 +43,21 @@ export default class FriendPage extends Component {
                     <div className="row ">
                         <div className = "col-md-6">
                             <h3>{friend.firstName} {friend.lastName}</h3>
-                            <Form.Row>
-                                <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{friend.emailAddress}</p>
-                            </Form.Row>
-                            <Form.Row>
-                                <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{friend.phoneNumber}</p>
-                            </Form.Row>
+                            {friend.emailAddresses ? friend.emailAddresses.map((e, index) => (
+                                <Form.Row key={index}>    
+                                    <i className="fas fa-envelope icon"></i>
+                                    <p key={e}className = "infoStyle">{e}</p>                            
+                                </Form.Row>)
+                                ) : null}
+
+                            
+                                {friend.phoneNumbers ? friend.phoneNumbers.map((e, index) => (
+                                <Form.Row key={index}>    
+                                    <i className="fas fa-phone icon"></i> 
+                                    <p key={e}className = "infoStyle">{e}</p>                            
+                                </Form.Row>)
+                                ) : null}
+
                             <Form.Row>
                                 <i className="fas fa-city icon"></i> <p className = "infoStyle">{friend.city}</p>
                             </Form.Row>
