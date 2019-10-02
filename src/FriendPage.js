@@ -10,7 +10,6 @@ export default class FriendPage extends Component {
     state = {
         friend: {}
     }
-    
     componentDidMount(){
         this.getTheFriend();
     }
@@ -22,9 +21,7 @@ export default class FriendPage extends Component {
     }
     
     render() {
-        let friend = this.state.friend;
-        console.log(friend);
-        
+        let friend = this.state.friend;        
         return (
             <>
                 <Link to={`/searchfriend`} className="linkStyle">

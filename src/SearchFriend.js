@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import FriendsList from './FriendsList'
 import TimeRangeSlider from 'react-time-range-slider';
 import ScrollTop from "react-scrolltop-button";
-import MyIcon from "react-scrolltop-button";
 
 export default class SearchFriend extends Component {
     async componentDidMount(){
@@ -40,12 +39,11 @@ export default class SearchFriend extends Component {
         return (
             <>
                 <ScrollTop
-                text="To the top"
+                text="Go to the top"
                 distance={100}
                 breakpoint={768}
                 className="scroll-your-role scrollTop"
                 speed={1000}
-                icon={<MyIcon />}
                 />
                 <Form className="searchPage">
                 <div className="container-fluid ">
@@ -78,8 +76,8 @@ export default class SearchFriend extends Component {
                     value={this.state.value}/>
                         
                     <div className = "timeRange">
-                        <h6>start: {this.state.value.start}</h6>
-                        <h6>end: {this.state.value.end}</h6>
+                        <h6>Start: {this.state.value.start}</h6>
+                        <h6>End: {this.state.value.end}</h6>
                     </div>
 
                     <FriendsList {...this.state}/>

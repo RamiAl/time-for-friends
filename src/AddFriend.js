@@ -12,7 +12,7 @@ allTimeZone.unshift("Choose timezone");
 
 export default class AddFriend extends Component {
     emailCounter = 0;
-    phoneCounter = 0
+    phoneCounter = 0;
     constructor(props) {
         super(props);
         this.state = {
@@ -28,12 +28,15 @@ export default class AddFriend extends Component {
             showTimeZone: false,
           };
         this.handleUserInput = this.handleUserInput.bind(this);
+        this.handleAddEmailOrPhone = this.handleAddEmailOrPhone.bind(this);
+        this.handleEmailOrPhoneInput = this.handleEmailOrPhoneInput.bind(this);
+        this.handleRemoveEmailOrPhone = this.handleRemoveEmailOrPhone.bind(this);
     } 
 
     async handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-       await this.setState({[name]: value});
+        this.setState({[name]: value});
     }           
 
     check(){
@@ -70,7 +73,6 @@ export default class AddFriend extends Component {
             let friend = new Friend ({firstName, lastName, phoneNumbers, emailAddresses, city, country, timeZone});
             await friend.save();
             this.props.history.push(`/friendPage/${friend._id}`)
-            console.log(this.state)
         } 
     }
 
@@ -98,63 +100,27 @@ export default class AddFriend extends Component {
         : this.setState({showTimeZone: false})
     }
 
-    handleAddEmailAddress(e){   
-        //console.log(e.target)   
-        //const { name } = e.target
-
-       this.setState({emailAddresses: this.state.emailAddresses.concat([""])}); 
-        //e.target.name === 'phoneNumbers' ? this.phoneCounter++ : this.emailCounter++
-        this.emailCounter++
+    handleAddEmailOrPhone(e, name){
+       this.setState({[name]: this.state[name].concat([""])}); 
+        name === 'phoneNumbers' ? this.phoneCounter++ : this.emailCounter++;
     }
 
-    handleEmailInput(e, index){
-        const { emailAddresses } = this.state;
-        emailAddresses[index] = e.target.value;
-        
-        this.setState({ emailAddresses})
+    handleEmailOrPhoneInput(e, index){
+        let { name } = e.target;
+        let { value } = e.target;
+        name = this.state[name];
+        name[index] = value;        
+        this.setState({ name })
        
     }
-    handleRemoveEmail(e, index){
-        const { emailAddresses } = this.state;
-        emailAddresses.splice(index, 1);
+    handleRemoveEmailOrPhone(e, index){
+        let { name } = e.target ;
+        const propName = this.state[name];
+        propName.splice(index, 1);
         
-        this.setState({emailAddresses})
-        //e.target.name === 'phoneNumbers' ? this.phoneCounter-- : this.emailCounter--
-        this.emailCounter--
+        this.setState({propName});
+        name === 'phoneNumbers' ? this.phoneCounter-- : this.emailCounter--;
     }
-
-
-
-
-    handleAddPhoneNumber(e){ 
-        let a = '87634674592'  
-        
-        console.log(a.split()[0])
-        //console.log(e.target)   
-        //const { name } = e.target
-
-       this.setState({phoneNumbers: this.state.phoneNumbers.concat([""])}); 
-        //e.target.name === 'phoneNumbers' ? this.phoneCounter++ : this.emailCounter++
-        this.phoneCounter++
-    }
-
-    handlePhoneInput(e, index){
-        const { phoneNumbers } = this.state;
-        phoneNumbers[index] = e.target.value;
-        
-        this.setState({ phoneNumbers})
-       
-    }
-    handleRemovePhone(e, index){
-        //console.log(e)
-        const { phoneNumbers } = this.state;
-        phoneNumbers.splice(index, 1);
-        
-        this.setState({phoneNumbers})
-        //e.target.name === 'phoneNumbers' ? this.phoneCounter-- : this.emailCounter--
-        this.phoneCounter--
-    }
-
 
     /*validateEmail(email) {   
         const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -185,23 +151,27 @@ export default class AddFriend extends Component {
                     <div className="col-md-6">
                         <Form.Row style={{justifyContent: 'space-between'}}>
                             <Form.Label>Phone number</Form.Label>                        
-                            <button type="button" onClick={e => this.handleAddPhoneNumber(e)} name="phoneNumbers" className="btn btn-info plusButton">
+                            <button type="button" 
+                            onClick={e => this.handleAddEmailOrPhone(e, 'phoneNumbers')} 
+                            name="phoneNumbers"
+                            className="btn btn-info plusButton">
                                 <div className="plusteken">+</div>
                             </button>
                         </Form.Row>
 
                         {this.state.phoneNumbers.map((item, index) => (
-                            <div className="emailAddress" key = {index}>
+                            <div key = {index}>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridEmail" value={this.state.phoneNumbers} 
-                                    onChange={e => this.handlePhoneInput(e, index)}>
+                                    onChange={e => this.handleEmailOrPhoneInput(e, index)}>
                                         <Form.Control name="phoneNumbers" placeholder="Enter phone number" />
                                     </Form.Group>
                                     <div>
                                         {this.phoneCounter === 0 ? null :           
                                             <button
                                             type="button"
-                                            onClick={e => this.handleRemovePhone(index)}
+                                            onClick={e => this.handleRemoveEmailOrPhone(e, index)}
+                                            name="phoneNumbers"
                                             className="btn btn-info"
                                             >
                                             -
@@ -216,22 +186,26 @@ export default class AddFriend extends Component {
                     <div className="col-md-6">
                         <Form.Row style={{justifyContent: 'space-between'}}>
                             <Form.Label>Email address</Form.Label>                        
-                            <button type="button" onClick={e => this.handleAddEmailAddress(e)} name="emailAddresses" className="btn btn-info plusButton">
+                            <button type="button" 
+                            onClick={e => this.handleAddEmailOrPhone(e, 'emailAddresses')} 
+                            name="emailAddresses" 
+                            className="btn btn-info plusButton">
                                 <div className="plusteken">+</div>
                             </button>
                         </Form.Row>
                         {this.state.emailAddresses.map((item, index) => (
-                            <div className="emailAddress" key = {index}>
+                            <div key = {index}>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddresses} 
-                                    onChange={e => this.handleEmailInput(e, index)}>
+                                    onChange={e => this.handleEmailOrPhoneInput(e, index)}>
                                         <Form.Control name="emailAddresses" placeholder="Enter email address" />
                                     </Form.Group>
                                     <div>
                                         {this.emailCounter === 0 ? null :           
                                             <button
                                             type="button"
-                                            onClick={e => this.handleRemoveEmail(index)}
+                                            onClick={e => this.handleRemoveEmailOrPhone(e, index)}
+                                            name="emailAddresses"
                                             className="btn btn-info"
                                             >
                                             -
