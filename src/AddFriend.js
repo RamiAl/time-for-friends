@@ -1,14 +1,16 @@
-import React, {Component} from  'react';
+import React, { Component } from 'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import {Friend} from 'the.rest/dist/to-import';
+import { Friend } from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
 import store from './utilities/Store';
 
-const allTimeZone =  moment.tz.names();
+const allTimeZone = moment.tz.names();
+allTimeZone.unshift("Choose timezone");
+
 export default class AddFriend extends Component {
     emailCounter = 0;
     phoneCounter = 0;
@@ -27,8 +29,10 @@ export default class AddFriend extends Component {
             showTimeZone: false,
             lang: store.lang
           };
+            showEmail: false
+        };
         this.handleUserInput = this.handleUserInput.bind(this);
-        this.handleAddEmailOrPhone = this.handleAddEmailOrPhone.bind(this);
+        this.handleAddEmailOrPhoneInput = this.handleAddEmailOrPhoneInput.bind(this);
         this.handleEmailOrPhoneInput = this.handleEmailOrPhoneInput.bind(this);
         this.handleRemoveEmailOrPhone = this.handleRemoveEmailOrPhone.bind(this);
     } 
@@ -43,15 +47,15 @@ export default class AddFriend extends Component {
     componentWillUnmount(){
         store.unsubscribeToChanges(this.storeListener);
     }
-    async handleUserInput (e) {
+    handleUserInput(e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value});
-    }           
+        this.setState({ [name]: value });
+    }
 
-    check(){
+    check() {
         function filterItems(allTimeZone, city) {
-            return allTimeZone.filter(function(el) {
+            return allTimeZone.filter(function (el) {
                 return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
             })
         }
@@ -78,65 +82,72 @@ listsv(){
             }, 0);        
             return c.map(item =>(<option key = {item}>{item}</option>));
         }
-    }else{
-        return allTimeZone.map(item =>(
-            <option key = {item}>{item}</option>
-        ));
-    }  
     }
-    async onSubmit(e){
+    async onSubmit(e) {
         e.preventDefault();
         if (await this.vald() === true) {
             const { firstName, lastName, phoneNumbers, emailAddresses, city, country, timeZone } = this.state
-            let friend = new Friend ({firstName, lastName, phoneNumbers, emailAddresses, city, country, timeZone});
+            let friend = new Friend({ firstName, lastName, phoneNumbers, emailAddresses, city, country, timeZone });
             await friend.save();
             this.props.history.push(`/friendPage/${friend._id}`)
-        } 
+        }
     }
 
-    async vald(){
+    async vald() {
+        await this.validateEmail()
         await this.valFirstName();
         await this.valLastName();
         await this.valTimeZone();
-        if (this.state.showFirstName === false 
-            && this.state.showLastName === false 
-            && this.state.showTimeZone === false) {
-                return true
-        }else{
-            return false   
-        }      
+        if (this.state.showFirstName === false
+            && this.state.showLastName === false
+            && this.state.showTimeZone === false
+            && this.state.showEmail === false) {
+            return true
+        } else {
+            return false
+        }
     }
 
-    valFirstName(){
-        this.state.firstName ==='' ? this.setState({showFirstName: true}) : this.setState({showFirstName: false})
+    valFirstName() {
+        this.state.firstName === '' ? this.setState({ showFirstName: true }) : this.setState({ showFirstName: false })
     }
-    valLastName(){
-        this.state.lastName ==='' ? this.setState({showLastName: true}) : this.setState({showLastName: false})
+    valLastName() {
+        this.state.lastName === '' ? this.setState({ showLastName: true }) : this.setState({ showLastName: false })
     }
     valTimeZone(){
         (this.state.timeZone ==='' || this.state.timeZone ==='Choose timezone' ) ?  this.setState({showTimeZone: true}) 
         : this.setState({showTimeZone: false})
     }
+    validateEmail() {
+        let test;
+        const emailRegex =
+            new RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
+        this.state.emailAddresses.map(email => (
+            (test = emailRegex.test(email),
+            test ? this.setState({ showEmail: false }) : this.setState({ showEmail: true }))
+        ))
+    }
 
-    handleAddEmailOrPhone(e, name){
-       this.setState({[name]: this.state[name].concat([""])}); 
+    handleAddEmailOrPhoneInput(e) {
+        let { name } = e.target;
+        this.setState({ [name]: this.state[name].concat([""]) });
         name === 'phoneNumbers' ? this.phoneCounter++ : this.emailCounter++;
     }
 
-    handleEmailOrPhoneInput(e, index){
+    handleEmailOrPhoneInput(e, index) {
         let { name } = e.target;
         let { value } = e.target;
         name = this.state[name];
-        name[index] = value;        
+        name[index] = value;
         this.setState({ name })
-       
+
     }
-    handleRemoveEmailOrPhone(e, index){
-        let { name } = e.target ;
+    handleRemoveEmailOrPhone(e, index) {
+        let { name } = e.target;
         const propName = this.state[name];
         propName.splice(index, 1);
-        
-        this.setState({propName});
+
+        this.setState({ propName });
         name === 'phoneNumbers' ? this.phoneCounter-- : this.emailCounter--;
     }
 
@@ -168,10 +179,10 @@ listsv(){
                             <button type="button" 
                             onClick={e => this.handleAddEmailOrPhone(e, 'phoneNumbers')} 
                             name="phoneNumbers"
-                            className="btn btn-info plusButton">
-                                <div className="plusteken">+</div>
-                            </button>
-                        </Form.Row>
+                                    className="btn btn-info plusButton">
+                                    +
+                                </button>
+                            </Form.Row>
 
                         {this.state.phoneNumbers.map((item, index) => (
                             <div key = {index}>
@@ -190,12 +201,12 @@ listsv(){
                                             >
                                             -
                                             </button>
-                                        }
-                                    </div> 
-                                </Form.Row>
-                            </div>
-                        ))}
-                    </div>
+                                            }
+                                        </div>
+                                    </Form.Row>
+                                </div>
+                            ))}
+                        </div>
 
                     <div className="col-md-6">
                         <Form.Row style={{justifyContent: 'space-between'}}>
@@ -224,13 +235,12 @@ listsv(){
                                             >
                                             -
                                             </button>
-                                        }
-                                    </div> 
-                                </Form.Row>
-                            </div>
-                        ))}
-                    </div>
-                </Form.Row>
+                                            }
+                                        </div>
+                                    </Form.Row>
+                                </div>
+                            ))}
+                            {this.state.showEmail ? <Form.Label className="error">Wrong format</Form.Label> : null}
 
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridCity" value={this.state.city} 

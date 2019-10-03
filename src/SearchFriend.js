@@ -1,4 +1,4 @@
-import React, {Component} from  'react';
+import React, { Component } from 'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
@@ -39,10 +39,10 @@ export default class SearchFriend extends Component {
     handleUserInput (e) {
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]: value});
+        this.setState({ [name]: value });
     }
-    
-    timeChangeHandler(time){
+
+    timeChangeHandler(time) {
         this.setState({
             value: time
         });
@@ -116,15 +116,15 @@ if (e < '12:00') {
         return (
             <>
                 <ScrollTop
-                text="Go to the top"
-                distance={100}
-                breakpoint={768}
-                className="scroll-your-role scrollTop"
-                speed={1000}
+                    text="Go to the top"
+                    distance={100}
+                    breakpoint={768}
+                    className="scroll-your-role scrollTop"
+                    speed={1000}
                 />
                 <Form className="searchPage">
-                <div className="container-fluid ">
-                    <div className="row ">
+                    <div className="container-fluid ">
+                        <div className="row ">
 
                         <Form.Group className="col-md-8" controlId="formGridName" value={this.state.name} 
                         onChange={this.handleUserInput} >
@@ -157,7 +157,7 @@ if (e < '12:00') {
                         <h6>{store.lang ?'end: ':'slut: '} {store.lang ?  this.state.engend : this.state.value.end}</h6>
                     </div>
 
-                    <FriendsList {...this.state}/>
+                    <FriendsList {...this.state} />
                 </Form>
             </>
         );

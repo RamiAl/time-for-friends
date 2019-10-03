@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Maps from './Maps'
 import store from './utilities/Store';
 export default class Home extends Component {
@@ -29,11 +29,11 @@ export default class Home extends Component {
             fontSize: '4vw',
             textAlign: 'center',
         }
-        return(
+        return (
             <>
             <p style = {welcomStyle}>{store.lang ? 'Welcome!': 'Välkommen!'}</p><p style = {infoStyle}> {store.lang ? 'Here you can see where your friends are on the map' : 'Här kan du se var dinna vänner befiner sig på kartan'} </p>
                 <Maps />
             </>
-        ); 
+        );
     }
 }

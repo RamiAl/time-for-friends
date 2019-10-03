@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from  'react';
+import React, { Component, Fragment } from 'react';
 import './layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Friend} from 'the.rest/dist/to-import';
+import { Friend } from 'the.rest/dist/to-import';
 import Form from 'react-bootstrap/Form';
 import Clock from './Clock'
 import moment from 'moment-timezone';
@@ -14,7 +14,7 @@ export default class FriendsList extends Component {
         lang: store.lang
     }
 
-    componentDidMount(){        
+    componentDidMount() {
         this.getFriends()
         this.getFriends();
         this.storeListener = ()=>{
@@ -27,10 +27,7 @@ export default class FriendsList extends Component {
     componentWillUnmount(){
         store.unsubscribeToChanges(this.storeListener);
         this._isMounted = false;
-        
     }
-    
-
     componentDidUpdate(prevProps){
         if (this.props.sortBy !== prevProps.sortBy) {
             this.getFriends()
@@ -43,37 +40,37 @@ export default class FriendsList extends Component {
         }
     }
 
-    async getFriends(){
+    async getFriends() {
         const nameRegex = new RegExp("^" + this.props.name);
-        let sortBy = this.props.sortBy;        
+        let sortBy = this.props.sortBy;
 
-        if(sortBy === 'timeZone'){ 
+        if (sortBy === 'timeZone') {
             let allFriends = await Friend.find({}).limit(500);
-              
+
             allFriends.sort((a, b) => {
                 let offSet1 = moment.tz(a[sortBy])._offset;
                 let offSet2 = moment.tz(b[sortBy])._offset;
 
-                if (offSet1 === offSet2){
-                    return a.firstName < b.firstName? -1 : 1
-                }else {
+                if (offSet1 === offSet2) {
+                    return a.firstName < b.firstName ? -1 : 1
+                } else {
                     return offSet1 < offSet2 ? -1 : 1
                 }
             })
-            this.setState({ "allFriends": allFriends });             
-        }else {
+            this.setState({ "allFriends": allFriends });
+        } else {
             let allFriends = await Friend.find().sort(sortBy).limit(500);
-            let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))    
-            if(filteredFriendsList.length === 0){                
+            let filteredFriendsList = allFriends.filter(item => nameRegex.test(item[sortBy]))
+            if (filteredFriendsList.length === 0) {
                 this.setState({ errorMessage: 'NO SUCH FRIEND!' });
-            }else{   
+            } else {
                 this.setState({ errorMessage: '' });
                 this.setState({ allFriends: filteredFriendsList });
             }
-        } 
+        }
     }
 
-    convertHourToMilliseconds(hour){
+    convertHourToMilliseconds(hour) {
         var time = hour;
         var timeParts = time.split(":");
         let milliSeconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000)
@@ -91,28 +88,36 @@ export default class FriendsList extends Component {
             <div >
                 {this.state.errorMessage ? <h3 className="friendListError">{this.state.errorMessage}</h3> :
                     !this.state.allFriends ? <h3 className="friendListError">{store.lang ? <p>loading...</p> : <p>ladar...</p>}</h3> : 
-                    this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm') 
-                    && moment.tz(item.timeZone).format('HH:mm') <= endTime)
-                    .map(item =>(
-                            <Fragment key = {item._id}>
-                                <div className = "friendsList" to="/friendPage">
-                                    <Link to={`/friendPage/${item._id}`} className="linkStyle">
-                                        <h3>{item.firstName} {item.lastName}</h3>
-                                        <Form.Row>
-                                            <i className="fas fa-envelope icon"></i> <p className = "infoStyle">{item.emailAddresses[0]}</p>
-                                            <i className="fas fa-phone icon"></i>  <p className = "infoStyle">{item.phoneNumbers[0]}</p>
-                                        </Form.Row>
-                                        <Form.Row>
-                                            <i className="fas fa-city icon"></i> <p className = "infoStyle">{item.city}</p>
-                                            <i className="fas fa-map icon"></i> <p className = "infoStyle">{item.country}</p>
-                                        </Form.Row>
-                                        <Clock {...item}/>
-                                    </Link>
-                                </div>
-                            </Fragment>
-                    )   )
-                } 
-            </div>     
-        );  
+                        this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm')
+                            && moment.tz(item.timeZone).format('HH:mm') <= endTime)
+                            .map(item => (
+                                <Fragment key={item._id}>
+                                    <div className="friendsList" to="/friendPage">
+                                        <Link to={`/friendPage/${item._id}`} className="linkStyle">
+                                            <h3>{item.firstName} {item.lastName}</h3>
+                                            <Form.Row>
+                                                {item.emailAddresses[0] ?
+                                                    <Form.Row><i className="fas fa-envelope icon"></i> <p className="infoStyle">{item.emailAddresses[0]}</p></Form.Row>
+                                                    : null}
+                                                {item.phoneNumbers[0] ?
+                                                    <Form.Row><i className="fas fa-phone icon"></i>  <p className="infoStyle">{item.phoneNumbers[0]}</p></Form.Row>
+                                                    : null}
+                                            </Form.Row>
+                                            <Form.Row>
+                                                {item.city ?
+                                                    <Form.Row><i className="fas fa-city icon"></i> <p className="infoStyle">{item.city}</p></Form.Row>
+                                                    : null}
+                                                {item.country ?
+                                                    <Form.Row><i className="fas fa-map icon"></i> <p className="infoStyle">{item.country}</p></Form.Row>
+                                                    : null}
+                                            </Form.Row>
+                                            <Clock {...item} />
+                                        </Link>
+                                    </div>
+                                </Fragment>
+                            ))
+                }
+            </div>
+        );
     }
 }
