@@ -85,18 +85,18 @@ export default class FriendsList extends Component {
                                             <h3>{item.firstName} {item.lastName}</h3>
                                             <Form.Row>
                                                 {item.emailAddresses[0] ?
-                                                    <div><i className="fas fa-envelope icon"></i> <p className="infoStyle">{item.emailAddresses[0]}</p></div>
+                                                    <Form.Row><i className="fas fa-envelope icon"></i> <p className="infoStyle">{item.emailAddresses[0]}</p></Form.Row>
                                                     : null}
                                                 {item.phoneNumbers[0] ?
-                                                    <div><i className="fas fa-phone icon"></i>  <p className="infoStyle">{item.phoneNumbers[0]}</p></div>
+                                                    <Form.Row><i className="fas fa-phone icon"></i>  <p className="infoStyle">{item.phoneNumbers[0]}</p></Form.Row>
                                                     : null}
                                             </Form.Row>
                                             <Form.Row>
                                                 {item.city ?
-                                                    <div><i className="fas fa-city icon"></i> <p className="infoStyle">{item.city}</p></div>
+                                                    <Form.Row><i className="fas fa-city icon"></i> <p className="infoStyle">{item.city}</p></Form.Row>
                                                     : null}
                                                 {item.country ?
-                                                    <div><i className="fas fa-map icon"></i> <p className="infoStyle">{item.country}</p></div>
+                                                    <Form.Row><i className="fas fa-map icon"></i> <p className="infoStyle">{item.country}</p></Form.Row>
                                                     : null}
                                             </Form.Row>
                                             <Clock {...item} />
