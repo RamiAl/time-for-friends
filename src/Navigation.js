@@ -8,21 +8,21 @@ import { NavLink } from 'react-router-dom';
 
 class Navigation extends Component {
 
-  render() {
-    return (
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand >Time for friends</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/'>Home</NavLink>
-            <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/addfriend'>Add Friend</NavLink>
-            <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/searchfriend'>Search For Friend</NavLink>
-            <NavLink className="nav-placment disabled" to=''><Clock /></NavLink>
-
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+render() {
+  return (
+    <Navbar bg="light" expand="lg">
+      <Navbar.Brand >Time for friends</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/'>Home</NavLink>
+          <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/addfriend'>Add Friend</NavLink>
+          <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/searchfriend'>Search For Friend</NavLink>
+          <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
+          
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
     );
   }
 }

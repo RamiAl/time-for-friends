@@ -26,6 +26,7 @@ export default class AddFriend extends Component {
             showFirstName: false,
             showLastName: false,
             showTimeZone: false,
+            showEmail: false
         };
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleAddEmailOrPhoneInput = this.handleAddEmailOrPhoneInput.bind(this);
@@ -33,7 +34,7 @@ export default class AddFriend extends Component {
         this.handleRemoveEmailOrPhone = this.handleRemoveEmailOrPhone.bind(this);
     }
 
-    async handleUserInput(e) {
+    handleUserInput(e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({ [name]: value });
@@ -77,12 +78,14 @@ export default class AddFriend extends Component {
     }
 
     async vald() {
+        await this.validateEmail()
         await this.valFirstName();
         await this.valLastName();
         await this.valTimeZone();
         if (this.state.showFirstName === false
             && this.state.showLastName === false
-            && this.state.showTimeZone === false) {
+            && this.state.showTimeZone === false
+            && this.state.showEmail === false) {
             return true
         } else {
             return false
@@ -98,6 +101,15 @@ export default class AddFriend extends Component {
     valTimeZone() {
         (this.state.timeZone === '' || this.state.timeZone === 'Choose timezone') ? this.setState({ showTimeZone: true })
             : this.setState({ showTimeZone: false })
+    }
+    validateEmail() {
+        let test;
+        const emailRegex =
+            new RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
+        this.state.emailAddresses.map(email => (
+            (test = emailRegex.test(email),
+            test ? this.setState({ showEmail: false }) : this.setState({ showEmail: true }))
+        ))
     }
 
     handleAddEmailOrPhoneInput(e) {
@@ -123,11 +135,6 @@ export default class AddFriend extends Component {
         name === 'phoneNumbers' ? this.phoneCounter-- : this.emailCounter--;
     }
 
-    /*validateEmail(email) {   
-        const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-        return emailRegex.test(email);
-    }*/
-
     render() {
         return (
             <>
@@ -138,26 +145,26 @@ export default class AddFriend extends Component {
                             onChange={e => this.handleUserInput(e)} >
                             <Form.Label >First name</Form.Label>
                             <Form.Control name="firstName" placeholder="Enter name" />
-                            {(this.state.showFirstName ? <Form.Label className="error">File in name</Form.Label> : <Form.Label ></Form.Label>)}
+                            {this.state.showFirstName ? <Form.Label className="error">File in name</Form.Label> : null}
                         </Form.Group>
                         <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName}
                             onChange={e => this.handleUserInput(e)}>
                             <Form.Label>Last name</Form.Label>
                             <Form.Control name="lastName" placeholder="Enter last name" />
-                            {(this.state.showLastName ? <Form.Label className="error">File in lastName</Form.Label> : <Form.Label ></Form.Label>)}
+                            {this.state.showLastName ? <Form.Label className="error">File in lastName</Form.Label> : null}
                         </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label>Phone number</Form.Label>
+                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>Phone number</Form.Label>
                                 <button type="button"
-                                    onClick={e => this.handleAddEmailOrPhoneInput(e)}
+                                    onClick={e => this.handleAddEmailOrPhone(e, 'phoneNumbers')}
                                     name="phoneNumbers"
                                     className="btn btn-info plusButton">
                                     +
-                            </button>
+                                </button>
                             </Form.Row>
 
                             {this.state.phoneNumbers.map((item, index) => (
@@ -173,7 +180,8 @@ export default class AddFriend extends Component {
                                                     type="button"
                                                     onClick={e => this.handleRemoveEmailOrPhone(e, index)}
                                                     name="phoneNumbers"
-                                                    className="btn btn-info">
+                                                    className="btn btn-info"
+                                                >
                                                     -
                                             </button>
                                             }
@@ -185,13 +193,13 @@ export default class AddFriend extends Component {
 
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label>Email address</Form.Label>
+                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>Email address</Form.Label>
                                 <button type="button"
-                                    onClick={e => this.handleAddEmailOrPhoneInput(e)}
+                                    onClick={e => this.handleAddEmailOrPhone(e, 'emailAddresses')}
                                     name="emailAddresses"
                                     className="btn btn-info plusButton">
                                     +
-                            </button>
+                                </button>
                             </Form.Row>
                             {this.state.emailAddresses.map((item, index) => (
                                 <div key={index}>
@@ -206,7 +214,8 @@ export default class AddFriend extends Component {
                                                     type="button"
                                                     onClick={e => this.handleRemoveEmailOrPhone(e, index)}
                                                     name="emailAddresses"
-                                                    className="btn btn-info">
+                                                    className="btn btn-info"
+                                                >
                                                     -
                                             </button>
                                             }
@@ -214,6 +223,8 @@ export default class AddFriend extends Component {
                                     </Form.Row>
                                 </div>
                             ))}
+                            {this.state.showEmail ? <Form.Label className="error">Wrong format</Form.Label> : null}
+
                         </div>
                     </Form.Row>
 
@@ -236,7 +247,7 @@ export default class AddFriend extends Component {
                             <Form.Control as="select" name="timeZone" ref="timeZone">
                                 {this.showTimeZoneList()}
                             </Form.Control >
-                            {(this.state.showTimeZone ? <Form.Label className="error">Choose a timezone</Form.Label> : <Form.Label ></Form.Label>)}
+                            {(this.state.showTimeZone ? <Form.Label className="error">Choose a timezone</Form.Label> : null)}
                         </Form.Group>
                     </Form.Row>
                     <Button variant="primary" type="submit">

@@ -58,14 +58,10 @@ html {
   }
 
   .plusButton{
-    margin-bottom: 0.5vw;
     margin-right: 0.5vw;
+    margin-bottom: 0.5vh
   }
-  div.plusteken{
-    display: flex;
-    justify-content: center;    
-    
-  }
+
   .addFriendForm{
     margin: 5vh 5vw
   }
@@ -143,8 +139,14 @@ html {
     margin:1vh 2vw;
   }
 
+  .navbar__link--active {
+    border-bottom: 3px solid #00a085;
+  }
+
   .error{
     color: red;
+    margin-bottom: 0;
+    padding-top: -2vh
   }
 
   .viewOnMapButton{

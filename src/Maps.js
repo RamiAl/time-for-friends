@@ -29,7 +29,7 @@ class Maps extends Component {
     }
   }
 
-  async getCoordinates() {
+  async getCoordinate() {
     await this.getPositon();
     Geocode.setApiKey('AIzaSyD3ErY-Q67YU4XDKrtsPj8iA3xYfMo-0CI')
     let position = this.state.city + " " + this.state.country
@@ -54,36 +54,36 @@ class Maps extends Component {
   async getAllFriends() {
     let allFriends = await Friend.find().limit(500);
     this.setState({ 'allFriends': allFriends });
-    this.getAllCoordinates();
   }
 
-  getAllCoordinates() {
+  async getAllCoordinates() {
     Geocode.setApiKey('AIzaSyD3ErY-Q67YU4XDKrtsPj8iA3xYfMo-0CI')
     let position;
-    this.state.allFriends.map(item => (
-      (position = item.city + " " + item.country,
-        Geocode.fromAddress(position).then(
-          response => {
-            const { lat, lng } = response.results[0].geometry.location;
-            this.setState({
-              stores: [...this.state.stores,
-              { 'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id }]
-            })
-          },
-          error => { }
-        ))
-    ))
+    for await (let item of this.state.allFriends) {
+      position = item.city + " " + item.country;
+      Geocode.fromAddress(position).then(
+        async response => {
+          const { lat, lng } = response.results[0].geometry.location;
+            await this.setState({ stores: [...this.state.stores, {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})
+        },
+        error => { }
+      );
+    }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    
     if (window.location.pathname === '/') {
-      this.getAllFriends()
+        await this.getAllFriends()
+        await this.getAllCoordinates()
     } else {
-      this.getCoordinates()
+      this.getCoordinate()
     }
   }
 
   displayMarkers = () => {
+    //console.log(this.state.stores);
+    
     return this.state.stores.map((store, index) => {
       return <Marker key={index} id={index} position={{
         lat: store.latitude,
@@ -108,13 +108,7 @@ class Maps extends Component {
     if (window.location.pathname === '/') {
       return (
         <>
-          <Map
-            id='map'
-            google={this.props.google}
-            zoom={3}
-            style={mapStyles}
-            minZoom={2}
-          >
+          <Map id='map' google={this.props.google} zoom={3} style={mapStyles} minZoom={2}>
             {this.displayMarkers()}
             <InfoWindow
               marker={this.state.activeMarker}
@@ -137,12 +131,7 @@ class Maps extends Component {
             <button type="button" className="btn btn-secondary backButton"><i className="fas fa-arrow-left"></i> Back</button>
           </Link>
           {this.state.positionOnMap ?
-            <Map
-              id='map'
-              google={this.props.google}
-              zoom={9}
-              minZoom={3}
-              style={mapStyles}
+            <Map id='map' google={this.props.google} zoom={9} minZoom={3} style={mapStyles}
               center={{
                 lat: (this.state.stores[0] && this.state.stores[0].latitude) || 0,
                 lng: (this.state.stores[0] && this.state.stores[0].longitude) || 0

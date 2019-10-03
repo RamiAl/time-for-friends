@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Maps from './Maps'
-//import Clock from './Clock'
+
 export default class Home extends Component {
     render() {
         const infoStyle = {
