@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import FriendsList from './FriendsList'
 import TimeRangeSlider from 'react-time-range-slider';
 import ScrollTop from "react-scrolltop-button";
-//import MyIcon from "react-scrolltop-button";
 import store from './utilities/Store';
 export default class SearchFriend extends Component {
     constructor(props) {
@@ -81,7 +80,6 @@ export default class SearchFriend extends Component {
             }
         }
 
-//------------------------------------------------------------------
 let e = this.state.value.end;
 if(e[1] === ':'){
     e = '0'+e;
@@ -112,9 +110,7 @@ if (e < '12:00') {
             engend: e + 'pm'
           })
     }
-}
-
-        
+}     
     }
     render() {
         return (

@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
 import moment from 'moment-timezone';
 import store from './utilities/Store';
-import { conditionalExpression } from '@babel/types';
-
 
 export default class Clock extends Component{
-
     offset = this.props.timeZone
     date = this.props.date
-    
-    
     state = {
         time : this.offset,
         date:  this.offset,
@@ -21,7 +16,6 @@ export default class Clock extends Component{
     }
 
     componentDidMount(){
-        
         this._isMounted = true;        
         this.updateClock();
         this.storeListener = ()=>{
@@ -33,11 +27,9 @@ export default class Clock extends Component{
     componentWillUnmount(){
         store.unsubscribeToChanges(this.storeListener);
         this._isMounted = false;
-        
     }
 
     async updateClock(){        
-
         while(this._isMounted){
             if(!this.props.clock){
                 let tz = this.props.timeZone;
@@ -54,25 +46,7 @@ export default class Clock extends Component{
                 await this.sleep(500);
             }
         }
-
-
-       /* 
-        while(this._isMounted){  
-            if(this.props.clock){
-                this.setState(store.lang ? {time: moment.tz(this.props.timeZone).format('hh:mm:ss a'), date: moment.tz(this.props.timeZone).format('YYYY-MM-DD')}
-                : {time: moment.tz(this.props.timeZone).format('HH:mm:ss'), date: moment.tz(this.props.timeZone).format('YYYY-MM-DD')})
-            }else{      
-                if(!this.offset){                
-                    this.setState(store.lang ? {time: moment.tz('Europe/Stockholm').format('hh:mm:ss a')}: {time: moment.tz('Europe/Stockholm').format('HH:mm:ss')})
-                }else{                
-                    this.setState(store.lang ? {time: moment.tz(this.props.timeZone).format('hh:mm:ss a'), date: moment.tz(this.props.timeZone).format('YYYY-MM-DD')}
-                : {time: moment.tz(this.props.timeZone).format('HH:mm:ss'), date: moment.tz(this.props.timeZone).format('YYYY-MM-DD')})
-                }
-            }
-            await this.sleep(500);
-        }*/
     }
-
 
     checkTime(){
        if (this.state.isoTimeWithOffset > '06:00:00') {
@@ -86,9 +60,7 @@ export default class Clock extends Component{
        }
     }
     
-    render(){    
-       
-        
+    render(){     
         return(
             <>
                 {this.props.clock ? 
@@ -105,13 +77,3 @@ export default class Clock extends Component{
         );
     }
 }
-
-/*
-{this.props.clock ? 
-            [<h3 key="c"> {this.state.time}</h3>,
-            <p key = "d"><b>{this.state.date}</b></p>] 
-            :
-             !this.offset ? <p key="a">Local time: {this.state.time}</p> : [
-            <h3 key="c"> {this.state.time}</h3>,
-            <p key = "d"><b>{this.state.date}</b></p>
-            ]} */

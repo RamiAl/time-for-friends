@@ -1,5 +1,5 @@
 const subscribingFunctions = [];
-const store  = { lang:true };
+const store  = { lang:false };
 
 // Don't set properties
 // in store directly
