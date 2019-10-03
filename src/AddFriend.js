@@ -9,8 +9,6 @@ import moment from 'moment-timezone';
 import store from './utilities/Store';
 
 const allTimeZone =  moment.tz.names();
-
-{store.lang ? allTimeZone.unshift("Choose timezone") : allTimeZone.unshift("Välj en Tidszon")}
 export default class AddFriend extends Component {
     emailCounter = 0;
     phoneCounter = 0;
@@ -39,7 +37,7 @@ export default class AddFriend extends Component {
             this.setState({lang: store.lang});   
         };
         store.subscribeToChanges(this.storeListener);
-    
+        
     }
 
     componentWillUnmount(){
@@ -59,8 +57,16 @@ export default class AddFriend extends Component {
         }
         filterItems(allTimeZone, this.state.city).map(x => console.log(x));
     }
-
+listeng(){
+    allTimeZone.shift() 
+    allTimeZone.unshift("Choose timezone")
+}
+listsv(){
+    allTimeZone.shift() 
+    allTimeZone.unshift("Välj tid zon")
+}
     showTimeZoneList(){
+        store.lang ? this.listeng() : this.listsv();
     let c = allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
     if(c.length > 0){
         if(c.map(item =>(<option key = {item}>{item}</option>).length > 0)){
@@ -108,7 +114,7 @@ export default class AddFriend extends Component {
         this.state.lastName ==='' ? this.setState({showLastName: true}) : this.setState({showLastName: false})
     }
     valTimeZone(){
-        (this.state.timeZone ==='' || this.state.timeZone ==='Choose timezone') ?  this.setState({showTimeZone: true}) 
+        (this.state.timeZone ==='' || this.state.timeZone ==='Choose timezone' ) ?  this.setState({showTimeZone: true}) 
         : this.setState({showTimeZone: false})
     }
 
@@ -134,35 +140,31 @@ export default class AddFriend extends Component {
         name === 'phoneNumbers' ? this.phoneCounter-- : this.emailCounter--;
     }
 
-    /*validateEmail(email) {   
-        const emailRegex = new RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-        return emailRegex.test(email);
-    }*/
-
     render() {
+        
         return (
             <>
                 <Form className="addFriendForm" onSubmit={(e) => this.onSubmit(e)} ref="form">
-                    <h2>Add New Friend</h2>
+                    <h2>{this.state.lang ? 'Add New Friend' : 'Lägg till ny vän'}</h2>
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridFirstName" value={this.state.name} 
                     onChange={e => this.handleUserInput(e)} >
-                    <Form.Label >First name</Form.Label>
-                    <Form.Control  name="firstName" placeholder="Enter name" />
-                    {(this.state.showFirstName ? <Form.Label className="error">File in name</Form.Label>:<Form.Label ></Form.Label>)}
+                    <Form.Label >{this.state.lang ? 'First name' : 'Förnamn'}</Form.Label>
+                    <Form.Control  name="firstName" placeholder={this.state.lang ? 'File in name' : 'Fyll in namn'} />
+                    {(this.state.showFirstName ? <Form.Label className="error">{this.state.lang ? 'File in name' : 'Fyll in namn'}</Form.Label>:<Form.Label ></Form.Label>)}
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName} 
                     onChange={e => this.handleUserInput(e)}>
-                    <Form.Label>Last name</Form.Label>
-                    <Form.Control name="lastName" placeholder="Enter last name" />
-                    {(this.state.showLastName ? <Form.Label className="error">File in lastName</Form.Label>:<Form.Label ></Form.Label>)}
+                    <Form.Label>{this.state.lang ? 'Last name' : 'Efternamn'}</Form.Label>
+                    <Form.Control name="lastName" placeholder={this.state.lang ? 'File in lastName' : 'Fyll in efternamn'} />
+                    {(this.state.showLastName ? <Form.Label className="error">{this.state.lang ? 'File in lastName' : 'Fyll in efternamn'}</Form.Label>:<Form.Label ></Form.Label>)}
                     </Form.Group>
                 </Form.Row>
 
                 <Form.Row>
                     <div className="col-md-6">
                         <Form.Row style={{justifyContent: 'space-between'}}>
-                            <Form.Label>Phone number</Form.Label>                        
+                            <Form.Label>{this.state.lang ? 'Phone number' : 'Telefonnumer'}</Form.Label>                        
                             <button type="button" 
                             onClick={e => this.handleAddEmailOrPhone(e, 'phoneNumbers')} 
                             name="phoneNumbers"
@@ -176,7 +178,7 @@ export default class AddFriend extends Component {
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridEmail" value={this.state.phoneNumbers} 
                                     onChange={e => this.handleEmailOrPhoneInput(e, index)}>
-                                        <Form.Control name="phoneNumbers" placeholder="Enter phone number" />
+                                        <Form.Control name="phoneNumbers" placeholder= {this.state.lang ? 'Enter phone number' : 'Skriv in telefonnumer'} />
                                     </Form.Group>
                                     <div>
                                         {this.phoneCounter === 0 ? null :           
@@ -197,7 +199,7 @@ export default class AddFriend extends Component {
 
                     <div className="col-md-6">
                         <Form.Row style={{justifyContent: 'space-between'}}>
-                            <Form.Label>Email address</Form.Label>                        
+                            <Form.Label>{this.state.lang ? 'Email address' : 'Email address'}</Form.Label>                        
                             <button type="button" 
                             onClick={e => this.handleAddEmailOrPhone(e, 'emailAddresses')} 
                             name="emailAddresses" 
@@ -210,7 +212,7 @@ export default class AddFriend extends Component {
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddresses} 
                                     onChange={e => this.handleEmailOrPhoneInput(e, index)}>
-                                        <Form.Control name="emailAddresses" placeholder="Enter email address" />
+                                        <Form.Control name="emailAddresses" placeholder={this.state.lang ? 'Enter email address' : 'Skriv in email address'}/>
                                     </Form.Group>
                                     <div>
                                         {this.emailCounter === 0 ? null :           
@@ -233,27 +235,27 @@ export default class AddFriend extends Component {
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridCity" value={this.state.city} 
                     onChange={e => this.handleUserInput(e)}>
-                    <Form.Label>City</Form.Label>
-                    <Form.Control name="city" placeholder="Enter city" ref ="city"/>
+                    <Form.Label>{this.state.lang ? 'City' : 'Stad'}</Form.Label>
+                    <Form.Control name="city" placeholder={this.state.lang ? 'City' : 'Stad'} ref ="city"/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridCountry" value={this.state.country} 
                     onChange={e => this.handleUserInput(e)}>
-                    <Form.Label>Country</Form.Label>
-                    <Form.Control name="country" placeholder="Enter country" ref ="country"/>
+                    <Form.Label>{this.state.lang ? 'Country' : 'Land'}</Form.Label>
+                    <Form.Control name="country" placeholder={this.state.lang ? 'Country' : 'Land'} ref ="country"/>
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone} 
                     onChange={e => this.handleUserInput(e)} >
-                    <Form.Label>Time zone</Form.Label>
+                    <Form.Label>{this.state.lang ? 'Time zone' : 'Tidzon'}</Form.Label>
                     <Form.Control as="select" name="timeZone" ref ="timeZone">
                         {this.showTimeZoneList()}
                     </Form.Control >
-                    {(this.state.showTimeZone ? <Form.Label className="error">Choose a timezone</Form.Label>:<Form.Label ></Form.Label>)}
+                    {(this.state.showTimeZone ? <Form.Label className="error">{this.state.lang ? 'Choose timezone' : 'Välj en tidzon'}</Form.Label>:<Form.Label ></Form.Label>)}
                     </Form.Group>
                 </Form.Row>
                 <Button variant="primary" type="submit">
-                    Add
+                {this.state.lang ? 'Add' : 'Lägg till'}
                 </Button>
                 </Form>
             </>

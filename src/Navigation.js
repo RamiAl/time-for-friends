@@ -21,7 +21,6 @@ componentWillUnmount(){
   store.unsubscribeToChanges(this.storeListener);
 }
 switchlang() {
-  console.log('hej');
   if (store.lang === true){
     store.setState({
       lang: false

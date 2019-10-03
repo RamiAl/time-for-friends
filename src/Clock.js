@@ -87,7 +87,6 @@ export default class Clock extends Component{
     }
     
     render(){    
-        let en = moment.tz(this.props.timeZone).format('hh:mm:ss a');
        
         
         return(

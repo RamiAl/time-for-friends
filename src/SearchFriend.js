@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import FriendsList from './FriendsList'
 import TimeRangeSlider from 'react-time-range-slider';
 import ScrollTop from "react-scrolltop-button";
-import MyIcon from "react-scrolltop-button";
+//import MyIcon from "react-scrolltop-button";
 import store from './utilities/Store';
 export default class SearchFriend extends Component {
     constructor(props) {
@@ -15,18 +15,23 @@ export default class SearchFriend extends Component {
             sortBy: 'firstName',
             value: {
                 start: "00:00",
-                end: "23:59"
+                end: "23:45",
             },
+            engstart: "00:00",
+            engend:"11:45",
+            timeofday: true,
             lang: store.lang
         };
         this.timeChangeHandler = this.timeChangeHandler.bind(this);
         this.handleUserInput = this.handleUserInput.bind(this);
     } 
     componentDidMount(){
+        this.toeng();
         this.storeListener = ()=>{
             this.setState({lang: store.lang});   
         };
         store.subscribeToChanges(this.storeListener);
+        
     }
 
     componentWillUnmount(){
@@ -42,8 +47,75 @@ export default class SearchFriend extends Component {
         this.setState({
             value: time
         });
+        this.toeng();
     }
 
+    toeng(){
+        let s = this.state.value.start;
+        if(s[1] === ':'){
+            s = '0'+s;
+        }
+        if (s < '12:00') {
+         if(s < '01:00'){
+             s = '12' + s.substr(2);
+         }
+         if(this.state.engstart !== s + 'am'){
+             this.setState({
+                 engstart: s + 'am'
+                });
+            }
+        }else{
+            if (this.state.engstart !== s + 'pm') {
+                  if(s >= '13:00'){
+                    let nr;
+                    nr = parseInt(s,10);
+                    nr = nr-12;
+                    s = nr+s.substr(2); 
+                    if (nr < 10) {
+                        s = '0'+s;  
+                    }
+                  }
+                  this.setState({
+                    engstart: s + 'pm'
+                  })
+            }
+        }
+
+//------------------------------------------------------------------
+let e = this.state.value.end;
+if(e[1] === ':'){
+    e = '0'+e;
+}
+
+if (e < '12:00') {
+ if(e < '01:00'){
+     e = '12' + e.substr(2);
+ }
+ if(this.state.engend === e + 'am'){
+  return;
+ }
+    this.setState({
+    engend: e + 'am'
+  });
+}else{
+    if (this.state.engend !== e + 'pm') {
+          if(e >= '13:00'){
+            let nr;
+            nr = parseInt(e,10);
+            nr = nr-12;
+            e = nr+e.substr(2); 
+            if (nr < 10) {
+                e = '0'+e;  
+            }
+          }
+          this.setState({
+            engend: e + 'pm'
+          })
+    }
+}
+
+        
+    }
     render() {
         return (
             <>
@@ -77,7 +149,7 @@ export default class SearchFriend extends Component {
                     </div>
                     <TimeRangeSlider 
                     format={24}
-                    maxValue={"23:59"}
+                    maxValue={"23:45"}
                     minValue={"00:00"}
                     name={"time_range"}
                     onChange={this.timeChangeHandler}
@@ -85,8 +157,8 @@ export default class SearchFriend extends Component {
                     value={this.state.value}/>
                         
                     <div className = "timeRange">
-                        <h6>{store.lang ?'start: ':'start: '} {this.state.value.start}</h6>
-                        <h6>{store.lang ?'end: ':'slut: '} {this.state.value.end}</h6>
+                        <h6>{store.lang ?'start: ':'start: '}  {store.lang ?  this.state.engstart : this.state.value.start}</h6>
+                        <h6>{store.lang ?'end: ':'slut: '} {store.lang ?  this.state.engend : this.state.value.end}</h6>
                     </div>
 
                     <FriendsList {...this.state}/>
