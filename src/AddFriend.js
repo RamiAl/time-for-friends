@@ -29,7 +29,7 @@ export default class AddFriend extends Component {
             showEmail: false
         };
         this.handleUserInput = this.handleUserInput.bind(this);
-        this.handleAddEmailOrPhone = this.handleAddEmailOrPhone.bind(this);
+        this.handleAddEmailOrPhoneInput = this.handleAddEmailOrPhoneInput.bind(this);
         this.handleEmailOrPhoneInput = this.handleEmailOrPhoneInput.bind(this);
         this.handleRemoveEmailOrPhone = this.handleRemoveEmailOrPhone.bind(this);
     }
@@ -112,7 +112,8 @@ export default class AddFriend extends Component {
         ))
     }
 
-    handleAddEmailOrPhone(e, name) {
+    handleAddEmailOrPhoneInput(e) {
+        let { name } = e.target;
         this.setState({ [name]: this.state[name].concat([""]) });
         name === 'phoneNumbers' ? this.phoneCounter++ : this.emailCounter++;
     }

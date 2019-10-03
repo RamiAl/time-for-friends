@@ -174,6 +174,9 @@ html {
     text-Align: center; 
     margin-Top: 20vh
   }
+  .navbar__link--active {
+    border-bottom: 3px solid #00a085;
+  }
 
   @media only screen and (max-width: 768px) {
     .viewOnMapButton{
