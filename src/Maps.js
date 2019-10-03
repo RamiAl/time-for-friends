@@ -122,39 +122,13 @@ class Maps extends Component{
               <>
                 <h5>{this.state.selectedFriend.name}</h5>
                 <button type="button" data-id={this.state.selectedFriend.id}
-                  className="btn btn-secondary backButton more-info-btn">More info</button>
+                  className="btn btn-secondary backButton more-info-btn">{store.lang ? 'More info' : 'Mer information'}</button>
               </>
             </InfoWindow>
           </Map>
         </>
       );
     }
-    else {
-      return (
-        <>
-          <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
-            <button type="button" className="btn btn-secondary backButton"><i className="fas fa-arrow-left"></i> Back</button>
-          </Link>
-          {this.state.positionOnMap ?
-            <Map id='map' google={this.props.google} zoom={9} minZoom={3} style={mapStyles}
-              center={{
-                lat: (this.state.stores[0] && this.state.stores[0].latitude) || 0,
-                lng: (this.state.stores[0] && this.state.stores[0].longitude) || 0
-              }}
-            >
-              {this.displayMarkers()}
-              <InfoWindow
-                marker={this.state.activeMarker}
-                visible={this.state.showingInfoWindow}
-              >
-                <h5>{this.state.selectedFriend.name}</h5>
-                <button type="button" data-id={this.state.selectedFriend.id} 
-                className="btn btn-secondary backButton more-info-btn">{store.lang ? 'More info': 'Mer information'}</button>
-              </InfoWindow>
-            </Map> 
-          </>
-        );  
-      }
       else {
         return (
           <>
@@ -189,7 +163,6 @@ class Maps extends Component{
       }
     }
   }
-}
 
 export default withRouter(GoogleApiWrapper({
   apiKey: 'AIzaSyD3ErY-Q67YU4XDKrtsPj8iA3xYfMo-0CI'
