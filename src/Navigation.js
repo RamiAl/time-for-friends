@@ -15,9 +15,9 @@ render() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink className="nav-placment navLinkStyle" to='/'>Home</NavLink>
-          <NavLink className="nav-placment navLinkStyle" to='/addfriend'>Add Friend</NavLink>
-          <NavLink className="nav-placment navLinkStyle" to='/searchfriend'>Search For Friend</NavLink>
+          <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/'>Home</NavLink>
+          <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/addfriend'>Add Friend</NavLink>
+          <NavLink className="nav-placment navLinkStyle" exact activeClassName="navbar__link--active" to='/searchfriend'>Search For Friend</NavLink>
           <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
           
         </Nav>
