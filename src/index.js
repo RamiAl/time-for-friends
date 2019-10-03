@@ -9,10 +9,10 @@ import { BrowserRouter } from 'react-router-dom';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 //import '../node_modules/font-awesome'
 ReactDOM.render((
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-    ), document.getElementById('root'));
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+), document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

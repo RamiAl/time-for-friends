@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom';
 class Router extends Component {
     render() {
-    return (
+        return (
             <Switch>
                 <Route exact path='/' component={Home}></Route>
                 <Route path='/addfriend' component={AddFriend}></Route>
@@ -19,7 +19,7 @@ class Router extends Component {
                 <Route path='/maps/:id' component={Maps}></Route>
                 <Route component={NoMatch}></Route>
             </Switch>
-            );
+        );
     }
 }
 

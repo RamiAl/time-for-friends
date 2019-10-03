@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Maps from './Maps'
 //import Clock from './Clock'
 export default class Home extends Component {
@@ -12,12 +12,12 @@ export default class Home extends Component {
             fontSize: '4vw',
             textAlign: 'center',
         }
-        return(
+        return (
             <>
-                <p style = {welcomStyle}>Welcome!</p>
-                <p style = {infoStyle}>Here you can see where your friends are on the map</p>
+                <p style={welcomStyle}>Welcome!</p>
+                <p style={infoStyle}>Here you can see where your friends are on the map</p>
                 <Maps />
             </>
-        ); 
+        );
     }
 }
