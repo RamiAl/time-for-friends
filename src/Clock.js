@@ -1,78 +1,94 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment-timezone';
 import store from './utilities/Store';
 
-export default class Clock extends Component{
+export default class Clock extends Component {
     offset = this.props.timeZone
     date = this.props.date
     state = {
-        time : this.offset,
-        date:  this.offset,
+        time: this.offset,
+        date: this.offset,
         lang: store.lang
     };
-    
-    sleep(ms){
-        return new Promise ((resolve) => setTimeout(resolve, ms))
+
+    sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms))
     }
 
-    componentDidMount(){
-        this._isMounted = true;        
+    componentDidMount() {
+        this._isMounted = true;
         this.updateClock();
-        this.storeListener = ()=>{
-            this.setState({lang: store.lang});   
+        this.storeListener = () => {
+            this.setState({ lang: store.lang });
         };
-        store.subscribeToChanges(this.storeListener);        
+        store.subscribeToChanges(this.storeListener);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         store.unsubscribeToChanges(this.storeListener);
         this._isMounted = false;
     }
 
-    async updateClock(){        
-        while(this._isMounted){
-            if(!this.props.clock){
-                let tz = this.props.timeZone;
-                if(!this.props.timeZone){ tz =  'Europe/Stockholm'; }
-                let stateChange = {
-                    engTimeWithOffset: moment.tz(tz).format('hh:mm:ss a'),
-                    engDateWithOffset: moment.tz(tz).format('YYYY-MM-DD'),
-                    isoTimeWithOffset: moment.tz(tz).format('HH:mm:ss'),
-                    isoDateWithOffset:  moment.tz(tz).format('YYYY-MM-DD')
+    async updateClock() {
+        const pathname = window.location.pathname.split('/')[1];
+        while (this._isMounted) {
+            if (pathname === 'friendPage') {
+                if (this.props.clock) {
+                    this.setState({ time: moment.tz(this.props.timeZone).format('HH:mm:ss'), date: moment.tz(this.props.timeZone).format('YYYY-MM-DD') })
+                } else {
+                    if (!this.offset) {
+                        this.setState({ time: new Date().toLocaleTimeString() })
+                    } else {
+                        this.setState({ time: moment.tz(this.offset).format('HH:mm:ss'), date: moment.tz(this.offset).format('YYYY-MM-DD') })
+                    }
                 }
-                stateChange.time = store.lang ? stateChange.engTimeWithOffset : stateChange.isoTimeWithOffset;
-                stateChange.date = store.lang ? stateChange.engDateWithOffset : stateChange.isoDateWithOffset;
-                this.setState(stateChange);
                 await this.sleep(500);
+            } else {
+                if (this.props){
+                if (!this.props.clock) {
+                    let tz = this.props.timeZone;
+                    if (!this.props.timeZone) { tz = 'Europe/Stockholm'; }
+                    let stateChange = {
+                        engTimeWithOffset: moment.tz(tz).format('hh:mm:ss a'),
+                        engDateWithOffset: moment.tz(tz).format('YYYY-MM-DD'),
+                        isoTimeWithOffset: moment.tz(tz).format('HH:mm:ss'),
+                        isoDateWithOffset: moment.tz(tz).format('YYYY-MM-DD')
+                    }
+                    stateChange.time = store.lang ? stateChange.engTimeWithOffset : stateChange.isoTimeWithOffset;
+                    stateChange.date = store.lang ? stateChange.engDateWithOffset : stateChange.isoDateWithOffset;
+                    this.setState(stateChange);
+                    await this.sleep(500);
+                }
+            }
             }
         }
     }
 
-    checkTime(){
-       if (this.state.isoTimeWithOffset > '06:00:00') {
-           if(this.state.isoTimeWithOffset < '20:00:00'){
-             return <i className="fas fa-sun"></i>;  
-           }else{
+    checkTime() {
+        if (this.state.isoTimeWithOffset > '06:00:00') {
+            if (this.state.isoTimeWithOffset < '20:00:00') {
+                return <i className="fas fa-sun"></i>;
+            } else {
+                return <i className="fas fa-moon"></i>;
+            }
+        } else {
             return <i className="fas fa-moon"></i>;
         }
-       }else{
-           return <i className="fas fa-moon"></i>;
-       }
     }
-    
-    render(){     
-        return(
+
+    render() {
+        return (
             <>
-                {this.props.clock ? 
-                [<h3 key="c"> {this.state.time} {this.checkTime()}</h3>,
-                <p key = "d"><b>{this.state.date}</b></p>] 
-                :
-                !this.offset ? <p key="b"> {this.checkTime()} {store.lang ? 'Local time: ': 'Lokala tiden:'}  
-                {this.state.time}
-                </p>  : [
-                <h3 key="c"> {this.state.time}</h3>,
-                <p key = "d"><b>{this.state.date} {store.lang ? this.checkTime() : this.checkTime()}</b></p>
-                ]}
+                {this.props.clock ?
+                    [<h3 key="c"> {this.state.time} {this.checkTime()}</h3>,
+                    <p key="d"><b>{this.state.date}</b></p>]
+                    :
+                    !this.offset ? <p key="b"> {this.checkTime()} {store.lang ? 'Local time: ' : 'Lokala tiden:'}
+                        {this.state.time}
+                    </p> : [
+                            <h3 key="c"> {this.state.time}</h3>,
+                            <p key="d"><b>{this.state.date} {store.lang ? this.checkTime() : this.checkTime()}</b></p>
+                        ]}
             </>
         );
     }
