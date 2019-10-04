@@ -87,7 +87,7 @@ export default class FriendsList extends Component {
         return (
             <div >
                 {this.state.errorMessage ? <h3 className="friendListError">{this.state.errorMessage}</h3> :
-                    !this.state.allFriends ? <h3 className="friendListError">{store.lang ? <p>loading...</p> : <p>ladar...</p>}</h3> : 
+                    !this.state.allFriends ? <h3 className="friendListError">{store.lang ? <p>loading...</p> : <p>laddar...</p>}</h3> : 
                         this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm')
                             && moment.tz(item.timeZone).format('HH:mm') <= endTime)
                             .map(item => (

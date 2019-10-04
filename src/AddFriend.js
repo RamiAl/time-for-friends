@@ -160,29 +160,23 @@ export default class AddFriend extends Component {
                             onChange={e => this.handleUserInput(e)} >
                             <Form.Label >{this.state.lang ? 'First name' : 'Förnamn'}</Form.Label>
                             <Form.Control name="firstName" placeholder={this.state.lang ? 'File in name' : 'Fyll in namn'} />
-                            {(this.state.showFirstName ? <Form.Label className="error">{this.state.lang ? 'File in name' : 'Fyll in namn'}</Form.Label> : <Form.Label ></Form.Label>)}
+                            {(this.state.showFirstName ? <Form.Label className="error">{this.state.lang ? 'File in name' : 'Fyll in namn'}</Form.Label> : null)}
                         </Form.Group>
                         <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName}
                             onChange={e => this.handleUserInput(e)}>
                             <Form.Label>{this.state.lang ? 'Last name' : 'Efternamn'}</Form.Label>
                             <Form.Control name="lastName" placeholder={this.state.lang ? 'File in lastName' : 'Fyll in efternamn'} />
-                            {(this.state.showLastName ? <Form.Label className="error">{this.state.lang ? 'File in lastName' : 'Fyll in efternamn'}</Form.Label> : <Form.Label ></Form.Label>)}
+                            {(this.state.showLastName ? <Form.Label className="error">{this.state.lang ? 'File in lastName' : 'Fyll in efternamn'}</Form.Label> : null)}
                         </Form.Group>
                     </Form.Row>
-
                     <Form.Row>
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label>{this.state.lang ? 'Phone number' : 'Telefonnumer'}</Form.Label>
-                                <button type="button"
-                                    onClick={e => this.handleAddEmailOrPhone(e, 'phoneNumbers')}
-                                    name="phoneNumbers"
-                                    className="btn btn-info plusButton"
-                                >
+                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>{this.state.lang ? 'Phone number' : 'Telefonnumer'}</Form.Label>
+                                <button type="button" onClick={e => this.handleAddEmailOrPhoneInput(e)} name="phoneNumbers" className="btn btn-info plusButton">
                                     +
                                 </button>
                             </Form.Row>
-
                             {this.state.phoneNumbers.map((item, index) => (
                                 <div key={index}>
                                     <Form.Row>
@@ -192,83 +186,67 @@ export default class AddFriend extends Component {
                                         </Form.Group>
                                         <div>
                                             {this.phoneCounter === 0 ? null :
-                                                <button
-                                                    type="button"
-                                                    onClick={e => this.handleRemoveEmailOrPhone(e, index)}
-                                                    name="phoneNumbers"
-                                                    className="btn btn-info"
-                                                >
+                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="phoneNumbers" 
+                                                className="btn btn-info">
                                                     -
-                                            </button>
+                                                </button>
                                             }
                                         </div>
                                     </Form.Row>
                                 </div>
                             ))}
                         </div>
-
-                    </Form.Row>
-                    <div className="col-md-6">
-                        <Form.Row style={{ justifyContent: 'space-between' }}>
-                            <Form.Label>{this.state.lang ? 'Email address' : 'Email address'}</Form.Label>
-                            <button type="button"
-                                onClick={e => this.handleAddEmailOrPhone(e, 'emailAddresses')}
-                                name="emailAddresses"
-                                className="btn btn-info plusButton"
-                            >
-                                +
+                        <div className="col-md-6">
+                            <Form.Row style={{ justifyContent: 'space-between' }}>
+                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>{this.state.lang ? 'Email address' : 'Email address'}</Form.Label>
+                                <button type="button" onClick={e => this.handleAddEmailOrPhoneInput(e)} name="emailAddresses" className="btn btn-info plusButton">
+                                    +
                                 </button>
-                        </Form.Row>
-                        {this.state.emailAddresses.map((item, index) => (
-                            <div key={index}>
-                                <Form.Row>
-                                    <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddresses}
-                                        onChange={e => this.handleEmailOrPhoneInput(e, index)}>
-                                        <Form.Control name="emailAddresses" placeholder={this.state.lang ? 'Enter email address' : 'Skriv in email address'} />
-                                    </Form.Group>
-                                    <div>
-                                        {this.emailCounter === 0 ? null :
-                                            <button
-                                                type="button"
-                                                onClick={e => this.handleRemoveEmailOrPhone(e, index)}
-                                                name="emailAddresses"
-                                                className="btn btn-info"
-                                            >
-                                                -
-                                            </button>
-                                        }
-                                    </div>
-                                </Form.Row>
-                            </div>
-                        ))}
-                        {this.state.showEmail ? <Form.Label className="error">Wrong format</Form.Label> : null}
-
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="formGridCity" value={this.state.city}
-                                onChange={e => this.handleUserInput(e)}>
-                                <Form.Label>{this.state.lang ? 'City' : 'Stad'}</Form.Label>
-                                <Form.Control name="city" placeholder={this.state.lang ? 'City' : 'Stad'} ref="city" />
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridCountry" value={this.state.country}
-                                onChange={e => this.handleUserInput(e)}>
-                                <Form.Label>{this.state.lang ? 'Country' : 'Land'}</Form.Label>
-                                <Form.Control name="country" placeholder={this.state.lang ? 'Country' : 'Land'} ref="country" />
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone}
-                                onChange={e => this.handleUserInput(e)} >
-                                <Form.Label>{this.state.lang ? 'Time zone' : 'Tidzon'}</Form.Label>
-                                <Form.Control as="select" name="timeZone" ref="timeZone">
-                                    {this.showTimeZoneList()}
-                                </Form.Control >
-                                {(this.state.showTimeZone ? <Form.Label className="error">{this.state.lang ? 'Choose timezone' : 'Välj en tidzon'}</Form.Label> : <Form.Label ></Form.Label>)}
-                            </Form.Group>
-                        </Form.Row>
-                        <Button variant="primary" type="submit">
-                            {this.state.lang ? 'Add' : 'Lägg till'}
-                        </Button>
-                    </div>
+                            </Form.Row>
+                            {this.state.emailAddresses.map((item, index) => (
+                                <div key={index}>
+                                    <Form.Row>
+                                        <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddresses}
+                                            onChange={e => this.handleEmailOrPhoneInput(e, index)}>
+                                            <Form.Control name="emailAddresses" placeholder={this.state.lang ? 'Enter email address' : 'Skriv in email address'} />
+                                        </Form.Group>
+                                        <div>
+                                            {this.emailCounter === 0 ? null :
+                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="emailAddresses" 
+                                                className="btn btn-info">
+                                                    -
+                                                </button>
+                                            }
+                                        </div>
+                                    </Form.Row>
+                                </div>
+                            ))}
+                            {this.state.showEmail ? <Form.Label className="error">Wrong format</Form.Label> : null}
+                        </div>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} controlId="formGridCity" value={this.state.city}
+                            onChange={e => this.handleUserInput(e)}>
+                            <Form.Label>{this.state.lang ? 'City' : 'Stad'}</Form.Label>
+                            <Form.Control name="city" placeholder={this.state.lang ? 'City' : 'Stad'} ref="city" />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridCountry" value={this.state.country}
+                            onChange={e => this.handleUserInput(e)}>
+                            <Form.Label>{this.state.lang ? 'Country' : 'Land'}</Form.Label>
+                            <Form.Control name="country" placeholder={this.state.lang ? 'Country' : 'Land'} ref="country" />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone}
+                            onChange={e => this.handleUserInput(e)} >
+                            <Form.Label>{this.state.lang ? 'Time zone' : 'Tidzon'}</Form.Label>
+                            <Form.Control as="select" name="timeZone" ref="timeZone">
+                                {this.showTimeZoneList()}
+                            </Form.Control >
+                            {(this.state.showTimeZone ? <Form.Label className="error">{this.state.lang ? 'Choose timezone' : 'Välj en tidzon'}</Form.Label> : null)}
+                        </Form.Group>
+                    </Form.Row>
+                    <Button variant="primary" type="submit">
+                        {this.state.lang ? 'Add' : 'Lägg till'}
+                    </Button>
                 </Form>
             </>
         );
