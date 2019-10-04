@@ -64,7 +64,7 @@ class Maps extends Component {
       Geocode.fromAddress(position).then(
         async response => {
           const { lat, lng } = response.results[0].geometry.location;
-            await this.setState({ stores: [...this.state.stores, {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})
+          this.setState({ stores: [...this.state.stores, {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})
         },
         error => { }
       );
@@ -72,7 +72,6 @@ class Maps extends Component {
   }
 
   async componentDidMount() {
-    
     if (window.location.pathname === '/') {
         await this.getAllFriends()
         await this.getAllCoordinates()
@@ -82,8 +81,6 @@ class Maps extends Component {
   }
 
   displayMarkers = () => {
-    //console.log(this.state.stores);
-    
     return this.state.stores.map((store, index) => {
       return <Marker key={index} id={index} position={{
         lat: store.latitude,

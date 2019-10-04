@@ -1,6 +1,6 @@
 importJsonDataToDb()
-let chosenMockData = Math.random() < 0.5 ? './MOCK_DATA_A.json' : './MOCK_DATA_B.json';
-let friendData = require(chosenMockData);
+let mockData = './MOCK_DATA_B.json';
+let friendData = require(mockData);
 moreEmailAddressesPerPerson();
 morePhoneNumbersPerPerson();
 async function importJsonDataToDb() {
@@ -11,7 +11,7 @@ let Friend = require('./mongoose-models/Friend');
     await Friend.remove({});
     let counter = await Friend.countDocuments();
       console.log('Tömer db', counter);
-      console.log(chosenMockData)
+      console.log(mockData)
   }
   for(let data of friendData){
       let friend = new Friend(data);
