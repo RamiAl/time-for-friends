@@ -42,6 +42,27 @@ html {
     margin-bottom: 15px;
   }
 
+  .homeInfoStyle{
+    font-size: 2vw;
+    text-align: center
+  }
+
+  .inputStyle{
+    padding-top: 1vh;
+    margin-bottom: 0;
+  }
+
+  .mapStyles{
+    width: 90vw;
+    height: 70vh;
+    margin: 2vh 0vw 0 5vw
+  }
+
+  .homeWelcomStyle{
+    margin-top: 2vh;
+    font-size: 3vw;
+    text-align: center;
+  }
 
   .form{
     margin: 3vh, 30vh;
@@ -201,5 +222,11 @@ html {
     }
     div.friendItem{
       width: 90vw;
+    }
+    .homeInfoStyle{
+      font-size: 4vw;
+    }
+    .homeWelcomStyle{
+      font-size: 5vw;
     }
   }

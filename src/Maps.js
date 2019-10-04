@@ -5,6 +5,8 @@ import { Friend } from 'the.rest/dist/to-import';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import store from './utilities/Store';
+import './layout.css';
+
 class Maps extends Component{
   constructor(props) {
     super(props);
@@ -87,8 +89,6 @@ class Maps extends Component{
     store.unsubscribeToChanges(this.storeListener);
 }
   displayMarkers = () => {
-    //console.log(this.state.stores);
-    
     return this.state.stores.map((store, index) => {
       return <Marker key={index} id={index} position={{
         lat: store.latitude,
@@ -105,15 +105,10 @@ class Maps extends Component{
   }
 
   render() {
-    const mapStyles = {
-      width: '90vw',
-      height: '70vh',
-      margin: '2vh 0vw 0 5vw'
-    };
     if (window.location.pathname === '/') {
       return (
         <>
-          <Map id='map' google={this.props.google} zoom={3} style={mapStyles} minZoom={2}>
+          <Map id='map' google={this.props.google} zoom={3} className="mapStyles" minZoom={2}>
             {this.displayMarkers()}
             <InfoWindow
               marker={this.state.activeMarker}
@@ -137,11 +132,7 @@ class Maps extends Component{
             </Link>
             {this.state.positionOnMap ? 
               <Map
-                id='map'
-                google={this.props.google}
-                zoom={9}
-                minZoom={3}
-                style={mapStyles}
+                id='map' google={this.props.google} zoom={9} minZoom={3} className="mapStyles"
                 center={{
                   lat: (this.state.stores[0] && this.state.stores[0].latitude) || 0, 
                   lng: (this.state.stores[0] && this.state.stores[0].longitude) || 0

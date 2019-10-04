@@ -172,7 +172,7 @@ export default class AddFriend extends Component {
                     <Form.Row>
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>{this.state.lang ? 'Phone number' : 'Telefonnumer'}</Form.Label>
+                                <Form.Label className="inputStyle">{this.state.lang ? 'Phone number' : 'Telefonnumer'}</Form.Label>
                                 <button type="button" onClick={e => this.handleAddEmailOrPhoneInput(e)} name="phoneNumbers" className="btn btn-info plusButton">
                                     +
                                 </button>
@@ -198,7 +198,7 @@ export default class AddFriend extends Component {
                         </div>
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>{this.state.lang ? 'Email address' : 'Email address'}</Form.Label>
+                                <Form.Label className="inputStyle">{this.state.lang ? 'Email address' : 'Email address'}</Form.Label>
                                 <button type="button" onClick={e => this.handleAddEmailOrPhoneInput(e)} name="emailAddresses" className="btn btn-info plusButton">
                                     +
                                 </button>
