@@ -28,7 +28,7 @@ export default class FriendPage extends Component {
 
     async getTheFriend(){
         let friend = await Friend.findOne({_id: this.props.match.params.id})
-        Object.assign(friend, {clock: true})
+        Object.assign(friend, {friendPage: true})
         this.setState ({'friend': friend})
     }
 
@@ -37,7 +37,7 @@ export default class FriendPage extends Component {
         return (
             <>
                 <Link to={`/searchfriend`} className="linkStyle">
-                <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i> {store.lang ? 'Back':'Tillbacka'}</button>
+                <button type="button" className="btn btn-secondary backButton"><i className="fas fa-arrow-left"></i> {store.lang ? 'Back':'Tillbacka'}</button>
                 </Link>
                 <div className="container-fluid friendItem">
                     <div className="row ">
@@ -50,6 +50,7 @@ export default class FriendPage extends Component {
                                         <p key={e} className="infoStyle">{e}</p>
                                     </Form.Row>) : null)
                                 : null}
+                                
                             {friend.phoneNumbers ? (friend.phoneNumbers[0] ?
                                 friend.phoneNumbers.map((e, index) =>
                                     <Form.Row key={index}>
