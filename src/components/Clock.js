@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment-timezone';
-import store from './utilities/Store';
+import store from '../utilities/Store';
 
 export default class Clock extends Component {
     offset = this.props.timeZone

@@ -4,8 +4,8 @@ import Geocode from "react-geocode";
 import { Friend } from 'the.rest/dist/to-import';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import store from './utilities/Store';
-import './layout.css';
+import store from '../utilities/Store';
+import '../css/layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Maps extends Component {
@@ -150,7 +150,7 @@ class Maps extends Component {
               </Map>
             </div>
             :
-            <h1 style={{ margin: 0 }}>{store.lang ? 'Position was not found' : 'Platsen hittades inte'}</h1>
+            <h1 className="friendListError" >{store.lang ? 'Position was not found' : 'Platsen hittades inte'}</h1>
           }
         </>
       );

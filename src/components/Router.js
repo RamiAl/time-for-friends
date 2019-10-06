@@ -5,7 +5,7 @@ import Home from './Home'
 import Maps from './Maps'
 import FriendPage from './FriendPage'
 import NoMatch from './NoMatch'
-import './layout.css';
+import '../css/layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom';
 class Router extends Component {

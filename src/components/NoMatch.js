@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Maps from './Maps'
-import store from './utilities/Store';
-import './layout.css';
-
-export default class Home extends Component {
+import store from '../utilities/Store';
+export default class NoMatch extends Component {
 
     constructor(props) {
         super(props)
@@ -20,15 +17,11 @@ export default class Home extends Component {
     componentWillUnmount() {
         store.unsubscribeToChanges(this.storeListener);
     }
-
     render() {
         return (
             <>
-                <p className="homeWelcomStyle">{store.lang ? 'Welcome!' : 'Välkommen!'}</p>
-                <p className="homeInfoStyle"> {store.lang ? 'Here you can see where your friends are on the map'
-                    : 'Här kan du se var dinna vänner befiner sig på kartan'} </p>
-                <Maps {...{friendPage: true}} />
+                <div>{this.state.lang ? 'NO MATCH!' : 'Inga träffar funna!'}</div>
             </>
         );
     }
-}
+} 

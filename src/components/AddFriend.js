@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './layout.css';
+import '../css/layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Friend } from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
-import store from './utilities/Store';
+import store from '../utilities/Store';
 
 export default class AddFriend extends Component {
     allTimeZone = moment.tz.names();
@@ -54,24 +54,24 @@ export default class AddFriend extends Component {
             })
         }
     }
-    showTimeZoneList(){
-        let c = this.allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
-        if(c.length > 0){
-            if(c.map(item =>(<option key = {item}>{item}</option>).length > 0)){
-                setTimeout(()=>{
+    showTimeZoneList() {
+        let c = this.allTimeZone.filter(item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
+        if (c.length > 0) {
+            if (c.map(item => (<option key={item}>{item}</option>).length > 0)) {
+                setTimeout(() => {
                     const v = this.refs.timeZone.value;
                     if (this.state.timeZone !== v) {
-                        this.setState({timeZone: v})
+                        this.setState({ timeZone: v })
                     }
-                }, 0);        
-                return c.map(item =>(<option key = {item}>{item}</option>));
+                }, 0);
+                return c.map(item => (<option key={item}>{item}</option>));
             }
-        }else{
-            return this.allTimeZone.map(item =>(
-                <option key = {item}>{item}</option>
+        } else {
+            return this.allTimeZone.map(item => (
+                <option key={item}>{item}</option>
             ));
         }
-        
+
     }
     async onSubmit(e) {
         e.preventDefault();
@@ -103,7 +103,7 @@ export default class AddFriend extends Component {
         this.state.lastName === '' ? this.setState({ showLastName: true }) : this.setState({ showLastName: false })
     }
     valTimeZone() {
-        (this.state.timeZone === '' ) ? this.setState({ showTimeZone: true })
+        (this.state.timeZone === '') ? this.setState({ showTimeZone: true })
             : this.setState({ showTimeZone: false })
     }
 
@@ -166,8 +166,8 @@ export default class AddFriend extends Component {
                                         </Form.Group>
                                         <div>
                                             {this.phoneCounter === 0 ? null :
-                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="phoneNumbers" 
-                                                className="btn btn-info">
+                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="phoneNumbers"
+                                                    className="btn btn-info">
                                                     -
                                                 </button>
                                             }
@@ -192,8 +192,8 @@ export default class AddFriend extends Component {
                                         </Form.Group>
                                         <div>
                                             {this.emailCounter === 0 ? null :
-                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="emailAddresses" 
-                                                className="btn btn-info">
+                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="emailAddresses"
+                                                    className="btn btn-info">
                                                     -
                                                 </button>
                                             }
