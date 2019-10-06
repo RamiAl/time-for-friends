@@ -1,5 +1,5 @@
 importJsonDataToDb()
-let mockData = './MOCK_DATA_B.json';
+let mockData = './MOCK_DATA.json';
 let friendData = require(mockData);
 moreEmailAddressesPerPerson();
 morePhoneNumbersPerPerson();

@@ -43,7 +43,7 @@ render() {
           <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/addfriend'>{store.lang ? 'Add Friend' :'Lägg till vän'}</NavLink>
           <NavLink className="nav-placment navLinkStyle" activeClassName="navbar__link--active" to='/searchfriend'>{store.lang ? 'Search For Friend' :'Sök efter vän'}</NavLink>
           <NavLink className="nav-placment disabled" to=''><Clock/></NavLink>
-          <button onClick={() => this.switchlang()}>{store.lang ? 'Switch to Sv' : 'Bytt till Eng'}</button>
+          <button type="button" className="btn btn-secondary" onClick={() => this.switchlang()}>{store.lang ? 'Switch to Sv' : 'Bytt till Eng'}</button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
