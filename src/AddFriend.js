@@ -8,10 +8,8 @@ import { Friend } from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
 import store from './utilities/Store';
 
-const allTimeZone = moment.tz.names();
-allTimeZone.unshift("Choose timezone");
-
 export default class AddFriend extends Component {
+    allTimeZone = moment.tz.names();
     emailCounter = 0;
     phoneCounter = 0;
     constructor(props) {
@@ -57,30 +55,26 @@ export default class AddFriend extends Component {
                 return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
             })
         }
-        filterItems(allTimeZone, this.state.city).map(x => console.log(x));
+        filterItems(this.allTimeZone, this.state.city).map(x => console.log(x));
     }
-    listeng() {
-        allTimeZone.shift()
-        allTimeZone.unshift("Choose timezone")
-    }
-    listsv() {
-        allTimeZone.shift()
-        allTimeZone.unshift("Välj tid zon")
-    }
-    showTimeZoneList() {
-        store.lang ? this.listeng() : this.listsv();
-        let c = allTimeZone.filter(item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
-        if (c.length > 0) {
-            if (c.map(item => (<option key={item}>{item}</option>).length > 0)) {
-                setTimeout(() => {
+    showTimeZoneList(){
+        let c = this.allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
+        if(c.length > 0){
+            if(c.map(item =>(<option key = {item}>{item}</option>).length > 0)){
+                setTimeout(()=>{
                     const v = this.refs.timeZone.value;
                     if (this.state.timeZone !== v) {
-                        this.setState({ timeZone: v })
+                        this.setState({timeZone: v})
                     }
-                }, 0);
-                return c.map(item => (<option key={item}>{item}</option>));
+                }, 0);        
+                return c.map(item =>(<option key = {item}>{item}</option>));
             }
+        }else{
+            return this.allTimeZone.map(item =>(
+                <option key = {item}>{item}</option>
+            ));
         }
+        
     }
     async onSubmit(e) {
         e.preventDefault();
@@ -114,7 +108,7 @@ export default class AddFriend extends Component {
         this.state.lastName === '' ? this.setState({ showLastName: true }) : this.setState({ showLastName: false })
     }
     valTimeZone() {
-        (this.state.timeZone === '' || this.state.timeZone === 'Choose timezone') ? this.setState({ showTimeZone: true })
+        (this.state.timeZone === '' ) ? this.setState({ showTimeZone: true })
             : this.setState({ showTimeZone: false })
     }
     validateEmail() {
@@ -221,7 +215,7 @@ export default class AddFriend extends Component {
                                     </Form.Row>
                                 </div>
                             ))}
-                            {this.state.showEmail ? <Form.Label className="error">Wrong format</Form.Label> : null}
+                            {this.state.showEmail ? <Form.Label className="error">{store.lang ? 'Wrong format' : 'Fel format'}</Form.Label> : null}
                         </div>
                     </Form.Row>
                     <Form.Row>
