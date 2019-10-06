@@ -27,7 +27,7 @@ export default class Home extends Component {
                 <p className="homeWelcomStyle">{store.lang ? 'Welcome!' : 'Välkommen!'}</p>
                 <p className="homeInfoStyle"> {store.lang ? 'Here you can see where your friends are on the map'
                     : 'Här kan du se var dinna vänner befiner sig på kartan'} </p>
-                <Maps />
+                <Maps {...{friendPage: true}} />
             </>
         );
     }
