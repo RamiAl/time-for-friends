@@ -30,7 +30,6 @@ switchlang() {
       lang: true
     });
   }
-  console.log(this.state.lang);
 }
 render() {
   return (

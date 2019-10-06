@@ -18,15 +18,14 @@ export default class AddFriend extends Component {
             firstName: '',
             lastName: '',
             phoneNumbers: [String],
-            emailAddresses: [String],
+            emailAddresses: [''],
             city: '',
             country: '',
             timeZone: '',
             showFirstName: false,
             showLastName: false,
             showTimeZone: false,
-            lang: store.lang,
-            showEmail: false
+            lang: store.lang
         };
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleAddEmailOrPhoneInput = this.handleAddEmailOrPhoneInput.bind(this);
@@ -48,14 +47,12 @@ export default class AddFriend extends Component {
         const value = e.target.value;
         this.setState({ [name]: value });
     }
-
     check() {
         function filterItems(allTimeZone, city) {
             return allTimeZone.filter(function (el) {
                 return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
             })
         }
-        filterItems(this.allTimeZone, this.state.city).map(x => console.log(x));
     }
     showTimeZoneList(){
         let c = this.allTimeZone.filter( item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
@@ -87,14 +84,12 @@ export default class AddFriend extends Component {
     }
 
     async vald() {
-        await this.validateEmail()
         await this.valFirstName();
         await this.valLastName();
         await this.valTimeZone();
         if (this.state.showFirstName === false
             && this.state.showLastName === false
-            && this.state.showTimeZone === false
-            && this.state.showEmail === false) {
+            && this.state.showTimeZone === false) {
             return true
         } else {
             return false
@@ -110,15 +105,6 @@ export default class AddFriend extends Component {
     valTimeZone() {
         (this.state.timeZone === '' ) ? this.setState({ showTimeZone: true })
             : this.setState({ showTimeZone: false })
-    }
-    validateEmail() {
-        let test;
-        const emailRegex =
-            new RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
-        this.state.emailAddresses.map(email => (
-            (test = emailRegex.test(email),
-                test ? this.setState({ showEmail: false }) : this.setState({ showEmail: true }))
-        ))
     }
 
     handleAddEmailOrPhoneInput(e) {
@@ -215,7 +201,6 @@ export default class AddFriend extends Component {
                                     </Form.Row>
                                 </div>
                             ))}
-                            {this.state.showEmail ? <Form.Label className="error">{store.lang ? 'Wrong format' : 'Fel format'}</Form.Label> : null}
                         </div>
                     </Form.Row>
                     <Form.Row>

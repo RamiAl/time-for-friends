@@ -8,8 +8,6 @@ store.setState = (changeObject) => {
     // Transfer changes to store object
     Object.assign(store, changeObject);
     // Notify all subscribers of changes
-    console.log(subscribingFunctions);
-    
     for(let subscriber of subscribingFunctions){ 
         subscriber(changeObject, store);
     }
