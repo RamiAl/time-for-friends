@@ -129,7 +129,9 @@ class Maps extends Component {
       return (
         <>
           <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
-            <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i>{store.lang ? 'Back' : 'Tillbacka'}</button>
+            <button type="button" className="btn btn-secondary backButton">
+              <i className="fas fa-arrow-left"></i>{store.lang ? 'Back' : 'Tillbacka'}
+            </button>
           </Link>
           {this.state.positionOnMap ?
             <div className="mapStyles">
