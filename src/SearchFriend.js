@@ -116,7 +116,7 @@ if (e < '12:00') {
         return (
             <>
                 <ScrollTop
-                    text="Go to the top"
+                    text= {store.lang ? "Go to the top":"Gå till topen av sidan"}
                     distance={100}
                     breakpoint={768}
                     className="scroll-your-role scrollTop"
