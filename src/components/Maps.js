@@ -4,11 +4,13 @@ import Geocode from "react-geocode";
 import { Friend } from 'the.rest/dist/to-import';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import store from '../utilities/Store';
+import '../css/layout.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Maps extends Component {
   constructor(props) {
     super(props);
-
     // Hack because InfoWindow won't accept onClick or Links inside
     document.body.addEventListener('click', (e) => {
       if ((e.target.getAttribute('class') + '').includes('more-info-btn')) {
@@ -25,7 +27,8 @@ class Maps extends Component {
       positionOnMap: true,
       showingInfoWindow: false,
       activeMarker: {},
-      selectedFriend: {}
+      selectedFriend: {},
+      lang: store.lang
     }
   }
 
@@ -64,7 +67,7 @@ class Maps extends Component {
       Geocode.fromAddress(position).then(
         async response => {
           const { lat, lng } = response.results[0].geometry.location;
-            await this.setState({ stores: [...this.state.stores, {'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id}]})
+          await this.setState({ stores: [...this.state.stores, { 'latitude': lat, 'longitude': lng, 'firstName': item.firstName, 'personId': item._id }] })
         },
         error => { }
       );
@@ -72,18 +75,21 @@ class Maps extends Component {
   }
 
   async componentDidMount() {
-    
+    this.storeListener = () => {
+      this.setState({ lang: store.lang });
+    };
+    store.subscribeToChanges(this.storeListener);
     if (window.location.pathname === '/') {
-        await this.getAllFriends()
-        await this.getAllCoordinates()
+      await this.getAllFriends()
+      await this.getAllCoordinates()
     } else {
       this.getCoordinate()
     }
   }
-
+  componentWillUnmount() {
+    store.unsubscribeToChanges(this.storeListener);
+  }
   displayMarkers = () => {
-    //console.log(this.state.stores);
-    
     return this.state.stores.map((store, index) => {
       return <Marker key={index} id={index} position={{
         lat: store.latitude,
@@ -100,15 +106,10 @@ class Maps extends Component {
   }
 
   render() {
-    const mapStyles = {
-      width: '90vw',
-      height: '70vh',
-      margin: '2vh 0vw 0 5vw'
-    };
-    if (window.location.pathname === '/') {
+    if (this.props.friendPage) {
       return (
-        <>
-          <Map id='map' google={this.props.google} zoom={3} style={mapStyles} minZoom={2}>
+        <div className="mapStyles">
+          <Map id='map' google={this.props.google} zoom={3} minZoom={2}>
             {this.displayMarkers()}
             <InfoWindow
               marker={this.state.activeMarker}
@@ -117,36 +118,39 @@ class Maps extends Component {
               <>
                 <h5>{this.state.selectedFriend.name}</h5>
                 <button type="button" data-id={this.state.selectedFriend.id}
-                  className="btn btn-secondary backButton more-info-btn">More info</button>
+                  className="btn btn-secondary backButton more-info-btn">{store.lang ? 'More info' : 'Mer information'}</button>
               </>
             </InfoWindow>
           </Map>
-        </>
+        </div>
       );
     }
     else {
       return (
         <>
           <Link to={`/friendPage/${this.props.match.params.id}`} className="linkStyle">
-            <button type="button" className="btn btn-secondary backButton"><i className="fas fa-arrow-left"></i> Back</button>
+            <button type="button" className="btn btn-secondary backButton"><i class="fas fa-arrow-left"></i>{store.lang ? 'Back' : 'Tillbacka'}</button>
           </Link>
           {this.state.positionOnMap ?
-            <Map id='map' google={this.props.google} zoom={9} minZoom={3} style={mapStyles}
-              center={{
-                lat: (this.state.stores[0] && this.state.stores[0].latitude) || 0,
-                lng: (this.state.stores[0] && this.state.stores[0].longitude) || 0
-              }}
-            >
-              {this.displayMarkers()}
-              <InfoWindow
-                marker={this.state.activeMarker}
-                visible={this.state.showingInfoWindow}
+            <div className="mapStyles">
+              <Map
+                id='map' google={this.props.google} zoom={9} minZoom={3} className="mapStyles"
+                center={{
+                  lat: (this.state.stores[0] && this.state.stores[0].latitude) || 0,
+                  lng: (this.state.stores[0] && this.state.stores[0].longitude) || 0
+                }}
               >
-                <h5>{this.state.selectedFriend.name}</h5>
-              </InfoWindow>
-            </Map>
+                {this.displayMarkers()}
+                <InfoWindow
+                  marker={this.state.activeMarker}
+                  visible={this.state.showingInfoWindow}
+                >
+                  <h5>{this.state.selectedFriend.name}</h5>
+                </InfoWindow>
+              </Map>
+            </div>
             :
-            <h1 style={{ margin: 0 }}>Position was not found</h1>
+            <h1 className="friendListError" >{store.lang ? 'Position was not found' : 'Platsen hittades inte'}</h1>
           }
         </>
       );

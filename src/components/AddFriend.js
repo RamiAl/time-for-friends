@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import './layout.css';
+import '../css/layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Friend } from 'the.rest/dist/to-import';
 import moment from 'moment-timezone';
-
-const allTimeZone = moment.tz.names();
-allTimeZone.unshift("Choose timezone");
+import store from '../utilities/Store';
 
 export default class AddFriend extends Component {
+    allTimeZone = moment.tz.names();
     emailCounter = 0;
     phoneCounter = 0;
     constructor(props) {
@@ -19,38 +18,44 @@ export default class AddFriend extends Component {
             firstName: '',
             lastName: '',
             phoneNumbers: [String],
-            emailAddresses: [String],
+            emailAddresses: [''],
             city: '',
             country: '',
             timeZone: '',
             showFirstName: false,
             showLastName: false,
             showTimeZone: false,
-            showEmail: false
+            lang: store.lang
         };
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleAddEmailOrPhoneInput = this.handleAddEmailOrPhoneInput.bind(this);
         this.handleEmailOrPhoneInput = this.handleEmailOrPhoneInput.bind(this);
         this.handleRemoveEmailOrPhone = this.handleRemoveEmailOrPhone.bind(this);
     }
+    async componentDidMount() {
+        this.storeListener = () => {
+            this.setState({ lang: store.lang });
+        };
+        store.subscribeToChanges(this.storeListener);
+    }
 
+    componentWillUnmount() {
+        store.unsubscribeToChanges(this.storeListener);
+    }
     handleUserInput(e) {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({ [name]: value });
     }
-
     check() {
         function filterItems(allTimeZone, city) {
             return allTimeZone.filter(function (el) {
                 return el.toLowerCase().indexOf(city.toLowerCase()) !== -1;
             })
         }
-        filterItems(allTimeZone, this.state.city).map(x => console.log(x));
     }
-
     showTimeZoneList() {
-        let c = allTimeZone.filter(item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
+        let c = this.allTimeZone.filter(item => this.state.city !== "" && item.toLowerCase().includes(this.state.city.toLowerCase()));
         if (c.length > 0) {
             if (c.map(item => (<option key={item}>{item}</option>).length > 0)) {
                 setTimeout(() => {
@@ -62,10 +67,11 @@ export default class AddFriend extends Component {
                 return c.map(item => (<option key={item}>{item}</option>));
             }
         } else {
-            return allTimeZone.map(item => (
+            return this.allTimeZone.map(item => (
                 <option key={item}>{item}</option>
             ));
         }
+
     }
     async onSubmit(e) {
         e.preventDefault();
@@ -78,14 +84,12 @@ export default class AddFriend extends Component {
     }
 
     async vald() {
-        await this.validateEmail()
         await this.valFirstName();
         await this.valLastName();
         await this.valTimeZone();
         if (this.state.showFirstName === false
             && this.state.showLastName === false
-            && this.state.showTimeZone === false
-            && this.state.showEmail === false) {
+            && this.state.showTimeZone === false) {
             return true
         } else {
             return false
@@ -99,17 +103,8 @@ export default class AddFriend extends Component {
         this.state.lastName === '' ? this.setState({ showLastName: true }) : this.setState({ showLastName: false })
     }
     valTimeZone() {
-        (this.state.timeZone === '' || this.state.timeZone === 'Choose timezone') ? this.setState({ showTimeZone: true })
+        (this.state.timeZone === '') ? this.setState({ showTimeZone: true })
             : this.setState({ showTimeZone: false })
-    }
-    validateEmail() {
-        let test;
-        const emailRegex =
-            new RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
-        this.state.emailAddresses.map(email => (
-            (test = emailRegex.test(email),
-            test ? this.setState({ showEmail: false }) : this.setState({ showEmail: true }))
-        ))
     }
 
     handleAddEmailOrPhoneInput(e) {
@@ -139,65 +134,52 @@ export default class AddFriend extends Component {
         return (
             <>
                 <Form className="addFriendForm" onSubmit={(e) => this.onSubmit(e)} ref="form">
-                    <h2>Add New Friend</h2>
+                    <h2>{this.state.lang ? 'Add New Friend' : 'Lägg till ny vän'}</h2>
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridFirstName" value={this.state.name}
                             onChange={e => this.handleUserInput(e)} >
-                            <Form.Label >First name</Form.Label>
-                            <Form.Control name="firstName" placeholder="Enter name" />
-                            {this.state.showFirstName ? <Form.Label className="error">File in name</Form.Label> : null}
+                            <Form.Label >{this.state.lang ? 'First name' : 'Förnamn'}</Form.Label>
+                            <Form.Control name="firstName" placeholder={this.state.lang ? 'File in name' : 'Fyll in namn'} />
+                            {(this.state.showFirstName ? <Form.Label className="error">{this.state.lang ? 'File in name' : 'Fyll in namn'}</Form.Label> : null)}
                         </Form.Group>
                         <Form.Group as={Col} controlId="formGridLastName" value={this.state.lastName}
                             onChange={e => this.handleUserInput(e)}>
-                            <Form.Label>Last name</Form.Label>
-                            <Form.Control name="lastName" placeholder="Enter last name" />
-                            {this.state.showLastName ? <Form.Label className="error">File in lastName</Form.Label> : null}
+                            <Form.Label>{this.state.lang ? 'Last name' : 'Efternamn'}</Form.Label>
+                            <Form.Control name="lastName" placeholder={this.state.lang ? 'File in lastName' : 'Fyll in efternamn'} />
+                            {(this.state.showLastName ? <Form.Label className="error">{this.state.lang ? 'File in lastName' : 'Fyll in efternamn'}</Form.Label> : null)}
                         </Form.Group>
                     </Form.Row>
-
                     <Form.Row>
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>Phone number</Form.Label>
-                                <button type="button"
-                                    onClick={e => this.handleAddEmailOrPhone(e, 'phoneNumbers')}
-                                    name="phoneNumbers"
-                                    className="btn btn-info plusButton">
+                                <Form.Label className="inputStyle">{this.state.lang ? 'Phone number' : 'Telefonnumer'}</Form.Label>
+                                <button type="button" onClick={e => this.handleAddEmailOrPhoneInput(e)} name="phoneNumbers" className="btn btn-info plusButton">
                                     +
                                 </button>
                             </Form.Row>
-
                             {this.state.phoneNumbers.map((item, index) => (
                                 <div key={index}>
                                     <Form.Row>
                                         <Form.Group as={Col} controlId="formGridEmail" value={this.state.phoneNumbers}
                                             onChange={e => this.handleEmailOrPhoneInput(e, index)}>
-                                            <Form.Control name="phoneNumbers" placeholder="Enter phone number" />
+                                            <Form.Control name="phoneNumbers" placeholder={this.state.lang ? 'Enter phone number' : 'Skriv in telefonnumer'} />
                                         </Form.Group>
                                         <div>
                                             {this.phoneCounter === 0 ? null :
-                                                <button
-                                                    type="button"
-                                                    onClick={e => this.handleRemoveEmailOrPhone(e, index)}
-                                                    name="phoneNumbers"
-                                                    className="btn btn-info"
-                                                >
+                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="phoneNumbers"
+                                                    className="btn btn-info">
                                                     -
-                                            </button>
+                                                </button>
                                             }
                                         </div>
                                     </Form.Row>
                                 </div>
                             ))}
                         </div>
-
                         <div className="col-md-6">
                             <Form.Row style={{ justifyContent: 'space-between' }}>
-                                <Form.Label style={{ paddingTop: '1vh', marginBottom: 0 }}>Email address</Form.Label>
-                                <button type="button"
-                                    onClick={e => this.handleAddEmailOrPhone(e, 'emailAddresses')}
-                                    name="emailAddresses"
-                                    className="btn btn-info plusButton">
+                                <Form.Label className="inputStyle">{this.state.lang ? 'Email address' : 'Email address'}</Form.Label>
+                                <button type="button" onClick={e => this.handleAddEmailOrPhoneInput(e)} name="emailAddresses" className="btn btn-info plusButton">
                                     +
                                 </button>
                             </Form.Row>
@@ -206,58 +188,46 @@ export default class AddFriend extends Component {
                                     <Form.Row>
                                         <Form.Group as={Col} controlId="formGridEmail" value={this.state.emailAddresses}
                                             onChange={e => this.handleEmailOrPhoneInput(e, index)}>
-                                            <Form.Control name="emailAddresses" placeholder="Enter email address" />
+                                            <Form.Control name="emailAddresses" placeholder={this.state.lang ? 'Enter email address' : 'Skriv in email address'} />
                                         </Form.Group>
                                         <div>
                                             {this.emailCounter === 0 ? null :
-                                                <button
-                                                    type="button"
-                                                    onClick={e => this.handleRemoveEmailOrPhone(e, index)}
-                                                    name="emailAddresses"
-                                                    className="btn btn-info"
-                                                >
+                                                <button type="button" onClick={e => this.handleRemoveEmailOrPhone(e, index)} name="emailAddresses"
+                                                    className="btn btn-info">
                                                     -
-                                            </button>
+                                                </button>
                                             }
                                         </div>
                                     </Form.Row>
                                 </div>
                             ))}
-                            {this.state.showEmail ? <Form.Label className="error">Wrong format</Form.Label> : null}
-
                         </div>
                     </Form.Row>
-
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridCity" value={this.state.city}
                             onChange={e => this.handleUserInput(e)}>
-                            <Form.Label>City</Form.Label>
-                            <Form.Control name="city" placeholder="Enter city" ref="city" />
+                            <Form.Label>{this.state.lang ? 'City' : 'Stad'}</Form.Label>
+                            <Form.Control name="city" placeholder={this.state.lang ? 'City' : 'Stad'} ref="city" />
                         </Form.Group>
-
                         <Form.Group as={Col} controlId="formGridCountry" value={this.state.country}
                             onChange={e => this.handleUserInput(e)}>
-                            <Form.Label>Country</Form.Label>
-                            <Form.Control name="country" placeholder="Enter country" ref="country" />
+                            <Form.Label>{this.state.lang ? 'Country' : 'Land'}</Form.Label>
+                            <Form.Control name="country" placeholder={this.state.lang ? 'Country' : 'Land'} ref="country" />
                         </Form.Group>
-
                         <Form.Group as={Col} controlId="formGridTimeZone" value={this.state.timeZone}
                             onChange={e => this.handleUserInput(e)} >
-                            <Form.Label>Time zone</Form.Label>
+                            <Form.Label>{this.state.lang ? 'Time zone' : 'Tidzon'}</Form.Label>
                             <Form.Control as="select" name="timeZone" ref="timeZone">
                                 {this.showTimeZoneList()}
                             </Form.Control >
-                            {(this.state.showTimeZone ? <Form.Label className="error">Choose a timezone</Form.Label> : null)}
+                            {(this.state.showTimeZone ? <Form.Label className="error">{this.state.lang ? 'Choose timezone' : 'Välj en tidzon'}</Form.Label> : null)}
                         </Form.Group>
                     </Form.Row>
                     <Button variant="primary" type="submit">
-                        Add
-                </Button>
+                        {this.state.lang ? 'Add' : 'Lägg till'}
+                    </Button>
                 </Form>
             </>
         );
     }
 }
-
-
-

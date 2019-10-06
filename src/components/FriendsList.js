@@ -1,21 +1,33 @@
 import React, { Component, Fragment } from 'react';
-import './layout.css';
+import '../css/layout.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Friend } from 'the.rest/dist/to-import';
 import Form from 'react-bootstrap/Form';
 import Clock from './Clock'
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
-
+import store from '../utilities/Store';
 
 export default class FriendsList extends Component {
 
-    state = {}
+    state = {
+        lang: store.lang
+    }
 
     componentDidMount() {
         this.getFriends()
+        this.getFriends();
+        this.storeListener = () => {
+            this.setState({ lang: store.lang });
+        };
+        store.subscribeToChanges(this.storeListener);
+
     }
 
+    componentWillUnmount() {
+        store.unsubscribeToChanges(this.storeListener);
+        this._isMounted = false;
+    }
     componentDidUpdate(prevProps) {
         if (this.props.sortBy !== prevProps.sortBy) {
             this.getFriends()
@@ -75,7 +87,7 @@ export default class FriendsList extends Component {
         return (
             <div >
                 {this.state.errorMessage ? <h3 className="friendListError">{this.state.errorMessage}</h3> :
-                    !this.state.allFriends ? <h3 className="friendListError">loading...</h3> :
+                    !this.state.allFriends ? <h3 className="friendListError">{store.lang ? <p>loading...</p> : <p>laddar...</p>}</h3> :
                         this.state.allFriends.filter(item => startTime <= moment.tz(item.timeZone).format('HH:mm')
                             && moment.tz(item.timeZone).format('HH:mm') <= endTime)
                             .map(item => (
