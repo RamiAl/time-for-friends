@@ -35,9 +35,9 @@ export default class Clock extends Component {
             if (!this.props.timeZone) { tz = 'Europe/Stockholm'; }
             let stateChange = {
                 engTimeWithOffset: moment.tz(tz).format('hh:mm:ss a'),
-                engDateWithOffset: moment.tz(tz).format('YYYY-MM-DD'),
+                engDateWithOffset: moment.tz(tz).format('MM-DD-YYYY'),
                 isoTimeWithOffset: moment.tz(tz).format('HH:mm:ss'),
-                isoDateWithOffset: moment.tz(tz).format('YYYY-MM-DD')
+                isoDateWithOffset: moment.tz(tz).format('DD-MM-YYYY')
             }
             stateChange.time = store.lang ? stateChange.engTimeWithOffset : stateChange.isoTimeWithOffset;
             stateChange.date = store.lang ? stateChange.engDateWithOffset : stateChange.isoDateWithOffset;
@@ -62,14 +62,14 @@ export default class Clock extends Component {
         return (
             <>
                 {this.props.friendPage ?
-                    [<h3 key="c"> {this.state.time} {this.checkTime()}</h3>,
+                    [<h3 key="c"> {this.state.time} {store.lang ? this.checkTime() : null}</h3>,
                     <p key="d"><b>{this.state.date}</b></p>]
                     :
-                    !this.offset ? <p key="b"> {this.checkTime()} {store.lang ? 'Local time: ' : 'Lokala tiden:'}
+                    !this.offset ? <p key="b"> {store.lang ? this.checkTime() : null} {store.lang ? 'Local time: ' : 'Lokala tiden:'}
                         {this.state.time}
                     </p> : [
                             <h3 key="c"> {this.state.time}</h3>,
-                            <p key="d"><b>{this.state.date} {store.lang ? this.checkTime() : this.checkTime()}</b></p>
+                            <p key="d"><b>{this.state.date} {store.lang ? this.checkTime() : null}</b></p>
                         ]}
             </>
         );
