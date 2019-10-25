@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const theRest = require('the.rest');
 
 // Connect to MongoDB via Mongoose
-mongoose.connect('mongodb://localhost/db-name', {
+mongoose.connect('mongodb://localhost/Time-for-Friends', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
