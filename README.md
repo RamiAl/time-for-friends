@@ -42,3 +42,5 @@ Start development server:
 ```
 npm start
 ```
+
+Now you should see the webbsite :)
