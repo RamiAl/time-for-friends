@@ -11,11 +11,13 @@
 
 
 ## To get started 
+Open the terminal on your komputer and run mongod.
 
-Install necessary packages:
+open the terminal in the project and install necessary packages:
 ```
 npm install
 ```
+
 
 ## Backend
 
@@ -26,7 +28,7 @@ cd backend
 node index
 ```
 
-wWith nodemon:
+With nodemon:
 cd backend
 ```
 nodemon index
