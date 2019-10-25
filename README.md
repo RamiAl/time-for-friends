@@ -43,4 +43,5 @@ Start development server:
 npm start
 ```
 
-Now you should see the webbsite :)
+
+###### Now you should see the website pops up :)
