@@ -8,7 +8,6 @@ mongoose.connect('mongodb://localhost/db-name', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-const db = mongoose.connection;
 
 // Create an Express server
 const app = express();
