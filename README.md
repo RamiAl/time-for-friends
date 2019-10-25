@@ -19,7 +19,7 @@ npm install
 
 ## Backend
 
-### Running frontend:
+#### Running backend:
 To run the backend without nodemon:
 cd backend
 ```
@@ -34,7 +34,7 @@ nodemon index
 
 ## Frontend
 
-### Running frontend:
+#### Running frontend:
 
 Start development server:  
 ```
